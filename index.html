@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bridgpoint — Understanding Before Strategy</title>
+  <meta name="description"
+    content="Bridgpoint unifies Business Consulting, Market Research and Brand & Marketing into one integrated discipline — an Awwwards-grade concept redesign.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="r-loading">
+
+  <!-- ============ PRELOADER ============ -->
+  <div class="r-loader" id="loader" aria-hidden="true">
+    <div class="r-loader-mark">
+      <img src="assets/logo-original.svg" alt="" class="r-loader-logo">
+    </div>
+    <div class="r-loader-meta">
+      <span class="r-loader-word">Bridgpoint</span>
+      <span class="r-loader-count" id="loaderCount">0</span>
+    </div>
+    <div class="r-loader-bar">
+      <div class="r-loader-bar-fill" id="loaderFill"></div>
+    </div>
+  </div>
+
+  <!-- ============ NOISE / GRAIN OVERLAY ============ -->
+  <div class="r-grain" aria-hidden="true"></div>
+
+  <!-- ============ CUSTOM CURSOR ============ -->
+  <div class="r-cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="r-cursor-ring" id="cursorRing" aria-hidden="true"><span class="r-cursor-label" id="cursorLabel"></span>
+  </div>
+
+  <!-- ============ FIXED WEBGL LAYER (Three.js — spans Hero + 3D Interaction) ============ -->
+  <canvas id="webglCanvas" class="r-webgl-fixed" aria-hidden="true"></canvas>
+
+  <!-- ============ NAV ============ -->
+  <header class="r-nav" id="siteNav">
+    <div class="r-nav-inner">
+      <a href="index.html" class="r-nav-logo">
+        <img src="assets/logo-original.svg" alt="Bridgpoint">
+      </a>
+      <nav class="r-nav-links">
+
+        <div class="r-nav-item">
+          <a href="services.html" class="r-nav-drop-trigger">Services
+            <svg class="r-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </a>
+          <div class="r-nav-dropdown">
+            <a href="business-consulting.html">Business Consulting</a>
+            <a href="market-research.html">Market Research</a>
+            <a href="brand-marketing.html">Brand &amp; Marketing</a>
+            <a href="services.html" class="r-nav-dropdown-all">View all services &rarr;</a>
+          </div>
+        </div>
+
+        <div class="r-nav-item">
+          <a href="industries.html" class="r-nav-drop-trigger">Industries
+            <svg class="r-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </a>
+          <div class="r-nav-dropdown r-nav-dropdown-grid">
+            <a href="industry-technology.html">Technology</a>
+            <a href="industry-healthcare.html">Healthcare</a>
+            <a href="industry-retail.html">Retail</a>
+            <a href="industry-manufacturing.html">Manufacturing</a>
+            <a href="industry-financial-services.html">Financial Services</a>
+            <a href="industry-government.html">Government</a>
+            <a href="industry-education.html">Education</a>
+            <a href="industry-consumer.html">Consumer</a>
+            <a href="industry-energy.html">Energy</a>
+            <a href="industry-real-estate.html">Real Estate</a>
+            <a href="industries.html" class="r-nav-dropdown-all">View all industries &rarr;</a>
+          </div>
+        </div>
+
+        <a href="about.html">About</a>
+      </nav>
+      <a href="contact.html" class="r-nav-cta" data-magnetic><span>Start a conversation</span></a>
+      <button class="r-nav-burger" id="navBurger" aria-label="Toggle menu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="r-mobile-menu" id="mobileMenu">
+
+    <div class="r-mobile-group">
+      <a href="services.html">Services</a>
+      <div class="r-mobile-sublinks">
+        <a href="business-consulting.html">Business Consulting</a>
+        <a href="market-research.html">Market Research</a>
+        <a href="brand-marketing.html">Brand &amp; Marketing</a>
+      </div>
+    </div>
+
+    <div class="r-mobile-group">
+      <a href="industries.html">Industries</a>
+      <div class="r-mobile-sublinks">
+        <a href="industry-technology.html">Technology</a>
+        <a href="industry-healthcare.html">Healthcare</a>
+        <a href="industry-retail.html">Retail</a>
+        <a href="industry-manufacturing.html">Manufacturing</a>
+        <a href="industry-financial-services.html">Financial Services</a>
+        <a href="industry-government.html">Government</a>
+        <a href="industry-education.html">Education</a>
+        <a href="industry-consumer.html">Consumer</a>
+        <a href="industry-energy.html">Energy</a>
+        <a href="industry-real-estate.html">Real Estate</a>
+      </div>
+    </div>
+
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+
+  <main id="rMain">
+
+    <!-- ============ HERO ============ -->
+    <section class="r-hero" id="hero">
+      <canvas id="particleCanvas" class="r-hero-particles" aria-hidden="true"></canvas>
+      <div class="r-hero-glow" aria-hidden="true"></div>
+      <div class="r-hero-grid-lines" aria-hidden="true"></div>
+
+      <div class="r-container r-hero-inner">
+
+        <h1 class="r-hero-title">
+          <span class="r-hero-line"><span class="r-hero-line-inner">Understanding</span></span>
+          <span class="r-hero-line"><span class="r-hero-line-inner">before <em>strategy.</em></span></span>
+        </h1>
+
+        <div class="r-hero-bottom">
+          <p class="r-hero-sub">Markets move fast. Decisions shouldn&rsquo;t be guesswork. Bridgpoint fuses strategy,
+            evidence and brand into one team — so every move you make is an informed one.</p>
+          <div class="r-hero-actions">
+            <a href="contact.html" class="r-btn r-btn-primary" data-magnetic><span>Talk to us</span></a>
+          </div>
+        </div>
+      </div>
+
+
+    </section>
+
+    <!-- ============ TRUST MARQUEE ============ -->
+    <section class="r-marquee-section">
+      <div class="r-marquee-row" data-dir="left">
+        <div class="r-marquee-track">
+          <span>Business Consulting</span><span>Market Research</span><span>Brand &amp; Marketing</span><span>Business
+            Strategy</span><span>Go-to-Market</span><span>Customer Research</span><span>Brand
+            Strategy</span><span>Demand Generation</span>
+          <span>Business Consulting</span><span>Market Research</span><span>Brand &amp; Marketing</span><span>Business
+            Strategy</span><span>Go-to-Market</span><span>Customer Research</span><span>Brand
+            Strategy</span><span>Demand Generation</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============ PINNED STORYTELLING ============ -->
+    <section class="r-story" id="story">
+      <div class="r-story-pin">
+        <div class="r-container r-story-grid">
+          <div class="r-story-head">
+            <h2 class="r-story-title">Every business<br>reaches a<br><em>defining moment.</em></h2>
+            <p class="r-story-copy">The gap between growth and an expensive lesson rarely comes down to luck. It comes
+              down to information — and who you ask.</p>
+          </div>
+          <div class="r-story-cards">
+            <div class="r-story-card" data-story-card>
+              <span class="r-story-num">01</span>
+              <p>Should we enter a new market, or defend the one we have?</p>
+            </div>
+            <div class="r-story-card" data-story-card>
+              <span class="r-story-num">02</span>
+              <p>Are we solving the customer&rsquo;s real problem — or our assumption of it?</p>
+            </div>
+            <div class="r-story-card" data-story-card>
+              <span class="r-story-num">03</span>
+              <p>Is our brand positioned to win the next five years, not the last five?</p>
+            </div>
+            <div class="r-story-card" data-story-card>
+              <span class="r-story-num">04</span>
+              <p>Where should the next dollar of investment actually go?</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CANVAS SEQUENCE ============ -->
+    <section class="r-flow" id="perspective">
+      <canvas id="flowCanvas" class="r-flow-canvas" aria-hidden="true"></canvas>
+      <div class="r-container r-flow-inner">
+        <h2 class="r-flow-title">The best decisions are<br>never made in <em>isolation.</em></h2>
+        <ul class="r-flow-points" id="flowText">
+          <li><span class="r-flow-point-index">01</span><span class="r-flow-point-text">Growth influences
+              operations.</span></li>
+          <li><span class="r-flow-point-index">02</span><span class="r-flow-point-text">Customers influence
+              products.</span></li>
+          <li><span class="r-flow-point-index">03</span><span class="r-flow-point-text">Research influences
+              strategy.</span></li>
+          <li><span class="r-flow-point-index">04</span><span class="r-flow-point-text">Brand influences sales.</span>
+          </li>
+        </ul>
+        <p class="r-flow-note">Every decision in a business relates to every other — yet most organizations still ask
+          disconnected advisors to answer related questions.</p>
+      </div>
+    </section>
+
+    <!-- ============ 3D INTERACTION ============ -->
+    <section class="r-converge" id="converge">
+      <div class="r-converge-pin">
+        <div class="r-container r-converge-inner">
+          <h2 class="r-converge-title" id="convergeTitle">Four disciplines.<br>Working as one.</h2>
+          <p class="r-converge-copy">Consultants. Researchers. Brand and marketing specialists — in the same room,
+            solving the same problem, not passing it down the line.</p>
+          <div class="r-converge-labels" id="convergeLabels">
+            <span data-node="0">Strategy</span>
+            <span data-node="1">Research</span>
+            <span data-node="2">Creative</span>
+            <span data-node="3">Marketing</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ HORIZONTAL GALLERY / PORTFOLIO ============ -->
+    <section class="r-gallery" id="gallery">
+      <div class="r-gallery-pin">
+        <div class="r-container r-gallery-head">
+          <h2>Three disciplines.<br>Scroll to explore.</h2>
+        </div>
+        <div class="r-gallery-track" id="galleryTrack">
+
+          <article class="r-gallery-card">
+            <div class="r-gallery-media">
+              <img
+                src="https://images.unsplash.com/photo-1714974528693-f77f6fcc56af?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="Two professionals shaking hands across a table in a modern office" loading="lazy">
+            </div>
+            <div class="r-gallery-copy">
+              <span class="r-gallery-num">01</span>
+              <h3>Business Consulting</h3>
+              <p>Strategic direction, market entry and commercial performance — built on evidence, not instinct.</p>
+              <div class="r-tag-row"><span>Strategy</span><span>Go-to-Market</span><span>Pricing</span></div>
+              <a href="business-consulting.html" class="r-gallery-link" data-magnetic><span>Explore &rarr;</span></a>
+            </div>
+          </article>
+
+          <article class="r-gallery-card">
+            <div class="r-gallery-media">
+              <img
+                src="https://images.unsplash.com/photo-1608222351212-18fe0ec7b13b?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="Presenter discussing research charts on a screen during a meeting" loading="lazy">
+            </div>
+            <div class="r-gallery-copy">
+              <span class="r-gallery-num">02</span>
+              <h3>Market Research</h3>
+              <p>Structured, evidence-based insight into markets and customers — replacing assumption with proof.</p>
+              <div class="r-tag-row"><span>Customer Research</span><span>Brand Research</span><span>Competitor
+                  Intel</span></div>
+              <a href="market-research.html" class="r-gallery-link" data-magnetic><span>Explore &rarr;</span></a>
+            </div>
+          </article>
+
+          <article class="r-gallery-card">
+            <div class="r-gallery-media">
+              <img
+                src="https://images.unsplash.com/photo-1762525984874-83d6ddf6a069?q=80&w=1135&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="Creative team brainstorming with sticky notes on a glass wall" loading="lazy">
+            </div>
+            <div class="r-gallery-copy">
+              <span class="r-gallery-num">03</span>
+              <h3>Brand &amp; Marketing</h3>
+              <p>Brands customers trust, and marketing that turns attention into measurable, compounding growth.</p>
+              <div class="r-tag-row"><span>Brand Strategy</span><span>Demand Gen</span><span>Content</span></div>
+              <a href="brand-marketing.html" class="r-gallery-link" data-magnetic><span>Explore &rarr;</span></a>
+            </div>
+          </article>
+
+          <article class="r-gallery-card r-gallery-card-cta">
+            <div class="r-gallery-copy">
+              <span class="r-gallery-num">+</span>
+              <h3>See every service</h3>
+              <p>All three disciplines, laid out in full — with every offer we deliver under one roof.</p>
+              <a href="services.html" class="r-btn r-btn-primary" data-magnetic><span>View all services</span></a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============ SERVICES STEPPER — HOW WE THINK ============ -->
+    <section class="r-stepper" id="how-we-think">
+      <div class="r-container">
+        <div class="r-stepper-head">
+          <h2>Every decision follows<br>the same journey.</h2>
+        </div>
+        <div class="r-stepper-list">
+          <div class="r-stepper-row" data-step-row>
+            <span class="r-stepper-index">01</span>
+            <h3>Strategy</h3>
+            <p>Define the opportunity. Establish direction. Prioritize what actually moves the business.</p>
+          </div>
+          <div class="r-stepper-row" data-step-row>
+            <span class="r-stepper-index">02</span>
+            <h3>Research</h3>
+            <p>Understand markets and customers first-hand. Validate decisions before they get expensive.</p>
+          </div>
+          <div class="r-stepper-row" data-step-row>
+            <span class="r-stepper-index">03</span>
+            <h3>Brand &amp; Marketing</h3>
+            <p>Build market presence, create demand, and turn strategy into something customers feel.</p>
+          </div>
+          <div class="r-stepper-row" data-step-row>
+            <span class="r-stepper-index">04</span>
+            <h3>Growth</h3>
+            <p>Execute with confidence. Measure real impact. Sustain the momentum past launch day.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ LARGE TYPOGRAPHY — INDUSTRIES ============ -->
+    <section class="r-industries" id="industries">
+      <div class="r-container">
+        <div class="r-industries-head">
+          <h2>Fluent in your<br>industry&rsquo;s language.</h2>
+        </div>
+        <div class="r-industries-grid" id="industriesList">
+          <a class="r-industry-card" href="industry-technology.html" style="--hue:262"><span
+              class="r-industry-card-name">Technology</span><span class="r-industry-card-arrow">&rarr;</span></a>
+          <a class="r-industry-card" href="industry-healthcare.html" style="--hue:200"><span
+              class="r-industry-card-name">Healthcare</span><span class="r-industry-card-arrow">&rarr;</span></a>
+          <a class="r-industry-card" href="industry-retail.html" style="--hue:330"><span
+              class="r-industry-card-name">Retail</span><span class="r-industry-card-arrow">&rarr;</span></a>
+          <a class="r-industry-card" href="industry-manufacturing.html" style="--hue:24"><span
+              class="r-industry-card-name">Manufacturing</span><span class="r-industry-card-arrow">&rarr;</span></a>
+          <a class="r-industry-card" href="industry-financial-services.html" style="--hue:150"><span
+              class="r-industry-card-name">Financial Services</span><span
+              class="r-industry-card-arrow">&rarr;</span></a>
+          <a class="r-industry-card" href="industry-government.html" style="--hue:215"><span
+              class="r-industry-card-name">Government</span><span class="r-industry-card-arrow">&rarr;</span></a>
+          <a class="r-industry-card" href="industry-education.html" style="--hue:45"><span
+              class="r-industry-card-name">Education</span><span class="r-industry-card-arrow">&rarr;</span></a>
+          <a class="r-industry-card" href="industry-consumer.html" style="--hue:300"><span
+              class="r-industry-card-name">Consumer</span><span class="r-industry-card-arrow">&rarr;</span></a>
+          <a class="r-industry-card" href="industry-energy.html" style="--hue:18"><span
+              class="r-industry-card-name">Energy</span><span class="r-industry-card-arrow">&rarr;</span></a>
+          <a class="r-industry-card" href="industry-real-estate.html" style="--hue:270"><span
+              class="r-industry-card-name">Real Estate</span><span class="r-industry-card-arrow">&rarr;</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PARTNERS MARQUEE ============ -->
+    <section class="r-marquee-section">
+      <div class="r-marquee-row" data-dir="left">
+        <div class="r-marquee-track">
+          <img src="assets/marquee/amd.svg" alt="AMD" class="r-marquee-logo">
+          <img src="assets/marquee/apple.svg" alt="Apple" class="r-marquee-logo">
+          <img src="assets/marquee/asus.svg" alt="ASUS" class="r-marquee-logo">
+          <img src="assets/marquee/citrix.svg" alt="Citrix" class="r-marquee-logo">
+          <img src="assets/marquee/fortinet.svg" alt="Fortinet" class="r-marquee-logo">
+          <img src="assets/marquee/google.svg" alt="Google" class="r-marquee-logo">
+          <img src="assets/marquee/hitachi.svg" alt="Hitachi" class="r-marquee-logo">
+          <img src="assets/marquee/huawei.svg" alt="Huawei" class="r-marquee-logo">
+          <img src="assets/marquee/f5.svg" alt="AMD" class="r-marquee-logo">
+          <img src="assets/marquee/hashicorp.svg" alt="hashicorp" class="r-marquee-logo">
+          <img src="assets/marquee/amd.svg" alt="AMD" class="r-marquee-logo">
+          <img src="assets/marquee/apple.svg" alt="Apple" class="r-marquee-logo">
+          <img src="assets/marquee/asus.svg" alt="ASUS" class="r-marquee-logo">
+          <img src="assets/marquee/citrix.svg" alt="Citrix" class="r-marquee-logo">
+          <img src="assets/marquee/fortinet.svg" alt="Fortinet" class="r-marquee-logo">
+          <img src="assets/marquee/google.svg" alt="Google" class="r-marquee-logo">
+          <img src="assets/marquee/hitachi.svg" alt="Hitachi" class="r-marquee-logo">
+          <img src="assets/marquee/huawei.svg" alt="Huawei" class="r-marquee-logo">
+          <img src="assets/marquee/amd.svg" alt="AMD" class="r-marquee-logo">
+          <img src="assets/marquee/apple.svg" alt="Apple" class="r-marquee-logo">
+          <img src="assets/marquee/asus.svg" alt="ASUS" class="r-marquee-logo">
+          <img src="assets/marquee/citrix.svg" alt="Citrix" class="r-marquee-logo">
+          <img src="assets/marquee/fortinet.svg" alt="Fortinet" class="r-marquee-logo">
+          <img src="assets/marquee/google.svg" alt="Google" class="r-marquee-logo">
+          <img src="assets/marquee/hitachi.svg" alt="Hitachi" class="r-marquee-logo">
+          <img src="assets/marqueee/huawei.svg" alt="Huawei" class="r-marquee-logo">
+          <img src="assets/marquee/f5.svg" alt="AMD" class="r-marquee-logo">
+          <img src="assets/marquee/hashicorp.svg" alt="hashicorp" class="r-marquee-logo">
+        </div>
+      </div>
+    </section>
+    <!-- ============ TESTIMONIALS ============ -->
+    <section class="r-testimonials" id="testimonials">
+      <div class="r-container">
+        <div class="r-stepper-head">
+          <h2>What people<br> say about <em>Bridgpoint.</em></h2>
+        </div>
+        <div class="r-testimonials-inner">
+
+
+          <div class="r-testimonial-stage" id="testimonialStage">
+            <div class="r-testimonial active">
+              <p>&ldquo;They didn&rsquo;t hand us a strategy deck and disappear. Research, positioning and go-to-market
+                moved together, on the same timeline.&rdquo;</p>
+              <span>VP of Strategy &mdash; Global Technology Company</span>
+            </div>
+            <div class="r-testimonial">
+              <p>&ldquo;The research actually changed our roadmap. That&rsquo;s rare. Usually it just confirms what we
+                already believed.&rdquo;</p>
+              <span>Head of Product &mdash; Financial Services Group</span>
+            </div>
+            <div class="r-testimonial">
+              <p>&ldquo;One team, one point of view, end to end. Fewer handoffs meant fewer things got lost in
+                translation.&rdquo;</p>
+              <span>CMO &mdash; Consumer Retail Brand</span>
+            </div>
+          </div>
+          <div class="r-testimonial-dots" id="testimonialDots">
+            <button class="active" data-dot="0" aria-label="Testimonial 1"></button>
+            <button data-dot="1" aria-label="Testimonial 2"></button>
+            <button data-dot="2" aria-label="Testimonial 3"></button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FINAL CTA ============ -->
+    <section class="r-cta-tight" id="cta">
+      <div class="r-cta-final">
+        <div class="r-cta-final-inner">
+          <h2 class="r-cta-title">Every Great Partnership Begins With A Conversation.</h2>
+          <p>Whether you're entering a new market, validating an opportunity or strengthening your competitive position,
+            we'd welcome the opportunity to understand your objectives.</p>
+          <a href="contact.html" class="r-btn r-btn-white" data-magnetic><span>Talk to us</span></a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="r-footer">
+    <div class="r-container">
+      <div class="r-footer-top">
+        <div class="r-footer-brand">
+          <img src="assets/logo-original.svg" alt="Bridgpoint">
+          <p>Helping organizations make better strategic, commercial and marketing decisions through integrated Business
+            Consulting, Market Research and Brand &amp; Marketing expertise.</p>
+        </div>
+        <div class="r-footer-col">
+          <h4>Services</h4>
+          <a href="business-consulting.html">Business Consulting</a>
+          <a href="market-research.html">Market Research</a>
+          <a href="brand-marketing.html">Brand &amp; Marketing</a>
+        </div>
+        <div class="r-footer-col">
+          <h4>Industries</h4>
+          <a href="industry-technology.html">Technology</a>
+          <a href="industry-healthcare.html">Healthcare</a>
+          <a href="industry-retail.html">Retail</a>
+          <a href="industry-manufacturing.html">Manufacturing</a>
+          <a href="industry-financial-services.html">Financial Services</a>
+          <a href="industry-government.html">Government</a>
+          <a href="industry-education.html">Education</a>
+          <a href="industry-consumer.html">Consumer</a>
+          <a href="industry-energy.html">Energy</a>
+          <a href="industry-real-estate.html">Real Estate</a>
+        </div>
+        <div class="r-footer-col">
+          <h4>Company</h4>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+          <a href="privacy-policy.html">Privacy Policy</a>
+          <a href="terms-of-use.html">Terms of Use</a>
+        </div>
+        <div class="r-footer-col">
+          <h4>Connect</h4>
+          <a href="#">LinkedIn</a>
+          <a href="mailto:hello@bridgpoint.com">Email</a>
+          <a href="tel:+971547370555">Phone</a>
+        </div>
+      </div>
+      <div class="r-footer-bottom">
+        <span>&copy; Bridgpoint. All rights reserved.</span>
+        <span>Better understanding creates better decisions.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- GSAP + plugins -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- Lenis smooth scroll -->
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <!-- SplitType -->
+  <script src="https://cdn.jsdelivr.net/npm/split-type@0.3.4/umd/index.min.js"></script>
+  <!-- Three.js -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+  <script src="js/script.js"></script>
+</body>
+
+</html>

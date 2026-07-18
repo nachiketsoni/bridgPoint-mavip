@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — Bridgpoint</title>
+  <meta name="description" content="Bridgpoint's privacy policy summary.">
+  <link rel="stylesheet" href="css/product.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <script>if (sessionStorage.getItem('bp-page-transition') === '1') document.documentElement.classList.add('is-transitioning');</script>
+</head>
+
+<body class="product">
+  <!-- Page transition overlay -->
+  <div id="bp-page-overlay" aria-hidden="true">
+    <div class="bp-transition-bg"></div>
+    <div class="bp-transition-bars">
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+    </div>
+    <div class="bp-transition-content">
+      <div class="bp-transition-eyebrow">BRIDGPOINT</div>
+      <div class="bp-transition-pagename"></div>
+    </div>
+  </div>
+  <script>
+    if (sessionStorage.getItem('bp-page-transition') === '1') {
+      var ov = document.getElementById('bp-page-overlay');
+      var sl = location.pathname.split('/').pop().replace('.html', '');
+      var pn = ov.querySelector('.bp-transition-pagename');
+      if (pn) {
+        if (!sl || sl === 'index' || sl === '') pn.textContent = 'Home';
+        else pn.textContent = sl.split('-').map(function (w) { return w.charAt(0).toUpperCase() + w.slice(1) }).join(' ');
+      }
+    }
+  </script>
+  <!-- Custom cursor -->
+  <div id="bp-cursor-ring" aria-hidden="true"></div>
+  <div id="bp-cursor-dot" aria-hidden="true"></div>
+  <div class="p-fixed-arc" aria-hidden="true">
+    <svg viewBox="0 0 1000 300" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path id="fixedArcPath" class="arc-line" d="M0,300 C250,0 750,0 1000,300" />
+      <circle class="arc-spark" r="5" cx="0" cy="0">
+        <animateMotion dur="7s" repeatCount="indefinite">
+          <mpath href="#fixedArcPath" />
+        </animateMotion>
+      </circle>
+    </svg>
+  </div>
+
+  <nav class="p-nav">
+    <div class="p-container">
+      <a href="index.html" class="p-nav-logo"><img src="assets/logo-original.svg" alt="Bridgpoint"></a>
+      <div class="p-nav-links">
+        <a href="index.html" class="active">Home</a><a href="services.html">Services</a><a
+          href="industries.html">Industries</a><a href="about.html">About</a><a href="contact.html">Contact</a>
+      </div>
+      <div class="p-nav-right">
+        <a href="contact.html" class="p-btn p-btn-primary">Start a Conversation</a>
+      </div>
+      <button class="p-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="p-mobile-menu">
+    <a href="index.html">Home</a><a href="services.html">Services</a><a href="industries.html">Industries</a><a
+      href="about.html">About</a><a href="contact.html">Contact</a>
+  </div>
+
+  <section class="p-page-hero" style="padding-bottom:50px;">
+    <div class="p-container" style="text-align:center; position:relative; z-index:1;">
+      <div class="p-eyebrow"><span class="dot"></span>Privacy Policy</div>
+      <h1>Your Privacy Matters.</h1>
+    </div>
+  </section>
+  <section class="p-section tight">
+    <div class="p-container">
+      <div class="p-prose reveal wide">
+        <p>Bridgpoint is committed to protecting your personal information.</p>
+        <p>We collect only the information necessary to respond to enquiries, improve our services and communicate with
+          you where appropriate.</p>
+        <p>We do not sell personal information.</p>
+        <p>Information is handled securely and in accordance with applicable privacy regulations.</p>
+      </div>
+      <p style="color:var(--p-ink-45); font-style:italic; margin-top:24px;">(Full legal privacy policy to be added.)</p>
+    </div>
+  </section>
+
+  <footer class="p-footer">
+    <div class="p-container">
+      <div class="p-footer-top">
+        <div class="p-footer-brand">
+          <img src="assets/logo-original.svg" alt="Bridgpoint">
+          <p>Helping organizations make better strategic, commercial and marketing decisions through integrated Business
+            Consulting, Market Research and Brand &amp; Marketing expertise.</p>
+        </div>
+        <div class="p-footer-col">
+          <h4>Services</h4>
+          <a href="business-consulting.html">Business Consulting</a>
+          <a href="market-research.html">Market Research</a>
+          <a href="brand-marketing.html">Brand &amp; Marketing</a>
+        </div>
+        <div class="p-footer-col">
+          <h4>Industries</h4>
+          <a href="industry-technology.html">Technology</a><a href="industry-healthcare.html">Healthcare</a><a
+            href="industry-retail.html">Retail</a><a href="industry-manufacturing.html">Manufacturing</a><a
+            href="industry-financial-services.html">Financial Services</a><a
+            href="industry-government.html">Government</a><a href="industry-education.html">Education</a><a
+            href="industry-consumer.html">Consumer</a><a href="industry-energy.html">Energy</a><a
+            href="industry-real-estate.html">Real Estate</a>
+        </div>
+        <div class="p-footer-col">
+          <h4>Company</h4>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+          <a href="privacy-policy.html">Privacy Policy</a>
+          <a href="terms-of-use.html">Terms of Use</a>
+        </div>
+        <div class="p-footer-col">
+          <h4>Connect</h4>
+          <a href="#">LinkedIn</a>
+          <a href="mailto:hello@bridgpoint.com">Email</a>
+          <a href="tel:+971547370555">Phone</a>
+        </div>
+      </div>
+      <div class="p-footer-bottom">
+        <span>© Bridgpoint. All Rights Reserved.</span>
+        <span>Better understanding creates better decisions.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/product.js"></script>
+
+  <!-- GSAP + plugins -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- Lenis smooth scroll -->
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <!-- SplitType -->
+  <script src="https://cdn.jsdelivr.net/npm/split-type@0.3.4/umd/index.min.js"></script>
+  <script src="js/animations.js"></script>
+</body>
+
+</html>

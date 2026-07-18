@@ -1,0 +1,445 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Consulting — Bridgpoint</title>
+  <meta name="description"
+    content="Strategy shapes what happens next. Bridgpoint helps business leaders make strategic decisions with greater confidence.">
+  <link rel="stylesheet" href="css/product.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script>if (sessionStorage.getItem('bp-page-transition') === '1') document.documentElement.classList.add('is-transitioning');</script>
+</head>
+
+<body class="product">
+  <!-- Page transition overlay -->
+  <div id="bp-page-overlay" aria-hidden="true">
+    <div class="bp-transition-bg"></div>
+    <div class="bp-transition-bars">
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+    </div>
+    <div class="bp-transition-content">
+      <div class="bp-transition-eyebrow">BRIDGPOINT</div>
+      <div class="bp-transition-pagename"></div>
+    </div>
+  </div>
+  <script>
+    if (sessionStorage.getItem('bp-page-transition') === '1') {
+      var ov = document.getElementById('bp-page-overlay');
+      var sl = location.pathname.split('/').pop().replace('.html', '');
+      var pn = ov.querySelector('.bp-transition-pagename');
+      if (pn) {
+        if (!sl || sl === 'index' || sl === '') pn.textContent = 'Home';
+        else pn.textContent = sl.split('-').map(function (w) { return w.charAt(0).toUpperCase() + w.slice(1) }).join(' ');
+      }
+    }
+  </script>
+  <!-- Custom cursor -->
+  <div id="bp-cursor-ring" aria-hidden="true"></div>
+  <div id="bp-cursor-dot" aria-hidden="true"></div>
+  <div class="p-fixed-arc" aria-hidden="true">
+    <svg viewBox="0 0 1000 300" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path id="fixedArcPath" class="arc-line" d="M0,300 C250,0 750,0 1000,300" />
+      <circle class="arc-spark" r="5" cx="0" cy="0">
+        <animateMotion dur="7s" repeatCount="indefinite">
+          <mpath href="#fixedArcPath" />
+        </animateMotion>
+      </circle>
+    </svg>
+  </div>
+
+  <header class="r-nav" id="siteNav">
+    <div class="r-nav-inner">
+      <a href="index.html" class="r-nav-logo">
+        <img src="assets/logo-original.svg" alt="Bridgpoint">
+      </a>
+      <nav class="r-nav-links">
+
+        <div class="r-nav-item">
+          <a href="services.html" class="r-nav-drop-trigger active">Services
+            <svg class="r-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </a>
+          <div class="r-nav-dropdown">
+            <a href="business-consulting.html">Business Consulting</a>
+            <a href="market-research.html">Market Research</a>
+            <a href="brand-marketing.html">Brand &amp; Marketing</a>
+            <a href="services.html" class="r-nav-dropdown-all">View all services &rarr;</a>
+          </div>
+        </div>
+
+        <div class="r-nav-item">
+          <a href="industries.html" class="r-nav-drop-trigger">Industries
+            <svg class="r-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </a>
+          <div class="r-nav-dropdown r-nav-dropdown-grid">
+            <a href="industry-technology.html">Technology</a>
+            <a href="industry-healthcare.html">Healthcare</a>
+            <a href="industry-retail.html">Retail</a>
+            <a href="industry-manufacturing.html">Manufacturing</a>
+            <a href="industry-financial-services.html">Financial Services</a>
+            <a href="industry-government.html">Government</a>
+            <a href="industry-education.html">Education</a>
+            <a href="industry-consumer.html">Consumer</a>
+            <a href="industry-energy.html">Energy</a>
+            <a href="industry-real-estate.html">Real Estate</a>
+            <a href="industries.html" class="r-nav-dropdown-all">View all industries &rarr;</a>
+          </div>
+        </div>
+
+        <a href="about.html">About</a>
+      </nav>
+      <a href="contact.html" class="r-nav-cta" data-magnetic><span>Start a conversation</span></a>
+      <button class="r-nav-burger" id="navBurger" aria-label="Toggle menu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="r-mobile-menu" id="mobileMenu">
+
+    <div class="r-mobile-group">
+      <a href="services.html" class="active">Services</a>
+      <div class="r-mobile-sublinks">
+        <a href="business-consulting.html">Business Consulting</a>
+        <a href="market-research.html">Market Research</a>
+        <a href="brand-marketing.html">Brand &amp; Marketing</a>
+      </div>
+    </div>
+
+    <div class="r-mobile-group">
+      <a href="industries.html">Industries</a>
+      <div class="r-mobile-sublinks">
+        <a href="industry-technology.html">Technology</a>
+        <a href="industry-healthcare.html">Healthcare</a>
+        <a href="industry-retail.html">Retail</a>
+        <a href="industry-manufacturing.html">Manufacturing</a>
+        <a href="industry-financial-services.html">Financial Services</a>
+        <a href="industry-government.html">Government</a>
+        <a href="industry-education.html">Education</a>
+        <a href="industry-consumer.html">Consumer</a>
+        <a href="industry-energy.html">Energy</a>
+        <a href="industry-real-estate.html">Real Estate</a>
+      </div>
+    </div>
+
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <div class="p-subnav">
+    <div class="p-container p-subnav-track">
+      <a href="#overview">Overview</a><a href="#challenges">Business Challenges</a><a href="#philosophy">Consulting
+        Philosophy</a><a href="#capabilities">Capabilities</a><a href="#how-we-work">How We Work</a><a
+        href="#industries">Industries</a><a href="contact.html" class="cta">Contact</a>
+    </div>
+  </div>
+  <div id="overview">
+    <section class="p-page-hero">
+      <div class="p-orb p-orb-1" style="opacity:0.3; top:-160px; right:-160px;"></div>
+      <div class="p-container" style="text-align:center; position:relative; z-index:1;">
+        <div style="max-width:820px; margin:0 auto;">
+          <div class="p-eyebrow reveal in-view" style="justify-content:center;">Business Consulting</div>
+          <h1>Strategy Shapes What Happens Next.</h1>
+          <div class="p-prose reveal center in-view">
+            <p>Every business reaches moments where big decisions define what happens next — new markets, new ventures,
+              where to invest, how to outperform.</p>
+            <p class="lead">We don't simply create strategies. We create strategies that businesses can execute.</p>
+          </div>
+        </div>
+        <div class="p-page-hero-actions reveal in-view" style="justify-content:center;"><a href="contact.html"
+            class="p-btn p-btn-accent">Discuss Your Business</a></div>
+      </div>
+    </section>
+  </div>
+  <section class="p-section">
+    <div class="p-container">
+      <div class="p-head reveal">
+        <div class="p-eyebrow"><span class="dot"></span>Why Strategy Matters</div>
+        <h2>Better Strategy Creates Better Businesses.</h2>
+      </div>
+      <div class="p-prose reveal wide">
+        <p>Growth rarely happens by accident.</p>
+        <p>Successful organizations understand where they are, where they want to go, what is preventing progress and
+          what must change to achieve their objectives. Strategy provides that direction.</p>
+        <p>Without strategic clarity, even the strongest businesses risk making disconnected decisions, investing in the
+          wrong opportunities and reacting instead of leading.</p>
+        <p class="lead">Our role is to help organizations replace uncertainty with confidence.</p>
+      </div>
+    </div>
+  </section>
+  <section class="p-section alt" id="challenges">
+    <div class="p-container">
+      <div class="p-head reveal">
+        <div class="p-eyebrow"><span class="dot"></span>Business Challenges We Help Solve</div>
+        <h2>Business Challenges We Help Solve</h2>
+        <p>Organizations approach Bridgpoint at different stages of their journey — launching, expanding, transforming
+          or preparing for entirely new opportunities.</p>
+      </div>
+      <ul class="p-bullet-list reveal" style="max-width:680px;">
+        <li>Entering new markets</li>
+        <li>Defining long-term growth strategies</li>
+        <li>Launching new businesses</li>
+        <li>Improving commercial performance</li>
+        <li>Strengthening competitive positioning</li>
+        <li>Optimising pricing</li>
+        <li>Expanding partner ecosystems</li>
+        <li>Building scalable operating models</li>
+        <li>Evaluating new investments</li>
+        <li>Validating market opportunities</li>
+      </ul>
+      <p class="p-lede reveal" style="margin-top:32px;">Every engagement begins by understanding the business challenge
+        — not applying a standard framework.</p>
+    </div>
+  </section>
+  <section class="p-section" id="philosophy">
+    <div class="p-container">
+      <div class="p-head reveal">
+        <div class="p-eyebrow"><span class="dot"></span>Our Consulting Philosophy</div>
+        <h2>Our Consulting Philosophy</h2>
+      </div>
+      <div class="p-prose reveal wide">
+        <p>The best strategy is rarely the most complex.</p>
+        <p>It is the one people understand. The one organizations can execute. The one that aligns people, priorities
+          and resources around a common objective.</p>
+        <p class="lead">At Bridgpoint, we focus on practical strategy — grounded in evidence, commercially relevant,
+          operationally achievable, designed for implementation, not presentation.</p>
+      </div>
+    </div>
+  </section>
+  <section class="p-section alt" id="capabilities">
+    <div class="p-container">
+      <div class="p-head reveal">
+        <div class="p-eyebrow"><span class="dot"></span>Our Consulting Capabilities</div>
+        <h2>Our Consulting Capabilities</h2>
+      </div>
+      <div class="reveal">
+        <div class="p-cap-detail">
+          <h3>Business Strategy</h3>
+          <p>Define long-term direction aligned with commercial ambitions. We help leadership teams clarify priorities,
+            identify growth opportunities and develop practical strategies that guide future decision-making.</p>
+        </div>
+        <div class="p-cap-detail">
+          <h3>Growth Strategy</h3>
+          <p>Growth should be intentional. We identify opportunities for expansion, diversification and market
+            leadership while ensuring growth remains commercially sustainable.</p>
+        </div>
+        <div class="p-cap-detail">
+          <h3>Go-to-Market Strategy</h3>
+          <p>A great product requires a great market strategy. We help organizations define target audiences,
+            positioning, commercial models, launch plans and execution roadmaps.</p>
+        </div>
+        <div class="p-cap-detail">
+          <h3>Market Entry Strategy</h3>
+          <p>Entering a new market requires more than opening an office. We help organizations evaluate opportunities
+            and develop structured entry strategies — particularly across the Middle East &amp; Africa.</p>
+        </div>
+        <div class="p-cap-detail">
+          <h3>Business Launch & Setup</h3>
+          <p>Launching a new business demands strategic planning from day one. We support market validation, commercial
+            planning and launch preparation to reduce risk.</p>
+        </div>
+        <div class="p-cap-detail">
+          <h3>Commercial Strategy</h3>
+          <p>We help organizations align pricing, customers, channels, products and partnerships into one commercially
+            coherent strategy.</p>
+        </div>
+        <div class="p-cap-detail">
+          <h3>Sales Strategy</h3>
+          <p>High-performing sales organizations are built through structure rather than activity. We help define sales
+            models, territory planning and customer segmentation.</p>
+        </div>
+        <div class="p-cap-detail">
+          <h3>Pricing Strategy</h3>
+          <p>We help organizations develop pricing models based on customer value, competitive positioning and
+            commercial objectives rather than assumptions.</p>
+        </div>
+        <div class="p-cap-detail">
+          <h3>Operating Model Design</h3>
+          <p>As organizations grow, operating models must evolve. We help define structures, responsibilities,
+            governance and decision-making frameworks.</p>
+        </div>
+        <div class="p-cap-detail">
+          <h3>Partner Strategy</h3>
+          <p>Strategic partnerships can accelerate market growth. We help organizations identify, prioritise and develop
+            partner ecosystems.</p>
+        </div>
+        <div class="p-cap-detail">
+          <h3>Feasibility Studies</h3>
+          <p>Major investments deserve objective evaluation. We assess commercial viability, market opportunity and
+            financial considerations before organizations commit.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="p-section" id="how-we-work">
+    <div class="p-container">
+      <div class="p-head reveal">
+        <div class="p-eyebrow"><span class="dot"></span>How We Work</div>
+        <h2>How We Work</h2>
+        <p>Every engagement follows a structured approach while remaining tailored to each client's objectives.</p>
+      </div>
+      <div class="p-stepper reveal">
+        <div class="p-step">
+          <div class="p-step-icon">01</div>
+          <h3>Discover</h3>
+          <p>Understand the business. Clarify objectives. Identify commercial challenges.</p>
+          <div class="p-step-line"></div>
+        </div>
+        <div class="p-step">
+          <div class="p-step-icon">02</div>
+          <h3>Analyse</h3>
+          <p>Evaluate markets. Review competitors. Assess customers. Identify opportunities.</p>
+          <div class="p-step-line"></div>
+        </div>
+        <div class="p-step">
+          <div class="p-step-icon">03</div>
+          <h3>Design</h3>
+          <p>Develop strategic options. Prioritise initiatives. Create practical roadmaps.</p>
+          <div class="p-step-line"></div>
+        </div>
+        <div class="p-step">
+          <div class="p-step-icon">04</div>
+          <h3>Deliver</h3>
+          <p>Support implementation. Measure outcomes. Refine continuously.</p>
+          <div class="p-step-line"></div>
+        </div>
+      </div>
+      <p class="p-lede reveal" style="margin-top:32px;">Our objective is not to produce reports. Our objective is to
+        improve business performance.</p>
+    </div>
+  </section>
+  <section class="p-section alt">
+    <div class="p-container">
+      <div class="p-head reveal">
+        <div class="p-eyebrow"><span class="dot"></span>Who We Work With</div>
+        <h2>Who We Work With</h2>
+      </div>
+      <div class="p-prose reveal wide">
+        <p>Our consulting engagements support organizations across multiple stages of growth.</p>
+        <p>Startups preparing for launch. Growing businesses entering new markets. Established organizations seeking
+          commercial transformation. Regional businesses expanding internationally. Global enterprises strengthening
+          market presence across the Middle East &amp; Africa.</p>
+        <p class="lead">Regardless of size, every engagement begins with the same objective: helping leadership teams
+          make better business decisions.</p>
+      </div>
+    </div>
+  </section>
+  <section class="p-section" id="industries">
+    <div class="p-container">
+      <div class="p-head reveal">
+        <div class="p-eyebrow"><span class="dot"></span>Industries We Support</div>
+        <h2>Industries We Support</h2>
+        <p>While every industry presents unique commercial dynamics, our consulting approach remains centred on
+          strategic clarity, evidence-based thinking and measurable business outcomes.</p>
+      </div>
+      <div class="p-tag-row"><a class="p-tag" href="industry-technology.html">Technology</a><a class="p-tag"
+          href="industry-healthcare.html">Healthcare</a><a class="p-tag" href="industry-retail.html">Retail</a><a
+          class="p-tag" href="industry-manufacturing.html">Manufacturing</a><a class="p-tag"
+          href="industry-financial-services.html">Financial Services</a><a class="p-tag"
+          href="industry-government.html">Government</a><a class="p-tag" href="industry-education.html">Education</a><a
+          class="p-tag" href="industry-consumer.html">Consumer</a><a class="p-tag"
+          href="industry-energy.html">Energy</a><a class="p-tag" href="industry-real-estate.html">Real Estate</a></div>
+    </div>
+  </section>
+  <section class="p-section alt">
+    <div class="p-container">
+      <div class="p-accent-block reveal">
+        <div class="p-head reveal">
+          <div class="p-eyebrow"><span class="dot"></span>Why Bridgpoint</div>
+          <h2>Why Bridgpoint</h2>
+        </div>
+        <div class="p-prose reveal wide">
+          <p>Most consulting engagements conclude with recommendations. We believe they should conclude with confidence.
+          </p>
+          <p>Confidence that decisions have been validated. Confidence that priorities are aligned. Confidence that
+            execution is achievable. Our role is to simplify complexity and help organizations move forward with greater
+            certainty.</p>
+          <p class="lead">Because strategy should never remain on paper. It should create measurable business progress.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="p-section tight">
+    <div class="p-final reveal">
+      <div class="p-final-inner">
+        <h2>Strategy Begins With A Conversation.</h2>
+        <p>Whether you're planning expansion, evaluating new opportunities or preparing for long-term growth, we'd
+          welcome the opportunity to understand your business.</p>
+
+        <a href="contact.html" class="p-btn p-btn-white">Discuss Your Business</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="p-footer">
+    <div class="p-container">
+      <div class="p-footer-top">
+        <div class="p-footer-brand">
+          <img src="assets/logo-original.svg" alt="Bridgpoint">
+          <p>Helping organizations make better strategic, commercial and marketing decisions through integrated Business
+            Consulting, Market Research and Brand &amp; Marketing expertise.</p>
+        </div>
+        <div class="p-footer-col">
+          <h4>Services</h4>
+          <a href="business-consulting.html">Business Consulting</a>
+          <a href="market-research.html">Market Research</a>
+          <a href="brand-marketing.html">Brand &amp; Marketing</a>
+        </div>
+        <div class="p-footer-col">
+          <h4>Industries</h4>
+          <a href="industry-technology.html">Technology</a><a href="industry-healthcare.html">Healthcare</a><a
+            href="industry-retail.html">Retail</a><a href="industry-manufacturing.html">Manufacturing</a><a
+            href="industry-financial-services.html">Financial Services</a><a
+            href="industry-government.html">Government</a><a href="industry-education.html">Education</a><a
+            href="industry-consumer.html">Consumer</a><a href="industry-energy.html">Energy</a><a
+            href="industry-real-estate.html">Real Estate</a>
+        </div>
+        <div class="p-footer-col">
+          <h4>Company</h4>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+          <a href="privacy-policy.html">Privacy Policy</a>
+          <a href="terms-of-use.html">Terms of Use</a>
+        </div>
+        <div class="p-footer-col">
+          <h4>Connect</h4>
+          <a href="#">LinkedIn</a>
+          <a href="mailto:hello@bridgpoint.com">Email</a>
+          <a href="tel:+971547370555">Phone</a>
+        </div>
+      </div>
+      <div class="p-footer-bottom">
+        <span>© Bridgpoint. All Rights Reserved.</span>
+        <span>Better understanding creates better decisions.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/product.js"></script>
+  <script src="js/nav-shared.js"></script>
+
+  <!-- GSAP + plugins -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- Lenis smooth scroll -->
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <!-- SplitType -->
+  <script src="https://cdn.jsdelivr.net/npm/split-type@0.3.4/umd/index.min.js"></script>
+  <script src="js/animations.js"></script>
+</body>
+
+</html>

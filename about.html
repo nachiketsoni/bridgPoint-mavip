@@ -1,0 +1,455 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Bridgpoint</title>
+  <meta name="description"
+    content="Better understanding creates better business decisions. Bridgpoint's perspective, philosophy and approach.">
+  <link rel="stylesheet" href="css/product.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script>if (sessionStorage.getItem('bp-page-transition') === '1') document.documentElement.classList.add('is-transitioning');</script>
+</head>
+
+<body class="product">
+  <!-- Page transition overlay -->
+  <div id="bp-page-overlay" aria-hidden="true">
+    <div class="bp-transition-bg"></div>
+    <div class="bp-transition-bars">
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+    </div>
+    <div class="bp-transition-content">
+      <div class="bp-transition-eyebrow">BRIDGPOINT</div>
+      <div class="bp-transition-pagename"></div>
+    </div>
+  </div>
+  <script>
+    if (sessionStorage.getItem('bp-page-transition') === '1') {
+      var ov = document.getElementById('bp-page-overlay');
+      var sl = location.pathname.split('/').pop().replace('.html', '');
+      var pn = ov.querySelector('.bp-transition-pagename');
+      if (pn) {
+        if (!sl || sl === 'index' || sl === '') pn.textContent = 'Home';
+        else pn.textContent = sl.split('-').map(function (w) { return w.charAt(0).toUpperCase() + w.slice(1) }).join(' ');
+      }
+    }
+  </script>
+  <!-- Custom cursor -->
+  <div id="bp-cursor-ring" aria-hidden="true"></div>
+  <div id="bp-cursor-dot" aria-hidden="true"></div>
+  <div class="p-fixed-arc" aria-hidden="true">
+    <svg viewBox="0 0 1000 300" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path id="fixedArcPath" class="arc-line" d="M0,300 C250,0 750,0 1000,300" />
+      <circle class="arc-spark" r="5" cx="0" cy="0">
+        <animateMotion dur="7s" repeatCount="indefinite">
+          <mpath href="#fixedArcPath" />
+        </animateMotion>
+      </circle>
+    </svg>
+  </div>
+
+  <header class="r-nav" id="siteNav">
+    <div class="r-nav-inner">
+      <a href="index.html" class="r-nav-logo">
+        <img src="assets/logo-original.svg" alt="Bridgpoint">
+      </a>
+      <nav class="r-nav-links">
+
+        <div class="r-nav-item">
+          <a href="services.html" class="r-nav-drop-trigger">Services
+            <svg class="r-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </a>
+          <div class="r-nav-dropdown">
+            <a href="business-consulting.html">Business Consulting</a>
+            <a href="market-research.html">Market Research</a>
+            <a href="brand-marketing.html">Brand &amp; Marketing</a>
+            <a href="services.html" class="r-nav-dropdown-all">View all services &rarr;</a>
+          </div>
+        </div>
+
+        <div class="r-nav-item">
+          <a href="industries.html" class="r-nav-drop-trigger">Industries
+            <svg class="r-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </a>
+          <div class="r-nav-dropdown r-nav-dropdown-grid">
+            <a href="industry-technology.html">Technology</a>
+            <a href="industry-healthcare.html">Healthcare</a>
+            <a href="industry-retail.html">Retail</a>
+            <a href="industry-manufacturing.html">Manufacturing</a>
+            <a href="industry-financial-services.html">Financial Services</a>
+            <a href="industry-government.html">Government</a>
+            <a href="industry-education.html">Education</a>
+            <a href="industry-consumer.html">Consumer</a>
+            <a href="industry-energy.html">Energy</a>
+            <a href="industry-real-estate.html">Real Estate</a>
+            <a href="industries.html" class="r-nav-dropdown-all">View all industries &rarr;</a>
+          </div>
+        </div>
+
+        <a href="about.html" class="active">About</a>
+      </nav>
+      <a href="contact.html" class="r-nav-cta" data-magnetic><span>Start a conversation</span></a>
+      <button class="r-nav-burger" id="navBurger" aria-label="Toggle menu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="r-mobile-menu" id="mobileMenu">
+
+    <div class="r-mobile-group">
+      <a href="services.html">Services</a>
+      <div class="r-mobile-sublinks">
+        <a href="business-consulting.html">Business Consulting</a>
+        <a href="market-research.html">Market Research</a>
+        <a href="brand-marketing.html">Brand &amp; Marketing</a>
+      </div>
+    </div>
+
+    <div class="r-mobile-group">
+      <a href="industries.html">Industries</a>
+      <div class="r-mobile-sublinks">
+        <a href="industry-technology.html">Technology</a>
+        <a href="industry-healthcare.html">Healthcare</a>
+        <a href="industry-retail.html">Retail</a>
+        <a href="industry-manufacturing.html">Manufacturing</a>
+        <a href="industry-financial-services.html">Financial Services</a>
+        <a href="industry-government.html">Government</a>
+        <a href="industry-education.html">Education</a>
+        <a href="industry-consumer.html">Consumer</a>
+        <a href="industry-energy.html">Energy</a>
+        <a href="industry-real-estate.html">Real Estate</a>
+      </div>
+    </div>
+
+    <a href="about.html" class="active">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <section class="p-page-hero">
+    <div class="p-orb p-orb-1" style="opacity:0.3; top:-160px; right:-160px;"></div>
+    <div class="p-container" style="text-align:center; position:relative; z-index:1;">
+      <div style="max-width:820px; margin:0 auto;">
+        <div class="p-eyebrow reveal in-view" style="justify-content:center;">About Bridgpoint</div>
+        <h1>Better Understanding Creates Better Business Decisions.</h1>
+        <div class="p-prose reveal center in-view">
+          <p>Every business has ambitions — to grow, expand, innovate and lead. Ambition alone rarely gets you there;
+            the quality of your decisions does.</p>
+          <p class="lead">At Bridgpoint, we help organizations make those decisions with greater clarity, confidence and
+            commercial focus — through integrated Business Consulting, Market Research and Brand &amp; Marketing
+            expertise.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <section class="p-section">
+    <div class="p-container">
+      <div class="p-head reveal">
+        <div class="p-eyebrow"><span class="dot"></span>Why We Exist</div>
+        <h2>Why We Exist</h2>
+      </div>
+      <div class="p-prose reveal wide">
+        <p>Businesses have never had access to more information. Yet making the right decision has never been more
+          difficult.</p>
+        <p>Markets change faster. Customers evolve constantly. Competition emerges from unexpected places. Technology
+          reshapes industries almost overnight.</p>
+        <p>In this environment, relying on instinct alone is no longer enough. Organizations need perspective. Evidence.
+          Experience. Strategic thinking.</p>
+        <p class="lead">Bridgpoint exists to help organizations make better decisions by connecting strategy, research
+          and marketing into one integrated approach.</p>
+      </div>
+    </div>
+  </section>
+  <section class="p-section alt">
+    <div class="p-container">
+      <div class="p-head reveal">
+        <div class="p-eyebrow"><span class="dot"></span>Our Perspective</div>
+        <h2>Our Perspective</h2>
+      </div>
+      <div class="p-prose reveal wide">
+        <p>We believe business challenges should never be viewed in isolation.</p>
+        <p>A pricing decision influences customer behaviour. Customer behaviour influences product strategy. Product
+          strategy influences marketing. Marketing influences commercial performance. Commercial performance shapes
+          future investment. Everything is linked.</p>
+        <p>Yet businesses often receive fragmented advice from disconnected specialists — consultants develop strategy,
+          researchers validate assumptions, marketing agencies build campaigns. Each performs an important role. Few
+          connect the complete journey.</p>
+        <p class="lead">Bridgpoint was created to bridge those disciplines together.</p>
+      </div>
+    </div>
+  </section>
+  <section class="p-section">
+    <div class="p-container">
+      <div class="p-head reveal">
+        <div class="p-eyebrow"><span class="dot"></span>What We Believe</div>
+        <h2>What We Believe</h2>
+        <p>Our philosophy is built around a simple principle. Understanding comes before action.</p>
+      </div>
+      <div class="p-grid-2 reveal">
+        <div class="p-card p-belief-card">
+          <h4>Before entering a market</h4>
+          <h3>Understand the opportunity.</h3>
+        </div>
+        <div class="p-card p-belief-card">
+          <h4>Before launching a product</h4>
+          <h3>Understand the customer.</h3>
+        </div>
+        <div class="p-card p-belief-card">
+          <h4>Before changing pricing</h4>
+          <h3>Understand value.</h3>
+        </div>
+        <div class="p-card p-belief-card">
+          <h4>Before building a brand</h4>
+          <h3>Understand perception.</h3>
+        </div>
+        <div class="p-card p-belief-card" style="grid-column:1/-1;">
+          <h4>Before investing</h4>
+          <h3>Understand the commercial impact.</h3>
+        </div>
+      </div>
+      <p class="p-lede reveal" style="margin-top:36px;">The strongest decisions are rarely the fastest. They are the
+        most informed.</p>
+    </div>
+  </section>
+  <section class="p-section alt">
+    <div class="p-container">
+      <div class="p-head reveal">
+        <div class="p-eyebrow"><span class="dot"></span>How We Help Organizations Grow</div>
+        <h2>How We Help Organizations Grow</h2>
+      </div>
+      <div class="p-grid-3 reveal">
+        <div class="p-card">
+          <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M15.2 8.8l-2 4.4-4.4 2 2-4.4z" />
+            </svg></div>
+          <h3>Business Consulting</h3>
+          <p>Helping organizations define strategic direction and commercial priorities — from new markets to growth
+            strategies and operating models.</p>
+        </div>
+        <div class="p-card">
+          <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <circle cx="10.5" cy="10.5" r="6.5" />
+              <path d="M15.5 15.5L21 21" />
+            </svg></div>
+          <h3>Market Research</h3>
+          <p>Replacing assumptions with evidence — uncovering customer behaviour, market dynamics and commercial
+            opportunities.</p>
+        </div>
+        <div class="p-card">
+          <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M3 10v4a1 1 0 001 1h2l4.5 3.2V5.8L6 9H4a1 1 0 00-1 1z" />
+              <path d="M14.5 8.3a4 4 0 010 7.4" />
+            </svg></div>
+          <h3>Brand & Marketing</h3>
+          <p>Translating strategy into meaningful market presence — building brands that inspire confidence and
+            measurable growth.</p>
+        </div>
+      </div>
+      <p class="p-lede reveal" style="margin-top:36px;">Together, these capabilities create a unified advisory model
+        where strategy informs research, research strengthens marketing and marketing supports commercial growth.</p>
+    </div>
+  </section>
+  <section class="p-section">
+    <div class="p-container">
+      <div class="p-head reveal">
+        <div class="p-eyebrow"><span class="dot"></span>How We Work</div>
+        <h2>How We Work</h2>
+        <p>Every engagement begins with understanding — not recommendations, not assumptions. We begin by listening,
+          then build a structured engagement tailored to your objectives.</p>
+      </div>
+      <div class="p-stepper reveal">
+        <div class="p-step">
+          <div class="p-step-icon">01</div>
+          <h3>Discover</h3>
+          <p>Understand the business. Clarify objectives. Identify challenges.</p>
+          <div class="p-step-line"></div>
+        </div>
+        <div class="p-step">
+          <div class="p-step-icon">02</div>
+          <h3>Understand</h3>
+          <p>Conduct research. Analyse markets. Evaluate opportunities.</p>
+          <div class="p-step-line"></div>
+        </div>
+        <div class="p-step">
+          <div class="p-step-icon">03</div>
+          <h3>Design</h3>
+          <p>Develop strategy. Prioritise initiatives. Build practical roadmaps.</p>
+          <div class="p-step-line"></div>
+        </div>
+        <div class="p-step">
+          <div class="p-step-icon">04</div>
+          <h3>Deliver</h3>
+          <p>Support implementation. Measure outcomes. Refine continuously.</p>
+          <div class="p-step-line"></div>
+        </div>
+      </div>
+      <p class="p-lede reveal" style="margin-top:36px;">Every engagement is different. Our approach remains consistent —
+        thoughtful, evidence-based, commercially focused.</p>
+    </div>
+  </section>
+  <section class="p-section alt">
+    <div class="p-container">
+      <div class="p-head reveal">
+        <div class="p-eyebrow"><span class="dot"></span>Industries We Support</div>
+        <h2>Industries We Support</h2>
+        <p>Business challenges may differ by industry. The principles of growth remain remarkably similar. Rather than
+          applying industry templates, we combine sector understanding with fresh commercial thinking.</p>
+      </div>
+      <div class="p-tag-row"><a class="p-tag" href="industry-technology.html">Technology</a><a class="p-tag"
+          href="industry-healthcare.html">Healthcare</a><a class="p-tag" href="industry-retail.html">Retail</a><a
+          class="p-tag" href="industry-manufacturing.html">Manufacturing</a><a class="p-tag"
+          href="industry-financial-services.html">Financial Services</a><a class="p-tag"
+          href="industry-government.html">Government</a><a class="p-tag" href="industry-education.html">Education</a><a
+          class="p-tag" href="industry-consumer.html">Consumer</a><a class="p-tag"
+          href="industry-energy.html">Energy</a><a class="p-tag" href="industry-real-estate.html">Real Estate</a></div>
+    </div>
+  </section>
+  <section class="p-section">
+    <div class="p-container">
+      <div class="p-split">
+        <div class="reveal">
+          <div class="p-eyebrow"><span class="dot"></span>Global Thinking. Regional Understanding.</div>
+          <h2 style="margin-bottom:20px;">Global Thinking. Regional Understanding.</h2>
+          <div class="p-prose reveal">
+            <p>Business opportunities increasingly extend beyond borders. Successful expansion requires more than
+              identifying demand.</p>
+            <p>Bridgpoint supports organizations globally while providing specialist expertise across the Middle East
+              &amp; Africa — from establishing a regional presence to strengthening commercial operations.</p>
+          </div>
+          <h4
+            style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--p-ink-45); margin:24px 0 16px; font-weight:600;">
+            Organizations Must Understand</h4>
+          <ul class="p-bullet-list reveal">
+            <li>Culture</li>
+            <li>Customers</li>
+            <li>Competition</li>
+            <li>Regulation</li>
+            <li>Commercial ecosystems</li>
+          </ul>
+        </div>
+        <div class="p-photo-frame reveal">
+          <img
+            src="https://images.unsplash.com/photo-1706396745180-42555ded7cd9?fm=jpg&amp;q=80&amp;w=1000&amp;auto=format&amp;fit=crop"
+            alt="Panoramic Dubai skyline with the Burj Khalifa">
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="p-section alt">
+    <div class="p-container">
+      <div class="p-head reveal">
+        <div class="p-eyebrow"><span class="dot"></span>Why Organizations Choose Bridgpoint</div>
+        <h2>Why Organizations Choose Bridgpoint</h2>
+      </div>
+      <div class="p-prose reveal wide">
+        <p>Organizations choose Bridgpoint because they want more than individual services. They want joined-up
+          thinking.</p>
+        <p>A strategic partner capable of seeing the bigger picture — one who understands how business strategy
+          influences research, how research shapes marketing, how marketing supports commercial growth.</p>
+        <p>Our work is grounded in curiosity, evidence and practical execution.</p>
+        <p class="lead">We believe every recommendation should be commercially relevant. Every insight should be
+          actionable. Every engagement should create measurable value.</p>
+      </div>
+    </div>
+  </section>
+  <section class="p-section">
+    <div class="p-container">
+      <div class="p-head reveal">
+        <div class="p-eyebrow"><span class="dot"></span>Looking Ahead</div>
+        <h2>Looking Beyond Today's Challenges.</h2>
+      </div>
+      <div class="p-prose reveal wide">
+        <p>Our role is not simply to answer today's questions. It is to help organizations prepare for tomorrow's
+          opportunities.</p>
+        <p>Markets will continue to evolve. Customer expectations will continue to change. Technology will continue to
+          reshape industries.</p>
+        <p class="lead">Organizations that continuously learn, adapt and make informed decisions will remain
+          competitive. That's where Bridgpoint creates value.</p>
+      </div>
+    </div>
+  </section>
+  <section class="p-section tight">
+    <div class="p-final reveal">
+      <div class="p-final-inner">
+        <h2>Better Decisions Start With Better Conversations.</h2>
+        <p>Whether you're exploring new markets, validating opportunities or strengthening commercial performance, we'd
+          welcome the opportunity to understand your business. Let's begin the conversation.</p>
+
+        <a href="contact.html" class="p-btn p-btn-white">Talk to us</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="p-footer">
+    <div class="p-container">
+      <div class="p-footer-top">
+        <div class="p-footer-brand">
+          <img src="assets/logo-original.svg" alt="Bridgpoint">
+          <p>Helping organizations make better strategic, commercial and marketing decisions through integrated Business
+            Consulting, Market Research and Brand &amp; Marketing expertise.</p>
+        </div>
+        <div class="p-footer-col">
+          <h4>Services</h4>
+          <a href="business-consulting.html">Business Consulting</a>
+          <a href="market-research.html">Market Research</a>
+          <a href="brand-marketing.html">Brand &amp; Marketing</a>
+        </div>
+        <div class="p-footer-col">
+          <h4>Industries</h4>
+          <a href="industry-technology.html">Technology</a><a href="industry-healthcare.html">Healthcare</a><a
+            href="industry-retail.html">Retail</a><a href="industry-manufacturing.html">Manufacturing</a><a
+            href="industry-financial-services.html">Financial Services</a><a
+            href="industry-government.html">Government</a><a href="industry-education.html">Education</a><a
+            href="industry-consumer.html">Consumer</a><a href="industry-energy.html">Energy</a><a
+            href="industry-real-estate.html">Real Estate</a>
+        </div>
+        <div class="p-footer-col">
+          <h4>Company</h4>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+          <a href="privacy-policy.html">Privacy Policy</a>
+          <a href="terms-of-use.html">Terms of Use</a>
+        </div>
+        <div class="p-footer-col">
+          <h4>Connect</h4>
+          <a href="#">LinkedIn</a>
+          <a href="mailto:hello@bridgpoint.com">Email</a>
+          <a href="tel:+971547370555">Phone</a>
+        </div>
+      </div>
+      <div class="p-footer-bottom">
+        <span>© Bridgpoint. All Rights Reserved.</span>
+        <span>Better understanding creates better decisions.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/product.js"></script>
+  <script src="js/nav-shared.js"></script>
+
+  <!-- GSAP + plugins -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- Lenis smooth scroll -->
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <!-- SplitType -->
+  <script src="https://cdn.jsdelivr.net/npm/split-type@0.3.4/umd/index.min.js"></script>
+  <script src="js/animations.js"></script>
+</body>
+
+</html>

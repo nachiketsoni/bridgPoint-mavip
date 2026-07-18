@@ -1,0 +1,346 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real Estate — Bridgpoint</title>
+  <meta name="description" content="Creating Value Beyond Buildings. Bridgpoint's real estate industry expertise.">
+  <link rel="stylesheet" href="css/product.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script>if (sessionStorage.getItem('bp-page-transition') === '1') document.documentElement.classList.add('is-transitioning');</script>
+</head>
+
+<body class="product">
+  <!-- Page transition overlay -->
+  <div id="bp-page-overlay" aria-hidden="true">
+    <div class="bp-transition-bg"></div>
+    <div class="bp-transition-bars">
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+      <span class="bp-transition-bar"></span>
+    </div>
+    <div class="bp-transition-content">
+      <div class="bp-transition-eyebrow">BRIDGPOINT</div>
+      <div class="bp-transition-pagename"></div>
+    </div>
+  </div>
+  <script>
+    if (sessionStorage.getItem('bp-page-transition') === '1') {
+      var ov = document.getElementById('bp-page-overlay');
+      var sl = location.pathname.split('/').pop().replace('.html', '');
+      var pn = ov.querySelector('.bp-transition-pagename');
+      if (pn) {
+        if (!sl || sl === 'index' || sl === '') pn.textContent = 'Home';
+        else pn.textContent = sl.split('-').map(function (w) { return w.charAt(0).toUpperCase() + w.slice(1) }).join(' ');
+      }
+    }
+  </script>
+  <!-- Custom cursor -->
+  <div id="bp-cursor-ring" aria-hidden="true"></div>
+  <div id="bp-cursor-dot" aria-hidden="true"></div>
+  <div class="p-fixed-arc" aria-hidden="true">
+    <svg viewBox="0 0 1000 300" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path id="fixedArcPath" class="arc-line" d="M0,300 C250,0 750,0 1000,300" />
+      <circle class="arc-spark" r="5" cx="0" cy="0">
+        <animateMotion dur="7s" repeatCount="indefinite">
+          <mpath href="#fixedArcPath" />
+        </animateMotion>
+      </circle>
+    </svg>
+  </div>
+
+  <header class="r-nav" id="siteNav">
+    <div class="r-nav-inner">
+      <a href="index.html" class="r-nav-logo">
+        <img src="assets/logo-original.svg" alt="Bridgpoint">
+      </a>
+      <nav class="r-nav-links">
+
+        <div class="r-nav-item">
+          <a href="services.html" class="r-nav-drop-trigger">Services
+            <svg class="r-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </a>
+          <div class="r-nav-dropdown">
+            <a href="business-consulting.html">Business Consulting</a>
+            <a href="market-research.html">Market Research</a>
+            <a href="brand-marketing.html">Brand &amp; Marketing</a>
+            <a href="services.html" class="r-nav-dropdown-all">View all services &rarr;</a>
+          </div>
+        </div>
+
+        <div class="r-nav-item">
+          <a href="industries.html" class="r-nav-drop-trigger active">Industries
+            <svg class="r-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </a>
+          <div class="r-nav-dropdown r-nav-dropdown-grid">
+            <a href="industry-technology.html">Technology</a>
+            <a href="industry-healthcare.html">Healthcare</a>
+            <a href="industry-retail.html">Retail</a>
+            <a href="industry-manufacturing.html">Manufacturing</a>
+            <a href="industry-financial-services.html">Financial Services</a>
+            <a href="industry-government.html">Government</a>
+            <a href="industry-education.html">Education</a>
+            <a href="industry-consumer.html">Consumer</a>
+            <a href="industry-energy.html">Energy</a>
+            <a href="industry-real-estate.html">Real Estate</a>
+            <a href="industries.html" class="r-nav-dropdown-all">View all industries &rarr;</a>
+          </div>
+        </div>
+
+        <a href="about.html">About</a>
+      </nav>
+      <a href="contact.html" class="r-nav-cta" data-magnetic><span>Start a conversation</span></a>
+      <button class="r-nav-burger" id="navBurger" aria-label="Toggle menu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="r-mobile-menu" id="mobileMenu">
+
+    <div class="r-mobile-group">
+      <a href="services.html">Services</a>
+      <div class="r-mobile-sublinks">
+        <a href="business-consulting.html">Business Consulting</a>
+        <a href="market-research.html">Market Research</a>
+        <a href="brand-marketing.html">Brand &amp; Marketing</a>
+      </div>
+    </div>
+
+    <div class="r-mobile-group">
+      <a href="industries.html" class="active">Industries</a>
+      <div class="r-mobile-sublinks">
+        <a href="industry-technology.html">Technology</a>
+        <a href="industry-healthcare.html">Healthcare</a>
+        <a href="industry-retail.html">Retail</a>
+        <a href="industry-manufacturing.html">Manufacturing</a>
+        <a href="industry-financial-services.html">Financial Services</a>
+        <a href="industry-government.html">Government</a>
+        <a href="industry-education.html">Education</a>
+        <a href="industry-consumer.html">Consumer</a>
+        <a href="industry-energy.html">Energy</a>
+        <a href="industry-real-estate.html">Real Estate</a>
+      </div>
+    </div>
+
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <section class="p-page-hero">
+    <div class="p-orb p-orb-1" style="opacity:0.3; top:-160px; right:-160px;"></div>
+    <div class="p-container" style="text-align:center; position:relative; z-index:1;">
+      <div style="max-width:820px; margin:0 auto;">
+        <div class="p-eyebrow reveal in-view" style="justify-content:center;"><svg viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="1.8"
+            style="width:20px;height:20px;margin-right:8px;vertical-align:-4px;">
+            <path d="M5 21V9l7-5 7 5v12" />
+            <path d="M9 21v-5h6v5" />
+            <path d="M9 12h.01M12 12h.01M15 12h.01M9 9h.01M12 9h.01M15 9h.01" />
+          </svg>Real Estate</div>
+        <h1>Creating Value Beyond Buildings.</h1>
+        <div class="p-prose reveal center in-view">
+          <p>Real estate is no longer defined by location alone — it's defined by experience, demand, investment
+            confidence and market understanding.</p>
+          <p class="lead">Helping developers, investors and property businesses create stronger long-term value.</p>
+        </div>
+      </div>
+      <div class="p-page-hero-actions reveal in-view" style="justify-content:center;"><a href="contact.html"
+          class="p-btn p-btn-accent">Discuss Your Business</a></div>
+    </div>
+  </section>
+  <section class="p-section">
+    <div class="p-container">
+      <div class="p-head reveal">
+        <div class="p-eyebrow"><span class="dot"></span>Every Development Begins With A Decision.</div>
+        <h2>Every Development Begins With A Decision.</h2>
+      </div>
+      <div class="p-prose reveal wide">
+        <p>Where should we build? Who is the customer? What does the market need? How should we position the
+          development? What pricing strategy should we adopt? How do we differentiate?</p>
+        <p class="lead">The success of every project depends on the quality of these early decisions. Research and
+          strategy reduce uncertainty long before construction begins.</p>
+      </div>
+    </div>
+  </section>
+  <section class="p-section alt">
+    <div class="p-container">
+      <div class="p-head reveal">
+        <div class="p-eyebrow"><span class="dot"></span>Challenges Facing Real Estate Organizations</div>
+        <h2>Challenges Facing Real Estate Organizations</h2>
+        <p>The real estate sector continues to evolve rapidly.</p>
+      </div>
+      <div class="p-pill-grid reveal">
+        <div class="p-pill"><span class="q">01</span>Changing buyer expectations</div>
+        <div class="p-pill"><span class="q">02</span>Economic cycles</div>
+        <div class="p-pill"><span class="q">03</span>Interest rates</div>
+        <div class="p-pill"><span class="q">04</span>Urban development</div>
+        <div class="p-pill"><span class="q">05</span>Investor confidence</div>
+        <div class="p-pill"><span class="q">06</span>Mixed-use developments</div>
+      </div>
+      <p class="p-lede reveal" style="margin-top:32px;">Organizations increasingly require evidence before making major
+        investment decisions.</p>
+    </div>
+  </section>
+  <section class="p-section">
+    <div class="p-container">
+      <div class="p-head reveal">
+        <div class="p-eyebrow"><span class="dot"></span>How Bridgpoint Helps</div>
+        <h2>How Bridgpoint Helps</h2>
+      </div>
+      <div class="reveal">
+        <div class="p-cap-detail">
+          <h3>Business Consulting</h3>
+          <p>Helping developers, investors and property organizations create sustainable commercial growth.</p>
+          <div class="p-tag-row"><span class="p-tag">Business Strategy</span><span class="p-tag">Growth
+              Strategy</span><span class="p-tag">Commercial Strategy</span><span class="p-tag">Market Entry</span><span
+              class="p-tag">Investment Advisory</span><span class="p-tag">Pricing Strategy</span><span
+              class="p-tag">Operating Models</span><span class="p-tag">Partner Strategy</span><span
+              class="p-tag">Feasibility Studies</span><span class="p-tag">Development Strategy</span></div>
+        </div>
+        <div class="p-cap-detail">
+          <h3>Market Research</h3>
+          <p>Every successful development begins with understanding the market.</p>
+          <div class="p-tag-row"><span class="p-tag">Market Demand Studies</span><span class="p-tag">Customer
+              Research</span><span class="p-tag">Buyer Personas</span><span class="p-tag">Pricing Research</span><span
+              class="p-tag">Competitor Benchmarking</span><span class="p-tag">Location Assessment</span><span
+              class="p-tag">Brand Research</span><span class="p-tag">Investment Research</span><span
+              class="p-tag">Market Intelligence</span><span class="p-tag">Feasibility Research</span></div>
+        </div>
+        <div class="p-cap-detail">
+          <h3>Brand &amp; Marketing</h3>
+          <p>Property decisions are influenced by perception as much as location.</p>
+          <div class="p-tag-row"><span class="p-tag">Brand Strategy</span><span class="p-tag">Project
+              Positioning</span><span class="p-tag">Marketing Strategy</span><span class="p-tag">Digital
+              Marketing</span><span class="p-tag">Launch Campaigns</span><span class="p-tag">Investor
+              Communications</span><span class="p-tag">Corporate Branding</span><span class="p-tag">Content
+              Strategy</span><span class="p-tag">Experience Marketing</span><span class="p-tag">Marketing
+              Advisory</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="p-section alt">
+    <div class="p-container">
+      <div class="p-head reveal">
+        <div class="p-eyebrow"><span class="dot"></span>Real Estate Segments</div>
+        <h2>Real Estate Segments</h2>
+      </div>
+      <div class="p-tag-row"><span class="p-tag">Residential</span><span class="p-tag">Commercial</span><span
+          class="p-tag">Industrial</span><span class="p-tag">Hospitality</span><span class="p-tag">Mixed-Use
+          Developments</span><span class="p-tag">Luxury Real Estate</span><span class="p-tag">Affordable
+          Housing</span><span class="p-tag">Property Technology (PropTech)</span><span class="p-tag">Urban
+          Development</span><span class="p-tag">Investment &amp; Asset Management</span><span class="p-tag">Master
+          Developments</span><span class="p-tag">Community Development</span></div>
+    </div>
+  </section>
+  <section class="p-section">
+    <div class="p-container">
+      <div class="p-accent-block reveal">
+        <div class="p-head reveal">
+          <div class="p-eyebrow"><span class="dot"></span>Better Market Understanding Creates Better Developments.</div>
+          <h2>Better Market Understanding Creates Better Developments.</h2>
+        </div>
+        <div class="p-prose reveal wide">
+          <p>Every successful project begins with understanding. Understanding demand. Buyer behaviour. Investment
+            trends. Community expectations. Competitive positioning.</p>
+          <p class="lead">Research transforms uncertainty into informed investment decisions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="p-section alt">
+    <div class="p-container">
+      <div class="p-head reveal">
+        <div class="p-eyebrow"><span class="dot"></span>Why Real Estate Organizations Choose Bridgpoint</div>
+        <h2>Why Real Estate Organizations Choose Bridgpoint</h2>
+      </div>
+      <div class="p-prose reveal wide">
+        <p>Property development requires confidence. Confidence in demand. Confidence in positioning. Confidence in
+          pricing. Confidence in investment.</p>
+        <p class="lead">Bridgpoint combines strategic consulting, research and marketing into one integrated model that
+          helps organizations make informed decisions throughout the development lifecycle.</p>
+      </div>
+    </div>
+  </section>
+  <section class="p-section tight">
+    <div class="p-final reveal">
+      <div class="p-final-inner">
+        <h2>Building Places That Create Lasting Value.</h2>
+        <p>Whether you're launching a development, entering new markets or strengthening your brand, we'd welcome the
+          opportunity to understand your objectives.</p>
+
+        <a href="contact.html" class="p-btn p-btn-white">Discuss Your Business</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="p-footer">
+    <div class="p-container">
+      <div class="p-footer-top">
+        <div class="p-footer-brand">
+          <img src="assets/logo-original.svg" alt="Bridgpoint">
+          <p>Helping organizations make better strategic, commercial and marketing decisions through integrated Business
+            Consulting, Market Research and Brand &amp; Marketing expertise.</p>
+        </div>
+        <div class="p-footer-col">
+          <h4>Services</h4>
+          <a href="business-consulting.html">Business Consulting</a>
+          <a href="market-research.html">Market Research</a>
+          <a href="brand-marketing.html">Brand &amp; Marketing</a>
+        </div>
+        <div class="p-footer-col">
+          <h4>Industries</h4>
+          <a href="industry-technology.html">Technology</a><a href="industry-healthcare.html">Healthcare</a><a
+            href="industry-retail.html">Retail</a><a href="industry-manufacturing.html">Manufacturing</a><a
+            href="industry-financial-services.html">Financial Services</a><a
+            href="industry-government.html">Government</a><a href="industry-education.html">Education</a><a
+            href="industry-consumer.html">Consumer</a><a href="industry-energy.html">Energy</a><a
+            href="industry-real-estate.html">Real Estate</a>
+        </div>
+        <div class="p-footer-col">
+          <h4>Company</h4>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+          <a href="privacy-policy.html">Privacy Policy</a>
+          <a href="terms-of-use.html">Terms of Use</a>
+        </div>
+        <div class="p-footer-col">
+          <h4>Connect</h4>
+          <a href="#">LinkedIn</a>
+          <a href="mailto:hello@bridgpoint.com">Email</a>
+          <a href="tel:+971547370555">Phone</a>
+        </div>
+      </div>
+      <div class="p-footer-bottom">
+        <span>© Bridgpoint. All Rights Reserved.</span>
+        <span>Better understanding creates better decisions.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/product.js"></script>
+  <script src="js/nav-shared.js"></script>
+
+  <!-- GSAP + plugins -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- Lenis smooth scroll -->
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <!-- SplitType -->
+  <script src="https://cdn.jsdelivr.net/npm/split-type@0.3.4/umd/index.min.js"></script>
+  <script src="js/animations.js"></script>
+</body>
+
+</html>
