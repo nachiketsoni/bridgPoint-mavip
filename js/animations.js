@@ -100,8 +100,8 @@
       });
     }
 
-    /* Eyebrow + paragraph + actions */
-    gsap.from(['.p-hero .p-eyebrow', '.p-hero-copy p', '.p-hero-actions', '.p-hero-note'], {
+    /* Paragraph + actions */
+    gsap.from(['.p-hero-copy p', '.p-hero-actions', '.p-hero-note'], {
       opacity: 0, y: 30, duration: 0.8, ease: 'power3.out',
       stagger: 0.12, delay: 0.55
     });

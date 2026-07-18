@@ -217,7 +217,6 @@ function initQuiz() {
     const winner = Object.keys(tally).sort((a, b) => tally[b] - tally[a])[0];
     const r = RESULTS[winner];
     resultStep.innerHTML = `
-      <div class="p-eyebrow"><span class="dot"></span>Recommended For You</div>
       <h3>${r.title}</h3>
       <p>${r.text}</p>
       <a href="${r.href}" class="p-btn p-btn-accent">${r.cta}</a>
