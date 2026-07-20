@@ -102,12 +102,49 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* Contact form (static demo) */
+  /* Contact form */
   const form = document.querySelector('#contact-form');
   if (form) {
+    const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbz7PLkjFjuMJ2BDHLHW87uXps34Q3XIsKWVH3u0wou0G7GPUOOzoFfEbXcxY0X0RJkfIA/exec';
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const submitBtnLabel = submitBtn ? submitBtn.innerHTML : '';
+
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      window.location.href = 'thank-you.html';
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="p-btn-spinner"></span>';
+      }
+
+      const data = {
+        fname: form.querySelector('#fname')?.value || '',
+        lname: form.querySelector('#lname')?.value || '',
+        company: form.querySelector('#company')?.value || '',
+        designation: form.querySelector('#designation')?.value || '',
+        email: form.querySelector('#email')?.value || '',
+        phone: form.querySelector('#phone')?.value || '',
+        country: form.querySelector('#country')?.value || '',
+        industry: form.querySelector('#industry')?.value || '',
+        size: form.querySelector('#size')?.value || '',
+        interest: form.querySelector('#interest')?.value || '',
+        message: form.querySelector('#message')?.value || '',
+        timeline: form.querySelector('#timeline')?.value || ''
+      };
+
+      fetch(SHEET_ENDPOINT, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(data)
+      }).then(() => {
+        window.location.href = 'thank-you.html';
+      }).catch(() => {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = submitBtnLabel;
+        }
+      });
     });
   }
 });

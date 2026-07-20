@@ -230,14 +230,14 @@ body.product p {
 
 .p-btn-primary:hover {
   background: var(--p-accent);
-  color: rgba(255, 255, 255, 0.78);
+  color: white;
   transform: translateY(-2px);
   box-shadow: var(--p-shadow-accent);
 }
 
 .p-btn-accent {
   background: var(--p-accent);
-  color: rgba(255, 255, 255, 0.78);
+  color: white;
   box-shadow: var(--p-shadow-accent);
 }
 
@@ -1814,6 +1814,27 @@ a.p-card:hover {
   width: 100%;
   justify-content: center;
   border: none;
+}
+
+.p-form button.p-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.p-btn-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  display: inline-block;
+  animation: p-btn-spin 0.7s linear infinite;
+}
+
+@keyframes p-btn-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width:640px) {

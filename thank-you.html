@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  <link rel="icon" type="image/svg+xml" href="assets/logo-original.svg">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Thank You — Bridgpoint</title>
@@ -9,6 +10,7 @@
     content="Thank you for your enquiry. A member of the Bridgpoint team will be in touch shortly.">
   <link rel="stylesheet" href="css/product.css">
   <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/style.css">
   <script>if (sessionStorage.getItem('bp-page-transition') === '1') document.documentElement.classList.add('is-transitioning');</script>
 </head>
 
@@ -56,22 +58,86 @@
     </svg>
   </div>
 
-  <nav class="p-nav">
-    <div class="p-container">
-      <a href="index.html" class="p-nav-logo"><img src="assets/logo-original.svg" alt="Bridgpoint"></a>
-      <div class="p-nav-links">
-        <a href="index.html">Home</a><a href="services.html">Services</a><a href="industries.html">Industries</a><a
-          href="about.html">About</a>
-      </div>
-      <div class="p-nav-right">
-        <a href="contact.html" class="p-btn p-btn-primary">Start a Conversation</a>
-      </div>
-      <button class="p-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  <header class="r-nav" id="siteNav">
+    <div class="r-nav-inner">
+      <a href="index.html" class="r-nav-logo">
+        <img src="assets/logo-original.svg" alt="Bridgpoint">
+      </a>
+      <nav class="r-nav-links">
+
+        <div class="r-nav-item">
+          <a href="services.html" class="r-nav-drop-trigger">Services
+            <svg class="r-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </a>
+          <div class="r-nav-dropdown">
+            <a href="business-consulting.html">Business Consulting</a>
+            <a href="market-research.html">Market Research</a>
+            <a href="brand-marketing.html">Brand &amp; Marketing</a>
+            <a href="services.html" class="r-nav-dropdown-all">View all services &rarr;</a>
+          </div>
+        </div>
+
+        <div class="r-nav-item">
+          <a href="industries.html" class="r-nav-drop-trigger">Industries
+            <svg class="r-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </a>
+          <div class="r-nav-dropdown r-nav-dropdown-grid">
+            <a href="technology.html">Technology</a>
+            <a href="healthcare.html">Healthcare</a>
+            <a href="retail.html">Retail</a>
+            <a href="manufacturing.html">Manufacturing</a>
+            <a href="financial-services.html">Financial Services</a>
+            <a href="government.html">Government</a>
+            <a href="education.html">Education</a>
+            <a href="consumer.html">Consumer</a>
+            <a href="energy.html">Energy</a>
+            <a href="real-estate.html">Real Estate</a>
+            <a href="industries.html" class="r-nav-dropdown-all">View all industries &rarr;</a>
+          </div>
+        </div>
+
+        <a href="about.html">About</a>
+      </nav>
+      <a href="contact.html" class="r-nav-cta" data-magnetic data-transition-text="Contact"><span>Start a conversation</span></a>
+      <button class="r-nav-burger" id="navBurger" aria-label="Toggle menu">
+        <span></span><span></span>
+      </button>
     </div>
-  </nav>
-  <div class="p-mobile-menu">
-    <a href="index.html">Home</a><a href="services.html">Services</a><a href="industries.html">Industries</a><a
-      href="about.html">About</a>
+  </header>
+
+  <div class="r-mobile-menu" id="mobileMenu">
+
+    <div class="r-mobile-group">
+      <a href="services.html">Services</a>
+      <div class="r-mobile-sublinks">
+        <a href="business-consulting.html">Business Consulting</a>
+        <a href="market-research.html">Market Research</a>
+        <a href="brand-marketing.html">Brand &amp; Marketing</a>
+      </div>
+    </div>
+
+    <div class="r-mobile-group">
+      <a href="industries.html">Industries</a>
+      <div class="r-mobile-sublinks">
+        <a href="technology.html">Technology</a>
+        <a href="healthcare.html">Healthcare</a>
+        <a href="retail.html">Retail</a>
+        <a href="manufacturing.html">Manufacturing</a>
+        <a href="financial-services.html">Financial Services</a>
+        <a href="government.html">Government</a>
+        <a href="education.html">Education</a>
+        <a href="consumer.html">Consumer</a>
+        <a href="energy.html">Energy</a>
+        <a href="real-estate.html">Real Estate</a>
+      </div>
+    </div>
+
+    <a href="about.html">About</a>
+
   </div>
 
   <section class="p-page-hero">
@@ -156,6 +222,7 @@
 
   <script src="js/main.js"></script>
   <script src="js/product.js"></script>
+  <script src="js/nav-shared.js"></script>
 
   <!-- GSAP + plugins -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
