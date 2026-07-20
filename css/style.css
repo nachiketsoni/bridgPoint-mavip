@@ -97,13 +97,16 @@ body {
   }
 }
 
-/* Pages still on the old design (body.product) load this file only for
-   the r-nav/r-footer/r-cta-final it now shares — they don't run the
-   custom-cursor JS that repaints the pointer, so cursor:none up there
-   would leave them with no visible cursor at all. */
-body.product,
-body.product button {
-  cursor: auto;
+/* body.product pages run their own custom-cursor JS (#bp-cursor-ring /
+   #bp-cursor-dot in animations.js), so the system cursor is hidden here
+   too — same as the rest of the site — to avoid showing both at once. */
+@media (max-width: 860px),
+(hover:none) {
+
+  body.product,
+  body.product button {
+    cursor: auto;
+  }
 }
 
 h1,
