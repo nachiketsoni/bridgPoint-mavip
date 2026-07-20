@@ -1427,8 +1427,8 @@ body.r-loading {
 .r-industries-grid {
   margin-top: 56px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 14px;
 }
 
 .r-card {
@@ -1436,39 +1436,76 @@ body.r-loading {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  min-height: 150px;
-  padding: 28px 26px;
+  justify-content: flex-start;
+  gap: 14px;
+  height: 118px;
+  padding: 18px 20px 16px;
   background: #fff;
   border: 1px solid var(--line);
   border-radius: 20px;
   box-shadow: var(--shadow-sm);
+  overflow: hidden;
   transition: transform .3s var(--ease-out), box-shadow .3s, border-color .3s;
 }
 
 .r-card::before {
   content: '';
   position: absolute;
-  top: 26px;
-  left: 26px;
-  width: 10px;
-  height: 10px;
+  top: -22px;
+  right: -22px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
-  background: hsl(var(--hue) 75% 58%);
+  background: radial-gradient(circle, hsl(var(--hue) 80% 60% / 0.16), transparent 70%);
+  transition: transform .4s var(--ease-out), opacity .4s;
+}
+
+.r-card:hover::before {
+  transform: scale(1.25);
+  opacity: 1;
+}
+
+.r-card-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 11px;
+  background: hsl(var(--hue) 75% 58% / 0.12);
+  color: hsl(var(--hue) 65% 45%);
+  transition: transform .4s var(--ease-out), background .3s;
+}
+
+.r-card-icon svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.7;
+}
+
+.r-card:hover .r-card-icon {
+  transform: scale(1.08) rotate(-6deg);
+  background: hsl(var(--hue) 75% 58% / 0.2);
 }
 
 .r-card-name {
-  margin-top: 36px;
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 600;
-  font-size: 1.25rem;
+  font-size: 1.05rem;
   letter-spacing: -0.01em;
   color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .r-card-arrow {
-  align-self: flex-end;
-  font-size: 1.3rem;
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  font-size: 1.1rem;
   color: var(--ink-30);
   transform: rotate(-45deg);
   transition: transform .3s var(--ease-out), color .3s;
