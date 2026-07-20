@@ -13,6 +13,13 @@ document.addEventListener('DOMContentLoaded', () => {
     onScroll();
   }
 
+  /* Move subnav below hero section */
+  const subnav = document.querySelector('.p-subnav');
+  const hero = document.querySelector('.p-page-hero');
+  if (subnav && hero) {
+    hero.parentNode.insertBefore(subnav, hero.nextSibling);
+  }
+
   /* Mobile menu toggle */
   const toggle = document.querySelector('.p-nav-toggle');
   const mobileMenu = document.querySelector('.p-mobile-menu');
@@ -142,7 +149,7 @@ function initCursor() {
   }
   requestAnimationFrame(raf);
 
-  const hoverTargets = 'a, button, .p-quiz-option, input, select, textarea, .p-card, .p-practice-card, .p-industry-tile';
+  const hoverTargets = 'a, button, .p-quiz-option, input, select, textarea, .p-card, .p-practice-card, .p-tile';
   document.addEventListener('mouseover', (e) => {
     if (e.target.closest(hoverTargets)) dot.classList.add('hover');
   });

@@ -293,155 +293,155 @@
     }
 
     function build() {
-    var canvas = document.getElementById('webglCanvas');
-    var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      var canvas = document.getElementById('webglCanvas');
+      var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 
-    var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
-    camera.position.set(0, 0, 8);
+      var scene = new THREE.Scene();
+      var camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
+      camera.position.set(0, 0, 8);
 
-    scene.add(new THREE.AmbientLight(0x8877ff, 0.6));
-    var light1 = new THREE.PointLight(0x7c5cff, 3, 40); light1.position.set(5, 4, 6); scene.add(light1);
-    var light2 = new THREE.PointLight(0x38bdf8, 2, 40); light2.position.set(-5, -3, 4); scene.add(light2);
+      scene.add(new THREE.AmbientLight(0x8877ff, 0.6));
+      var light1 = new THREE.PointLight(0x7c5cff, 3, 40); light1.position.set(5, 4, 6); scene.add(light1);
+      var light2 = new THREE.PointLight(0x38bdf8, 2, 40); light2.position.set(-5, -3, 4); scene.add(light2);
 
-    var world = new THREE.Group(); scene.add(world);
+      var world = new THREE.Group(); scene.add(world);
 
-    // Starfield stays centred on the full canvas — it's faint ambience,
-    // not a solid shape, so it can safely sit behind the copy.
-    var starCount = 700;
-    var starGeo = new THREE.BufferGeometry();
-    var starPos = new Float32Array(starCount * 3);
-    for (var i = 0; i < starCount; i++) {
-      var r = 6 + Math.random() * 9;
-      var theta = Math.random() * Math.PI * 2;
-      var phi = Math.acos((Math.random() * 2) - 1);
-      starPos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-      starPos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-      starPos[i * 3 + 2] = r * Math.cos(phi);
-    }
-    starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
-    var starMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.028, transparent: true, opacity: 0.5 });
-    var stars = new THREE.Points(starGeo, starMat);
-    world.add(stars);
+      // Starfield stays centred on the full canvas — it's faint ambience,
+      // not a solid shape, so it can safely sit behind the copy.
+      var starCount = 700;
+      var starGeo = new THREE.BufferGeometry();
+      var starPos = new Float32Array(starCount * 3);
+      for (var i = 0; i < starCount; i++) {
+        var r = 6 + Math.random() * 9;
+        var theta = Math.random() * Math.PI * 2;
+        var phi = Math.acos((Math.random() * 2) - 1);
+        starPos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+        starPos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+        starPos[i * 3 + 2] = r * Math.cos(phi);
+      }
+      starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+      var starMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.028, transparent: true, opacity: 0.5 });
+      var stars = new THREE.Points(starGeo, starMat);
+      world.add(stars);
 
-    // The core + nodes live in their own group, offset to the right of
-    // centre so the solid wireframe sits clear of the copy column (which
-    // is left-aligned, max-width 640px). .r-webgl-fixed's clip-path masks
-    // out the left portion of the canvas as a hard guarantee on top of this.
-    var focal = new THREE.Group();
-    focal.position.set(2.8, -0.1, 0);
-    world.add(focal);
+      // The core + nodes live in their own group, offset to the right of
+      // centre so the solid wireframe sits clear of the copy column (which
+      // is left-aligned, max-width 640px). .r-webgl-fixed's clip-path masks
+      // out the left portion of the canvas as a hard guarantee on top of this.
+      var focal = new THREE.Group();
+      focal.position.set(2.8, -0.1, 0);
+      world.add(focal);
 
-    // Core wireframe + subtle glass shell
-    var core = new THREE.Group(); focal.add(core);
-    var icoGeo = new THREE.IcosahedronGeometry(1.15, 1);
-    var wireMat = new THREE.LineBasicMaterial({ color: 0x9c86ff, transparent: true, opacity: 0.55 });
-    var wireframe = new THREE.LineSegments(new THREE.WireframeGeometry(icoGeo), wireMat);
-    core.add(wireframe);
-    var shellMat = new THREE.MeshStandardMaterial({ color: 0x7c5cff, roughness: 0.25, metalness: 0.3, transparent: true, opacity: 0.14 });
-    var shell = new THREE.Mesh(new THREE.IcosahedronGeometry(1.1, 1), shellMat);
-    core.add(shell);
+      // Core wireframe + subtle glass shell
+      var core = new THREE.Group(); focal.add(core);
+      var icoGeo = new THREE.IcosahedronGeometry(1.15, 1);
+      var wireMat = new THREE.LineBasicMaterial({ color: 0x9c86ff, transparent: true, opacity: 0.55 });
+      var wireframe = new THREE.LineSegments(new THREE.WireframeGeometry(icoGeo), wireMat);
+      core.add(wireframe);
+      var shellMat = new THREE.MeshStandardMaterial({ color: 0x7c5cff, roughness: 0.25, metalness: 0.3, transparent: true, opacity: 0.14 });
+      var shell = new THREE.Mesh(new THREE.IcosahedronGeometry(1.1, 1), shellMat);
+      core.add(shell);
 
-    // Four orbiting "discipline" nodes — converge into the core on scroll.
-    // Kept tight around the focal point (not the old wide scatter) so
-    // they stay within the visible right-hand region throughout.
-    var nodeColors = [0x7c5cff, 0x38bdf8, 0xec4899, 0xffd9a0];
-    var scattered = [
-      new THREE.Vector3(-1.7, 1.5, -1.0),
-      new THREE.Vector3(1.9, -1.4, 0.6),
-      new THREE.Vector3(-1.4, -1.7, 1.5),
-      new THREE.Vector3(1.7, 1.6, -0.7)
-    ];
-    var nodes = nodeColors.map(function (c, i) {
-      var mat = new THREE.MeshStandardMaterial({ color: c, emissive: c, emissiveIntensity: 0.7, roughness: 0.3 });
-      var mesh = new THREE.Mesh(new THREE.SphereGeometry(0.14, 20, 20), mat);
-      mesh.position.copy(scattered[i]);
-      focal.add(mesh);
-      return mesh;
-    });
-
-    function resize() {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    }
-    resize();
-    window.addEventListener('resize', debounce(resize, 200));
-
-    var mouseX = 0, mouseY = 0, rotX = 0, rotY = 0;
-    window.addEventListener('mousemove', function (e) {
-      mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-      mouseY = (e.clientY / window.innerHeight) * 2 - 1;
-    });
-
-    var api = { convergeProgress: 0, _smoothed: 0, visible: false };
-
-    var labelEls = document.querySelectorAll('#convergeLabels [data-node]');
-    var titleEl = document.getElementById('convergeTitle');
-    var titleSwapped = false;
-    var thresholds = [0.15, 0.4, 0.65, 0.9];
-
-    // Crossfades the headline instead of snapping it instantly — the raw
-    // innerHTML swap read as an abrupt, jarring change against the slow
-    // 3D convergence happening around it.
-    function swapTitle(html) {
-      gsap.to(titleEl, {
-        opacity: 0, y: -8, duration: 0.28, ease: 'power2.in',
-        onComplete: function () {
-          titleEl.innerHTML = html;
-          gsap.fromTo(titleEl, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' });
-        }
-      });
-    }
-
-    function loop() {
-      requestAnimationFrame(loop);
-      if (!api.visible) return;
-
-      api._smoothed += (api.convergeProgress - api._smoothed) * 0.08;
-      var p = api._smoothed;
-
-      // Parallax rotates the focal group in place (around its own offset
-      // centre) rather than the whole world — orbiting world around the
-      // scene origin would swing the offset sphere sideways and risk
-      // drifting back over the copy on wide mouse movements.
-      rotX += (mouseY * 0.16 - rotX) * 0.04;
-      rotY += (mouseX * 0.22 - rotY) * 0.04;
-      focal.rotation.x = rotX;
-      focal.rotation.y = rotY;
-
-      core.rotation.y += 0.0026 + p * 0.006;
-      core.rotation.x += 0.0009;
-      stars.rotation.y += 0.0006;
-
-      camera.position.z = 8 - p * 2.6;
-
-      shellMat.opacity = 0.14 + p * 0.34;
-      wireMat.opacity = 0.55 + p * 0.35;
-
-      nodes.forEach(function (mesh, i) {
-        mesh.position.copy(scattered[i]).multiplyScalar(1 - p);
-        mesh.scale.setScalar(1 - p * 0.55);
-        mesh.material.emissiveIntensity = 0.7 + p * 1.2;
-        if (labelEls[i]) labelEls[i].classList.toggle('is-active', p > thresholds[i]);
+      // Four orbiting "discipline" nodes — converge into the core on scroll.
+      // Kept tight around the focal point (not the old wide scatter) so
+      // they stay within the visible right-hand region throughout.
+      var nodeColors = [0x7c5cff, 0x38bdf8, 0xec4899, 0xffd9a0];
+      var scattered = [
+        new THREE.Vector3(-1.7, 1.5, -1.0),
+        new THREE.Vector3(1.9, -1.4, 0.6),
+        new THREE.Vector3(-1.4, -1.7, 1.5),
+        new THREE.Vector3(1.7, 1.6, -0.7)
+      ];
+      var nodes = nodeColors.map(function (c, i) {
+        var mat = new THREE.MeshStandardMaterial({ color: c, emissive: c, emissiveIntensity: 0.7, roughness: 0.3 });
+        var mesh = new THREE.Mesh(new THREE.SphereGeometry(0.14, 20, 20), mat);
+        mesh.position.copy(scattered[i]);
+        focal.add(mesh);
+        return mesh;
       });
 
-      if (titleEl) {
-        if (p > 0.55 && !titleSwapped) {
-          titleSwapped = true;
-          swapTitle('One team.<br>One point of view.');
-        } else if (p <= 0.55 && titleSwapped) {
-          titleSwapped = false;
-          swapTitle('Four disciplines.<br>Working as one.');
-        }
+      function resize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      }
+      resize();
+      window.addEventListener('resize', debounce(resize, 200));
+
+      var mouseX = 0, mouseY = 0, rotX = 0, rotY = 0;
+      window.addEventListener('mousemove', function (e) {
+        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+        mouseY = (e.clientY / window.innerHeight) * 2 - 1;
+      });
+
+      var api = { convergeProgress: 0, _smoothed: 0, visible: false };
+
+      var labelEls = document.querySelectorAll('#convergeLabels [data-node]');
+      var titleEl = document.getElementById('convergeTitle');
+      var titleSwapped = false;
+      var thresholds = [0.15, 0.4, 0.65, 0.9];
+
+      // Crossfades the headline instead of snapping it instantly — the raw
+      // innerHTML swap read as an abrupt, jarring change against the slow
+      // 3D convergence happening around it.
+      function swapTitle(html) {
+        gsap.to(titleEl, {
+          opacity: 0, y: -8, duration: 0.28, ease: 'power2.in',
+          onComplete: function () {
+            titleEl.innerHTML = html;
+            gsap.fromTo(titleEl, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' });
+          }
+        });
       }
 
-      renderer.render(scene, camera);
-    }
-    loop();
+      function loop() {
+        requestAnimationFrame(loop);
+        if (!api.visible) return;
 
-    return api;
+        api._smoothed += (api.convergeProgress - api._smoothed) * 0.08;
+        var p = api._smoothed;
+
+        // Parallax rotates the focal group in place (around its own offset
+        // centre) rather than the whole world — orbiting world around the
+        // scene origin would swing the offset sphere sideways and risk
+        // drifting back over the copy on wide mouse movements.
+        rotX += (mouseY * 0.16 - rotX) * 0.04;
+        rotY += (mouseX * 0.22 - rotY) * 0.04;
+        focal.rotation.x = rotX;
+        focal.rotation.y = rotY;
+
+        core.rotation.y += 0.0026 + p * 0.006;
+        core.rotation.x += 0.0009;
+        stars.rotation.y += 0.0006;
+
+        camera.position.z = 8 - p * 2.6;
+
+        shellMat.opacity = 0.14 + p * 0.34;
+        wireMat.opacity = 0.55 + p * 0.35;
+
+        nodes.forEach(function (mesh, i) {
+          mesh.position.copy(scattered[i]).multiplyScalar(1 - p);
+          mesh.scale.setScalar(1 - p * 0.55);
+          mesh.material.emissiveIntensity = 0.7 + p * 1.2;
+          if (labelEls[i]) labelEls[i].classList.toggle('is-active', p > thresholds[i]);
+        });
+
+        if (titleEl) {
+          if (p > 0.55 && !titleSwapped) {
+            titleSwapped = true;
+            swapTitle('One team.<br>One point of view.');
+          } else if (p <= 0.55 && titleSwapped) {
+            titleSwapped = false;
+            swapTitle('Four disciplines.<br>Working as one.');
+          }
+        }
+
+        renderer.render(scene, camera);
+      }
+      loop();
+
+      return api;
     } // end build()
   })();
 
@@ -505,7 +505,7 @@
         });
       }
     });
-    ScrollTrigger.batch('.r-industry-card', {
+    ScrollTrigger.batch('.r-card', {
       start: 'top 92%',
       onEnter: function (els) { gsap.from(els, { opacity: 0, y: 24, duration: 0.6, stagger: 0.05, ease: 'power3.out' }); }
     });

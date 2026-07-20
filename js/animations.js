@@ -35,19 +35,19 @@
       return;
     }
 
-    const bar   = loader.querySelector('.bp-loader-bar-fill');
+    const bar = loader.querySelector('.bp-loader-bar-fill');
     const count = loader.querySelector('.bp-loader-count');
     let pct = 0;
     const tick = setInterval(() => {
       pct = Math.min(pct + Math.random() * 18, 95);
-      if (bar)   bar.style.transform = `scaleX(${pct / 100})`;
-      if (count) count.textContent   = Math.floor(pct) + '%';
+      if (bar) bar.style.transform = `scaleX(${pct / 100})`;
+      if (count) count.textContent = Math.floor(pct) + '%';
     }, 80);
 
     const finishLoader = () => {
       clearInterval(tick);
-      if (bar)   bar.style.transform = 'scaleX(1)';
-      if (count) count.textContent   = '100%';
+      if (bar) bar.style.transform = 'scaleX(1)';
+      if (count) count.textContent = '100%';
       setTimeout(() => {
         gsap.to(loader, {
           opacity: 0, duration: 0.7, ease: 'power2.inOut',
@@ -256,7 +256,7 @@
     });
 
     /* Industry tiles */
-    gsap.utils.toArray('.p-industry-tile').forEach((tile, i) => {
+    gsap.utils.toArray('.p-tile').forEach((tile, i) => {
       gsap.from(tile, {
         scrollTrigger: { trigger: tile, start: 'top 88%' },
         opacity: 0, y: 24, scale: 0.95,
@@ -283,9 +283,9 @@
     const selector = '.p-practice-card, .p-metric-card, .p-compare-card, .p-quiz';
     gsap.utils.toArray(selector).forEach(card => {
       card.addEventListener('mousemove', e => {
-        const r  = card.getBoundingClientRect();
-        const xp = (e.clientX - r.left) / r.width  - 0.5;
-        const yp = (e.clientY - r.top)  / r.height - 0.5;
+        const r = card.getBoundingClientRect();
+        const xp = (e.clientX - r.left) / r.width - 0.5;
+        const yp = (e.clientY - r.top) / r.height - 0.5;
         gsap.to(card, {
           rotateX: -yp * 10, rotateY: xp * 10,
           transformPerspective: 800,
@@ -392,7 +392,7 @@
     gsap.utils.toArray('.p-section, .p-page-hero, .p-hero').forEach(sec => {
       const sparks = sec.querySelectorAll('.bp-deco-spark');
       const matrix = sec.querySelectorAll('.bp-dot-matrix');
-      const rings  = sec.querySelectorAll('.bp-orbit-ring');
+      const rings = sec.querySelectorAll('.bp-orbit-ring');
       const subtle = sec.querySelectorAll('.bp-mini-orb, .bp-motion-dash, .bp-corner-bracket, .bp-scan-line');
 
       sparks.forEach((spark, idx) => {
@@ -477,7 +477,7 @@
         }
 
         // Step reveals
-        tl.fromTo(step, 
+        tl.fromTo(step,
           { opacity: 0.25, y: 15 },
           { opacity: 1, y: 0, duration: 0.5 },
           i * 1.5
@@ -523,9 +523,9 @@
     if (NO_MOTION) return;
     document.querySelectorAll('.p-btn').forEach(btn => {
       btn.addEventListener('mousemove', e => {
-        const r  = btn.getBoundingClientRect();
-        const x  = ((e.clientX - r.left) / r.width  - 0.5) * 20;
-        const y  = ((e.clientY - r.top)  / r.height - 0.5) * 10;
+        const r = btn.getBoundingClientRect();
+        const x = ((e.clientX - r.left) / r.width - 0.5) * 20;
+        const y = ((e.clientY - r.top) / r.height - 0.5) * 10;
         gsap.to(btn, { x, y, duration: 0.3, ease: 'power2.out', overwrite: 'auto' });
       });
       btn.addEventListener('mouseleave', () => {
@@ -533,7 +533,7 @@
       });
       /* Press feedback */
       btn.addEventListener('mousedown', () => gsap.to(btn, { scale: 0.94, duration: 0.12 }));
-      btn.addEventListener('mouseup',   () => gsap.to(btn, { scale: 1,    duration: 0.3, ease: 'elastic.out(1,0.4)' }));
+      btn.addEventListener('mouseup', () => gsap.to(btn, { scale: 1, duration: 0.3, ease: 'elastic.out(1,0.4)' }));
     });
   }
 
@@ -579,7 +579,7 @@
     if (NO_MOTION) return;
     if (window.matchMedia('(hover:none),(pointer:coarse)').matches) return;
     const ring = document.getElementById('bp-cursor-ring');
-    const dot  = document.getElementById('bp-cursor-dot');
+    const dot = document.getElementById('bp-cursor-dot');
     if (!ring || !dot) return;
 
     let mx = 0, my = 0, rx = 0, ry = 0;
@@ -597,20 +597,20 @@
       rx += (mx - rx) * 0.12;
       ry += (my - ry) * 0.12;
       gsap.set(ring, { x: rx - 20, y: ry - 20 });
-      gsap.set(dot,  { x: mx - 4,  y: my - 4  });
+      gsap.set(dot, { x: mx - 4, y: my - 4 });
     });
 
-    const hoverEls = 'a, button, .p-practice-card, .p-industry-tile, .p-pill, input, select, textarea';
+    const hoverEls = 'a, button, .p-practice-card, .p-tile, .p-pill, input, select, textarea';
     document.addEventListener('mouseover', e => {
       if (e.target.closest(hoverEls)) {
         gsap.to(ring, { scale: 1.8, borderColor: 'var(--p-accent)', duration: 0.3 });
-        gsap.to(dot,  { scale: 0,   duration: 0.2 });
+        gsap.to(dot, { scale: 0, duration: 0.2 });
       }
     });
     document.addEventListener('mouseout', e => {
       if (e.target.closest(hoverEls)) {
         gsap.to(ring, { scale: 1, borderColor: 'rgba(108,76,255,0.5)', duration: 0.3 });
-        gsap.to(dot,  { scale: 1, duration: 0.2 });
+        gsap.to(dot, { scale: 1, duration: 0.2 });
       }
     });
   }
@@ -620,7 +620,7 @@
     const canvas = document.getElementById('bp-particles');
     if (!canvas || NO_MOTION) return;
     const ctx = canvas.getContext('2d');
-    let W = canvas.width  = window.innerWidth;
+    let W = canvas.width = window.innerWidth;
     let H = canvas.height = 700;
     window.addEventListener('resize', () => { W = canvas.width = window.innerWidth; });
 
@@ -766,7 +766,7 @@
     gsap.set(research, { left: '78%', top: '22%' });
     gsap.set(creative, { left: '22%', top: '78%' });
     gsap.set(marketing, { left: '78%', top: '78%' });
-    
+
     // Core centering + hidden scale
     gsap.set(core, { xPercent: -50, yPercent: -50, scale: 0 });
 
@@ -804,9 +804,9 @@
     }
     // Animate Card 2 fading and sliding up directly below Card 1
     if (cards.length === 2) {
-      tl.fromTo(cards[1], 
-        { opacity: 0, y: 40, pointerEvents: 'none' }, 
-        { opacity: 1, y: 0, pointerEvents: 'auto', duration: 1.0, ease: 'power2.out' }, 
+      tl.fromTo(cards[1],
+        { opacity: 0, y: 40, pointerEvents: 'none' },
+        { opacity: 1, y: 0, pointerEvents: 'auto', duration: 1.0, ease: 'power2.out' },
         0.4
       );
     }
@@ -836,15 +836,15 @@
         const rect = rightCol.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        
+
         // Tilt percentages from center (-0.5 to 0.5)
         const tiltX = (x / rect.width) - 0.5;
         const tiltY = (y / rect.height) - 0.5;
-        
+
         // Tilt bounds (max rotation 18 degrees)
         const rotX = -tiltY * 36;
         const rotY = tiltX * 36;
-        
+
         gsap.to(visual, {
           rotateX: rotX,
           rotateY: rotY,
@@ -853,7 +853,7 @@
           overwrite: 'auto'
         });
       });
-      
+
       rightCol.addEventListener('mouseleave', () => {
         gsap.to(visual, {
           rotateX: 0,
@@ -995,10 +995,10 @@
     if (!cards.length) return;
 
     cards.forEach((card) => {
-      const dir  = card.dataset.metricDir || 'down';
-      const from = dir === 'left'  ? { opacity: 0, x: -60, y: 0,  scale: 0.92 }
-                 : dir === 'right' ? { opacity: 0, x:  60, y: 0,  scale: 0.92 }
-                 :                   { opacity: 0, x:   0, y: 40, scale: 0.94 };
+      const dir = card.dataset.metricDir || 'down';
+      const from = dir === 'left' ? { opacity: 0, x: -60, y: 0, scale: 0.92 }
+        : dir === 'right' ? { opacity: 0, x: 60, y: 0, scale: 0.92 }
+          : { opacity: 0, x: 0, y: 40, scale: 0.94 };
 
       gsap.fromTo(card, from,
         {
@@ -1006,7 +1006,7 @@
           scrollTrigger: {
             trigger: card,
             start: 'top 90%',
-            end:   'top 68%',
+            end: 'top 68%',
             scrub: 1.2
           }
         }
@@ -1019,27 +1019,27 @@
     if (NO_MOTION) return;
     if (window.innerWidth < 900) return;
 
-    const card      = document.querySelector('#bp-insight-card');
-    const section   = document.querySelector('#bp-metrics-section');
+    const card = document.querySelector('#bp-insight-card');
+    const section = document.querySelector('#bp-metrics-section');
     if (!card || !section) return;
 
-    const numEl     = card.querySelector('.bp-insight-number');
-    const sublabel  = card.querySelector('.bp-insight-sublabel');
+    const numEl = card.querySelector('.bp-insight-number');
+    const sublabel = card.querySelector('.bp-insight-sublabel');
     const sparkLine = card.querySelector('.bp-spark-line');
-    const tags      = card.querySelectorAll('.bp-insight-tags span');
+    const tags = card.querySelectorAll('.bp-insight-tags span');
 
     // ── Phase 1: card slides in from right edge (scrubbed to scroll) ──
     gsap.fromTo(card,
       { xPercent: 130, opacity: 0 },
       {
         xPercent: 0,
-        opacity:  1,
-        ease:     'power3.out',
+        opacity: 1,
+        ease: 'power3.out',
         scrollTrigger: {
           trigger: section,
-          start:   'top 75%',
-          end:     'top 30%',
-          scrub:   1.4
+          start: 'top 75%',
+          end: 'top 30%',
+          scrub: 1.4
         }
       }
     );
@@ -1047,8 +1047,8 @@
     // ── Phase 2: interior elements animate once card is ~in position ──
     ScrollTrigger.create({
       trigger: section,
-      start:   'top 40%',
-      once:    true,
+      start: 'top 40%',
+      once: true,
       onEnter: () => {
         const tl = gsap.timeline();
 
@@ -1085,8 +1085,8 @@
     // ── Phase 3: subtle float while section is in view ──
     ScrollTrigger.create({
       trigger: section,
-      start:   'top 30%',
-      end:     'bottom 70%',
+      start: 'top 30%',
+      end: 'bottom 70%',
       onUpdate: (self) => {
         // Gentle Y drift tied to scroll progress
         gsap.to(card, {
@@ -1105,10 +1105,10 @@
     const panel = document.querySelector('.p-globe-panel');
     if (!panel) return;
 
-    const lines    = panel.querySelectorAll('.p-globe-line');
-    const nodes    = panel.querySelectorAll('.p-globe-node:not(.hi)');
+    const lines = panel.querySelectorAll('.p-globe-line');
+    const nodes = panel.querySelectorAll('.p-globe-node:not(.hi)');
     const mainNode = panel.querySelector('.p-globe-node.hi');
-    const pulse    = panel.querySelector('.p-globe-pulse');
+    const pulse = panel.querySelector('.p-globe-pulse');
 
     // The SVG paths use pathLength="1" — dash coords are normalised to [0, 1].
     // The CSS transition has been removed from .p-globe-line so GSAP scrub has
@@ -1131,9 +1131,9 @@
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: panel,
-        start:  'top 82%',
-        end:    'bottom 45%',
-        scrub:  1.5
+        start: 'top 82%',
+        end: 'bottom 45%',
+        scrub: 1.5
       }
     });
 
@@ -1202,13 +1202,13 @@
     const setTransitionFlag = () => {
       try {
         sessionStorage.setItem(transitionKey, '1');
-      } catch (_) {}
+      } catch (_) { }
     };
 
     const clearTransitionFlag = () => {
       try {
         sessionStorage.removeItem(transitionKey);
-      } catch (_) {}
+      } catch (_) { }
     };
 
     const currentSlug = location.pathname.split('/').pop().replace('.html', '');
@@ -1305,7 +1305,7 @@
         showOverlay();
         gsap.killTweensOf(transitionEls);
 
-        let nextName = link.textContent.trim().replace(/\s+/g, ' ');
+        let nextName = link.getAttribute('data-transition-text') || link.textContent.trim().replace(/\s+/g, ' ');
         if (!nextName || nextName.length > 20 || link.classList.contains('p-nav-logo') || link.querySelector('img')) {
           const targetSlug = destination.pathname.split('/').pop().replace('.html', '');
           nextName = getPageTitleFromSlug(targetSlug);
