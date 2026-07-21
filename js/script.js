@@ -40,7 +40,7 @@
         document.body.classList.remove('r-loading');
         lenis.start();
         gsap.to(loader, {
-          yPercent: -100, duration: 0.9, ease: 'power4.inOut',
+          yPercent: -100, duration: 0.7, ease: 'power4.inOut',
           onComplete: function () { loader.style.display = 'none'; }
         });
         revealHero();
@@ -50,7 +50,7 @@
     });
 
     tl.to(obj, {
-      v: 100, duration: reducedMotion ? 0.15 : 0.5, ease: 'power2.inOut',
+      v: 100, duration: reducedMotion ? 0.25 : 0.75, ease: 'power2.inOut',
       onUpdate: function () {
         var v = Math.floor(obj.v);
         fill.style.width = v + '%';

@@ -50,13 +50,13 @@
       if (count) count.textContent = '100%';
       setTimeout(() => {
         gsap.to(loader, {
-          opacity: 0, duration: 0.7, ease: 'power2.inOut',
+          opacity: 0, duration: 0.5, ease: 'power2.inOut',
           onComplete: () => {
             loader.style.display = 'none';
             initAll();
           }
         });
-      }, 300);
+      }, 200);
     };
 
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
@@ -1206,10 +1206,10 @@
     const shouldPlayEnter = readTransitionFlag();
     clearTransitionFlag();
 
-    const barDuration = 0.7;
-    const barStagger = 0.055;
+    const barDuration = 0.55;
+    const barStagger = 0.04;
     const barEase = 'power3.inOut';
-    const textDuration = 0.3;
+    const textDuration = 0.22;
 
     const bg = overlay.querySelector('.bp-transition-bg');
     const bars = gsap.utils.toArray(overlay.querySelectorAll('.bp-transition-bar'));
@@ -1257,11 +1257,11 @@
       };
 
       const inTl = gsap.timeline({ onComplete: finishEnter });
-      enterFallback = setTimeout(finishEnter, 1800);
+      enterFallback = setTimeout(finishEnter, 1400);
 
       inTl.to(eyebrow, { opacity: 0, y: -15, duration: textDuration, ease: 'power2.in' }, 0);
-      inTl.to(pagename, { opacity: 0, y: -20, duration: textDuration, ease: 'power2.in' }, 0.05);
-      inTl.to(bars, { yPercent: -100, duration: barDuration, ease: barEase, stagger: barStagger }, 0.2);
+      inTl.to(pagename, { opacity: 0, y: -20, duration: textDuration, ease: 'power2.in' }, 0.04);
+      inTl.to(bars, { yPercent: -100, duration: barDuration, ease: barEase, stagger: barStagger }, 0.15);
     }
 
     window.addEventListener('pageshow', event => {
@@ -1320,11 +1320,11 @@
         };
 
         const outTl = gsap.timeline({ onComplete: navigate });
-        navFallback = setTimeout(navigate, 1800);
+        navFallback = setTimeout(navigate, 1400);
 
         outTl.to(bars, { yPercent: 0, duration: barDuration, ease: barEase, stagger: barStagger }, 0);
-        outTl.to(eyebrow, { opacity: 1, y: 0, duration: textDuration, ease: 'power2.out' }, 0.22);
-        outTl.to(pagename, { opacity: 1, y: 0, duration: textDuration, ease: 'power2.out' }, 0.28);
+        outTl.to(eyebrow, { opacity: 1, y: 0, duration: textDuration, ease: 'power2.out' }, 0.17);
+        outTl.to(pagename, { opacity: 1, y: 0, duration: textDuration, ease: 'power2.out' }, 0.2);
       });
     });
   }
