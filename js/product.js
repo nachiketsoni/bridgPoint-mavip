@@ -79,6 +79,16 @@ document.addEventListener('DOMContentLoaded', () => {
   /* Interactive diagnostic quiz */
   initQuiz();
 
+  /* Practice cards: make entire card clickable, redirect to link inside */
+  document.querySelectorAll('.p-practice-card').forEach(card => {
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', (e) => {
+      if (e.target.tagName === 'A') return;
+      const link = card.querySelector('.p-card-link');
+      if (link && link.href) window.location.href = link.href;
+    });
+  });
+
   /* Motion polish: cursor + magnetic buttons
      — deferred to animations.js when GSAP is loaded (richer versions there) */
   if (typeof gsap === 'undefined') {
