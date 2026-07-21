@@ -570,7 +570,7 @@
       dots.forEach(function (el, n) { el.classList.toggle('active', n === idx); });
     }
     function next() { show(idx + 1); }
-    function restart() { clearInterval(timer); timer = setInterval(next, 5000); }
+    function restart() { clearInterval(timer); timer = setInterval(next, 3000); }
 
     dots.forEach(function (dot, i) { dot.addEventListener('click', function () { show(i); restart(); }); });
     stage.addEventListener('mouseenter', function () { clearInterval(timer); });
