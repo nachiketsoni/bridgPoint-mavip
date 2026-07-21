@@ -369,6 +369,7 @@ section {
 .r-nav-logo img {
   height: 30px;
   width: auto;
+  aspect-ratio: 1839 / 539;
 }
 
 .r-nav-links {
