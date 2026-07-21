@@ -25,39 +25,11 @@
   window.__lenis = lenis;
 
   /* =================================================================
-     PRELOADER
+     INITIAL REVEAL (was gated behind the preloader; now runs immediately)
      ================================================================= */
-  (function preloader() {
-    var fill = document.getElementById('loaderFill');
-    var count = document.getElementById('loaderCount');
-    var loader = document.getElementById('loader');
-    var obj = { v: 0 };
-
-    lenis.stop();
-
-    var tl = gsap.timeline({
-      onComplete: function () {
-        document.body.classList.remove('r-loading');
-        lenis.start();
-        gsap.to(loader, {
-          yPercent: -100, duration: 0.7, ease: 'power4.inOut',
-          onComplete: function () { loader.style.display = 'none'; }
-        });
-        revealHero();
-        initScrollAnimations();
-        ScrollTrigger.refresh();
-      }
-    });
-
-    tl.to(obj, {
-      v: 100, duration: reducedMotion ? 0.25 : 0.75, ease: 'power2.inOut',
-      onUpdate: function () {
-        var v = Math.floor(obj.v);
-        fill.style.width = v + '%';
-        count.textContent = v;
-      }
-    });
-  })();
+  revealHero();
+  initScrollAnimations();
+  ScrollTrigger.refresh();
 
   /* =================================================================
      HERO REVEAL (runs once, after preloader clears)

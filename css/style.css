@@ -218,65 +218,6 @@ section {
 }
 
 /* ===================================================================
-   PRELOADER
-   =================================================================== */
-.r-loader {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: var(--bg);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 28px;
-}
-
-.r-loader-mark {
-  width: 150px;
-  opacity: 0.94;
-}
-
-.r-loader-logo {
-  width: 100%;
-}
-
-.r-loader-meta {
-  display: flex;
-  align-items: baseline;
-  gap: 14px;
-  font-family: 'Space Grotesk', sans-serif;
-  color: var(--ink-50);
-  font-size: 0.9rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.r-loader-count {
-  font-size: 1.1rem;
-  color: var(--ink);
-  font-variant-numeric: tabular-nums;
-}
-
-.r-loader-bar {
-  width: min(280px, 60vw);
-  height: 1px;
-  background: var(--line-2);
-  overflow: hidden;
-}
-
-.r-loader-bar-fill {
-  width: 0%;
-  height: 100%;
-  background: var(--grad-1);
-}
-
-body.r-loading {
-  overflow: hidden;
-  height: 100vh;
-}
-
-/* ===================================================================
    GRAIN OVERLAY
    =================================================================== */
 .r-grain {
