@@ -727,7 +727,8 @@ html.is-transitioning #bp-page-overlay {
 
 .p-footer-col a {
   position: relative;
-  display: inline-block;
+  display: block;
+  width: fit-content;
 }
 
 .p-footer-col a::after {

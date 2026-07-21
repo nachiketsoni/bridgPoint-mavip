@@ -426,7 +426,7 @@ body.r-loading {
 }
 
 .r-nav-logo img {
-  height: 24px;
+  height: 30px;
   width: auto;
 }
 
@@ -682,14 +682,14 @@ body.r-loading {
 /* two soft blurred colour orbs, same language as the live site's .p-orb-1/.p-orb-2 */
 .r-hero-glow {
   position: absolute;
-  top: -16%;
-  right: -10%;
+  top: -20%;
+  right: -20%;
   width: 46vw;
   height: 46vw;
   max-width: 520px;
   max-height: 520px;
   z-index: 0;
-  background: var(--accent-light);
+  /* background: var(--accent-3); */
   border-radius: 50%;
   filter: blur(70px);
   opacity: 0.45;
@@ -698,14 +698,14 @@ body.r-loading {
 .r-hero::before {
   content: '';
   position: absolute;
-  bottom: -12%;
-  left: -8%;
+  bottom: -2%;
+  left: -2%;
   width: 32vw;
   height: 32vw;
   max-width: 340px;
   max-height: 340px;
   z-index: 0;
-  background: var(--accent-3);
+  /* background: var(--accent-light); */
   border-radius: 50%;
   filter: blur(70px);
   opacity: 0.32;
@@ -912,18 +912,21 @@ body.r-loading {
   color: var(--ink);
 }
 
+/* fixed box + object-fit:contain gives every logo the same footprint
+   regardless of its own aspect ratio (a wide wordmark like Microsoft
+   and a compact mark like Apple end up reading the same visual size) */
 .r-marquee-logo {
-  height: 50px;
-  width: auto;
+  height: 60px;
+  width: 170px;
+  object-fit: contain;
   flex: none;
-  opacity: 0.5;
-  transition: opacity .1s, filter .3s;
-  filter: grayscale(100%) brightness(1.2) contrast(0.95);
+  opacity: 0.9;
+  transition: opacity .2s, transform .3s;
 }
 
 .r-marquee-logo:hover {
-  opacity: 0.75;
-  filter: grayscale(60%) brightness(1.1) contrast(1.05);
+  opacity: 1;
+  transform: scale(1.06);
 }
 
 /* ===================================================================
@@ -931,9 +934,6 @@ body.r-loading {
    =================================================================== */
 .r-story {
   background: var(--bg);
-}
-
-.r-story-pin {
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -1115,6 +1115,83 @@ body.r-loading {
   color: var(--ink-70);
 }
 
+.r-flow-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin: 56px 0 0;
+  max-width: 1100px;
+}
+
+.r-flow-card {
+  --card-accent: #6C4CFF;
+  padding: 40px 32px;
+  background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.95) 100%);
+  border: 2px solid var(--line);
+  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(20, 18, 31, 0.04);
+  transition: all .35s var(--ease-out);
+  position: relative;
+  overflow: hidden;
+}
+
+.r-flow-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--card-accent);
+  transition: height .35s var(--ease-out);
+}
+
+.r-flow-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 40px rgba(20, 18, 31, 0.08);
+  border-color: var(--card-accent);
+}
+
+.r-flow-card:hover::before {
+  height: 6px;
+}
+
+.r-flow-card-icon {
+  font-size: 2.8rem;
+  margin-bottom: 16px;
+  display: block;
+  transition: transform .35s var(--ease-out);
+}
+
+.r-flow-card:hover .r-flow-card-icon {
+  transform: scale(1.15);
+}
+
+.r-flow-card-number {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--card-accent);
+  margin-bottom: 8px;
+  line-height: 1;
+  display: inline-block;
+  opacity: 0.9;
+}
+
+.r-flow-card h3 {
+  font-size: 1.25rem;
+  color: var(--ink);
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.r-flow-card p {
+  font-size: 0.95rem;
+  color: var(--ink-70);
+  line-height: 1.65;
+  margin: 0;
+}
+
 /* ===================================================================
    3D INTERACTION — CONVERGE
    Deliberately dark, like the live site's footer / final CTA — the one
@@ -1124,6 +1201,8 @@ body.r-loading {
    =================================================================== */
 .r-converge {
   background: var(--dark-bg);
+  padding: 120px 0;
+  overflow: hidden;
 }
 
 .r-converge-pin {
@@ -1132,16 +1211,202 @@ body.r-loading {
   align-items: center;
 }
 
-/* .r-container centers itself (margin:0 auto) — override that so the
-   copy stays pinned to the left edge, with the sphere occupying the
-   open space beside it, instead of drifting toward page-centre on
-   wide screens. */
+/* text on left, cards on right — column tracks sized to content (not
+   1fr) and space-between'd across the normal .r-container width, so
+   the cards sit near the text instead of stranded mid-viewport with a
+   dead gap beyond them. */
 .r-converge-inner {
   position: relative;
   z-index: 2;
-  max-width: 520px;
-  margin-left: 0;
-  margin-right: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 480px) minmax(0, 600px);
+  justify-content: space-between;
+  gap: 60px;
+  align-items: center;
+}
+
+.r-converge-text {
+  grid-column: 1;
+}
+
+/* right-side orbit — fills the space the old scroll-pinned WebGL sphere
+   used to occupy, but self-contained (pure CSS) so it doesn't depend on
+   the pin/scrub timeline that used to drive it. Nodes carry the same
+   four hues as the discipline cards, orbiting a glowing core to read as
+   "expertise converging" without needing scroll math. */
+.r-converge-orbit {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  right: 6%;
+  width: min(38vw, 460px);
+  height: min(38vw, 460px);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.r-converge-orbit-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(143, 115, 255, 0.9), rgba(108, 76, 255, 0.15) 70%);
+  box-shadow: 0 0 60px rgba(108, 76, 255, 0.55);
+  animation: convergeCorePulse 4s ease-in-out infinite;
+}
+
+@keyframes convergeCorePulse {
+
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.9;
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(1.12);
+    opacity: 1;
+  }
+}
+
+.r-converge-orbit-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 1px dashed var(--dark-line);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: convergeSpin linear infinite;
+}
+
+.r-converge-orbit-ring-1 {
+  width: 42%;
+  height: 42%;
+  animation-duration: 14s;
+}
+
+.r-converge-orbit-ring-2 {
+  width: 62%;
+  height: 62%;
+  animation-duration: 20s;
+  animation-direction: reverse;
+}
+
+.r-converge-orbit-ring-3 {
+  width: 82%;
+  height: 82%;
+  animation-duration: 26s;
+}
+
+.r-converge-orbit-ring-4 {
+  width: 100%;
+  height: 100%;
+  animation-duration: 32s;
+  animation-direction: reverse;
+}
+
+@keyframes convergeSpin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* node is anchored to the ring's top edge, so it inherits the ring's
+   rotation as it orbits — counter-spinning it at the same speed in the
+   opposite direction cancels that inherited spin so the pill/label stay
+   upright the whole way round, while the orbit motion itself is untouched. */
+.r-converge-orbit-node {
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px 6px 7px;
+  border-radius: 999px;
+  background: rgba(20, 18, 31, 0.8);
+  border: 1px solid hsl(var(--node-hue) 80% 62% / .5);
+  box-shadow: 0 0 18px hsl(var(--node-hue) 90% 65% / .5);
+  white-space: nowrap;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.r-converge-orbit-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: none;
+  background: hsl(var(--node-hue) 90% 68%);
+  box-shadow: 0 0 10px hsl(var(--node-hue) 90% 65% / .9);
+}
+
+.r-converge-orbit-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #fff;
+}
+
+@keyframes convergeCounterCW {
+  from {
+    transform: translateX(-50%) rotate(0deg);
+  }
+
+  to {
+    transform: translateX(-50%) rotate(360deg);
+  }
+}
+
+@keyframes convergeCounterCCW {
+  from {
+    transform: translateX(-50%) rotate(0deg);
+  }
+
+  to {
+    transform: translateX(-50%) rotate(-360deg);
+  }
+}
+
+.r-converge-orbit-ring-1 .r-converge-orbit-node {
+  animation-name: convergeCounterCCW;
+  animation-duration: 14s;
+}
+
+.r-converge-orbit-ring-2 .r-converge-orbit-node {
+  animation-name: convergeCounterCW;
+  animation-duration: 20s;
+}
+
+.r-converge-orbit-ring-3 .r-converge-orbit-node {
+  animation-name: convergeCounterCCW;
+  animation-duration: 26s;
+}
+
+.r-converge-orbit-ring-4 .r-converge-orbit-node {
+  animation-name: convergeCounterCW;
+  animation-duration: 32s;
+}
+
+@media (max-width: 1180px) {
+  .r-converge-orbit {
+    right: -4%;
+    opacity: 0.7;
+  }
+}
+
+@media (max-width: 900px) {
+  .r-converge-orbit {
+    display: none;
+  }
 }
 
 /* Deliberately smaller than --fs-h2: at the hero's fluid heading size,
@@ -1160,30 +1425,179 @@ body.r-loading {
   max-width: 460px;
 }
 
-.r-converge-labels {
+/* ambient backdrop glow — echoes the hero's orb language, reads as the
+   "energy" the four disciplines are converging out of */
+.r-converge-ambient {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.r-converge-ambient::before,
+.r-converge-ambient::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  animation: convergeDrift 16s ease-in-out infinite;
+}
+
+.r-converge-ambient::before {
+  width: 46vw;
+  height: 46vw;
+  max-width: 560px;
+  max-height: 560px;
+  top: -12%;
+  left: 4%;
+  background: radial-gradient(circle, rgba(108, 76, 255, 0.32), transparent 70%);
+}
+
+.r-converge-ambient::after {
+  width: 34vw;
+  height: 34vw;
+  max-width: 420px;
+  max-height: 420px;
+  bottom: -14%;
+  right: 8%;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.22), transparent 70%);
+  animation-delay: -8s;
+}
+
+@keyframes convergeDrift {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(4%, -6%) scale(1.08);
+  }
+}
+
+.r-converge-grid {
+  grid-column: 2;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(150px, 1fr));
+  gap: 18px;
+  margin-top: 0;
+  max-width: 560px;
+}
+
+.r-converge-card {
+  --card-hue: 255;
+  position: relative;
   display: flex;
-  gap: 14px;
-  margin-top: 36px;
-  flex-wrap: wrap;
-}
-
-.r-converge-labels span {
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  padding: 9px 16px;
-  border-radius: 999px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 26px 22px;
+  border-radius: 20px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.015));
   border: 1px solid var(--dark-line);
-  color: var(--dark-ink-70);
-  opacity: 0.4;
-  transition: opacity .3s, border-color .3s, color .3s;
+  backdrop-filter: blur(20px);
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color .4s var(--ease-out), transform .4s var(--ease-out), background .4s var(--ease-out), box-shadow .4s var(--ease-out);
 }
 
-.r-converge-labels span.is-active {
+.r-converge-card:nth-child(2) {
+  --card-hue: 199;
+}
+
+.r-converge-card:nth-child(3) {
+  --card-hue: 330;
+}
+
+.r-converge-card:nth-child(4) {
+  --card-hue: 38;
+}
+
+/* animated gradient ring, revealed on hover via mask-composite so only
+   the 1px edge shows rather than a filled box */
+.r-converge-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, hsl(var(--card-hue) 90% 68%), transparent 65%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity .4s var(--ease-out);
+}
+
+.r-converge-card-glow {
+  position: absolute;
+  top: -35%;
+  right: -25%;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: radial-gradient(circle, hsl(var(--card-hue) 85% 62% / .4), transparent 70%);
+  filter: blur(22px);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity .5s var(--ease-out), transform .5s var(--ease-out);
+  pointer-events: none;
+}
+
+.r-converge-card:hover,
+.r-converge-card.is-active {
+  transform: translateY(-6px);
+  border-color: hsl(var(--card-hue) 80% 65% / .45);
+  background: linear-gradient(160deg, hsl(var(--card-hue) 70% 30% / .22), rgba(255, 255, 255, 0.015));
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+}
+
+.r-converge-card:hover::before,
+.r-converge-card.is-active::before {
   opacity: 1;
-  border-color: var(--accent-light);
+}
+
+.r-converge-card:hover .r-converge-card-glow,
+.r-converge-card.is-active .r-converge-card-glow {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.r-converge-card-icon {
+  width: 50px;
+  height: 50px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: hsl(var(--card-hue) 80% 60% / .16);
+  color: hsl(var(--card-hue) 85% 72%);
+  transition: transform .4s var(--ease-out), background .4s var(--ease-out);
+}
+
+.r-converge-card-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.r-converge-card:hover .r-converge-card-icon,
+.r-converge-card.is-active .r-converge-card-icon {
+  transform: scale(1.1) rotate(-6deg);
+  background: hsl(var(--card-hue) 80% 60% / .3);
+}
+
+.r-converge-card-label {
+  position: relative;
+  z-index: 1;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
   color: #fff;
-  background: rgba(108, 76, 255, 0.28);
 }
 
 /* ===================================================================
@@ -1194,42 +1608,65 @@ body.r-loading {
 }
 
 .r-gallery-pin {
-  height: 100vh;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
+  padding-top : 100px ;
 }
 
 .r-gallery-head {
-  padding-top: 60px;
   flex: none;
 }
 
-/* Smaller than --fs-h2 on purpose: head + track padding + card all have
-   to fit inside one 100vh pinned viewport without the card overflowing
-   past the bottom of the section. */
 .r-gallery-head h2 {
-  font-size: clamp(1.8rem, 3.4vw, 3rem);
+  font-size: clamp(2rem, 4vw, 3.4rem);
   margin-top: 12px;
+}
+
+/* native horizontal scroll/swipe strip — replaces the old vertical-scroll-
+   jacked pin. scroll-snap keeps cards landing cleanly instead of stopping
+   mid-card; the right-edge fade hints there's more to scroll to, since
+   without a pin nothing else on screen signals "this row scrolls sideways". */
+.r-gallery-track-wrap {
+  position: relative;
+  margin-top: 16px;
+}
+
+.r-gallery-track-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 80px;
+  background: linear-gradient(to right, transparent, var(--bg));
+  pointer-events: none;
 }
 
 .r-gallery-track {
   display: flex;
+  margin-top: 20px;
   gap: 28px;
-  flex: 1;
-  align-items: center;
-  padding: 24px var(--gutter) 0;
-  width: max-content;
+  align-items: stretch;
+  padding: 4px var(--gutter) 20px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.r-gallery-track::-webkit-scrollbar {
+  display: none;
 }
 
 .r-gallery-card {
-  width: min(56vw, 460px);
-  height: min(52vh, 440px);
+  width: min(56vw, 440px);
+  height: 440px;
   flex: none;
   border-radius: 24px;
   border: 1px solid var(--line);
   background: var(--surface);
-  box-shadow: var(--shadow-md);
+  /* box-shadow: var(--shadow-md); */
+  scroll-snap-align: start;
   /* auto (not a fraction) on the copy row so it always sizes to its own
      content — a fixed fraction of a capped card height could squeeze the
      heading/paragraph/tags/link shorter than they need and get clipped
@@ -1238,6 +1675,13 @@ body.r-loading {
   grid-template-rows: 1fr auto;
   overflow: hidden;
   position: relative;
+  transition: transform .4s var(--ease-out), box-shadow .4s var(--ease-out), border-color .4s;
+}
+
+.r-gallery-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 50px rgba(20, 18, 31, 0.14);
+  border-color: var(--line-2);
 }
 
 .r-gallery-media {
@@ -1674,29 +2118,44 @@ body.r-loading {
 /* ===================================================================
    FOOTER — dark ink bg + white text, same as the live site's .p-footer
    =================================================================== */
+/* mirrors .p-footer (product.css + animations.css) exactly, so the
+   footer reads identically whether it's this page's r-footer markup
+   or another page's p-footer markup. */
 .r-footer {
-  background: var(--dark-bg);
+  position: relative;
+  background: linear-gradient(180deg, #0C0A14 0%, #14121F 100%);
   color: #fff;
   padding: 80px 0 30px;
 }
 
+.r-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-light), transparent);
+  opacity: 0.5;
+}
+
 .r-footer-top {
   display: grid;
-  grid-template-columns: 1.4fr repeat(4, 0.75fr);
-  gap: 32px;
-  padding-bottom: 56px;
+  grid-template-columns: 1.6fr repeat(4, 1fr);
+  gap: 30px;
+  padding-bottom: 50px;
   border-bottom: 1px solid var(--dark-line);
 }
 
 .r-footer-brand img {
-  height: 20px;
+  height: 30px;
   filter: brightness(0) invert(1);
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
 .r-footer-brand p {
   font-size: 0.9rem;
-  color: var(--dark-ink-50);
+  color: rgba(255, 255, 255, 0.92);
   max-width: 280px;
   line-height: 1.6;
 }
@@ -1704,30 +2163,50 @@ body.r-loading {
 .r-footer-col h4 {
   font-size: 0.78rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: rgba(255, 255, 255, 0.35);
-  margin-bottom: 18px;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 16px;
   font-family: 'Inter';
   font-weight: 600;
 }
 
 .r-footer-col a {
+  position: relative;
   display: block;
+  width: fit-content;
   font-size: 0.92rem;
-  color: var(--dark-ink-70);
-  padding: 6px 0;
+  color: #fff;
+  opacity: 0.92;
+  margin-bottom: 11px;
+  transition: opacity .2s;
+}
+
+.r-footer-col a::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--accent-light);
+  transition: width .3s var(--ease-out);
 }
 
 .r-footer-col a:hover {
-  color: #fff;
+  opacity: 1;
+}
+
+.r-footer-col a:hover::after {
+  width: 100%;
 }
 
 .r-footer-bottom {
   display: flex;
   justify-content: space-between;
-  padding-top: 26px;
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.35);
+  align-items: center;
+  padding-top: 28px;
+  font-size: 0.84rem;
+  color: rgba(255, 255, 255, 0.9);
   flex-wrap: wrap;
   gap: 10px;
 }
@@ -1768,6 +2247,24 @@ body.r-loading {
   .r-footer-brand {
     grid-column: 1 / -1;
   }
+
+  .r-converge {
+    padding: 100px 0;
+  }
+
+  .r-converge-inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .r-converge-text,
+  .r-converge-grid {
+    grid-column: 1;
+  }
+
+  .r-converge-grid {
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 640px) {
@@ -1803,7 +2300,7 @@ body.r-loading {
     font-size: clamp(1.6rem, 9vw, 2.6rem);
   }
 
-  .r-converge-labels span {
-    opacity: 1;
+  .r-converge-grid {
+    grid-template-columns: 1fr;
   }
 }

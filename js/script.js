@@ -231,8 +231,9 @@
      ================================================================= */
   (function flowField() {
     var canvas = document.getElementById('flowCanvas');
-    var ctx = canvas.getContext('2d');
     var section = document.getElementById('perspective');
+    if (!canvas || !section) return;
+    var ctx = canvas.getContext('2d');
     var w, h, dpr, raf, running = false, t = 0;
 
     function resize() {
@@ -453,26 +454,14 @@
      dark section, where it actually has contrast to read against.
      That also makes it a single, stronger reveal moment rather than a
      continuous background element.
-
-     Deliberately NOT auto-invoked here: '#converge' contains the
-     .r-converge-pin element that initScrollAnimations() pins further
-     down. Pinning inserts a spacer that changes #converge's rendered
-     height, so measuring its trigger bounds before that pin exists
-     produces stale start/end values. Called at the end of
-     initScrollAnimations() instead, once the pin (and its spacer)
-     is already in place.
      ================================================================= */
   function webglVisibility() {
     var layer = document.getElementById('webglCanvas');
 
-    // 'top bottom' / 'bottom top' would keep the canvas visible for the
-    // whole time any sliver of #converge is on screen — including the
-    // transition where the next (light) section is already peeking in
-    // at the bottom of the viewport, letting the sphere bleed onto it.
-    // 'top top' / 'bottom bottom' instead only shows it while #converge
-    // fills the entire viewport, i.e. exactly the pinned duration.
+    // #converge isn't pinned, so it's on screen only as long as it takes
+    // to scroll past — visible for that whole span, top-bottom to bottom-top.
     ScrollTrigger.create({
-      trigger: '#converge', start: 'top top', end: 'bottom bottom',
+      trigger: '#converge', start: 'top bottom', end: 'bottom top',
       onToggle: function (self) {
         layer.classList.toggle('is-visible', self.isActive);
         Scene3D.visible = self.isActive;
@@ -510,10 +499,11 @@
       onEnter: function (els) { gsap.from(els, { opacity: 0, y: 24, duration: 0.6, stagger: 0.05, ease: 'power3.out' }); }
     });
 
-    // ---- pinned storytelling: cards fade/slide in while pinned ----
-    gsap.timeline({
-      scrollTrigger: { trigger: '.r-story-pin', start: 'top top', end: '+=100%', scrub: 1, pin: true }
-    }).to('[data-story-card]', { opacity: 1, x: 0, stagger: 0.5, ease: 'none' });
+    // ---- storytelling cards: fade/slide in as each scrolls into view ----
+    ScrollTrigger.batch('[data-story-card]', {
+      start: 'top 88%',
+      onEnter: function (els) { gsap.to(els, { opacity: 1, x: 0, duration: 0.7, stagger: 0.12, ease: 'power3.out' }); }
+    });
 
     // ---- perspective section: pointers light up one at a time on scroll ----
     // Trigger is the list itself, not the (much taller, 120vh, vertically
@@ -533,38 +523,13 @@
     })();
 
     // ---- converge (3D) section: drive Scene3D.convergeProgress from scroll ----
-    // Longer scroll distance (220% vs the old 150%) so the title swap,
-    // label activations and convergence itself unfold more gradually
-    // instead of racing through in a short scroll burst.
+    // Not pinned — progress just tracks the section's own (unpinned) scroll
+    // range, so the title swap/label activations/convergence unfold across
+    // however long #converge naturally takes to pass through the viewport.
     ScrollTrigger.create({
-      trigger: '.r-converge-pin', start: 'top top', end: '+=220%', scrub: 1.2, pin: true,
+      trigger: '#converge', start: 'top bottom', end: 'bottom top', scrub: 1.2,
       onUpdate: function (self) { Scene3D.convergeProgress = self.progress; }
     });
-
-    // ---- horizontal gallery / portfolio pin ----
-    (function horizontalGallery() {
-      var track = document.getElementById('galleryTrack');
-      var cards = gsap.utils.toArray('.r-gallery-card');
-
-      ScrollTrigger.create({
-        trigger: '.r-gallery-pin', start: 'top top',
-        end: function () { return '+=' + Math.max(track.scrollWidth - window.innerWidth, 200); },
-        pin: true, scrub: 1, invalidateOnRefresh: true, anticipatePin: 1,
-        onUpdate: function (self) {
-          var max = track.scrollWidth - window.innerWidth;
-          gsap.set(track, { x: -max * self.progress });
-
-          // depth: cards nearer the viewport centre read larger/brighter
-          var centre = window.innerWidth / 2;
-          cards.forEach(function (card) {
-            var r = card.getBoundingClientRect();
-            var dist = Math.abs((r.left + r.width / 2) - centre) / window.innerWidth;
-            var t = gsap.utils.clamp(0, 1, 1 - dist * 1.4);
-            gsap.set(card, { scale: 0.9 + t * 0.1, opacity: 0.55 + t * 0.45 });
-          });
-        }
-      });
-    })();
 
     // ---- marquee auto-scroll (CSS-independent, GSAP-driven for consistent speed) ----
     gsap.utils.toArray('.r-marquee-track').forEach(function (track, i) {
@@ -578,11 +543,6 @@
     // (Industries moved from a single-column list to a card grid, where
     // "whichever is centred" no longer means anything — several cards can
     // share the same row — so this is stepper-only now.)
-    // Created here, after every pin above (converge, horizontal gallery)
-    // already exists: a string-based trigger created earlier — before a
-    // later pin's spacer is inserted — locks in start/end values that a
-    // later ScrollTrigger.refresh() does not correct, exactly like the
-    // webglVisibility gotcha below.
     ['.r-stepper-row'].forEach(function (selector) {
       gsap.utils.toArray(selector).forEach(function (row) {
         ScrollTrigger.create({
@@ -592,8 +552,6 @@
       });
     });
 
-    // Set up after the converge pin above so its trigger bounds account
-    // for the pin's spacer instead of the section's original, unpinned height.
     webglVisibility();
   }
 

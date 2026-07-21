@@ -552,16 +552,6 @@
     });
   }
 
-  /* ── Footer reveal ── */
-  function initFooter() {
-    gsap.utils.toArray('.p-footer-col, .p-footer-brand').forEach((col, i) => {
-      gsap.from(col, {
-        scrollTrigger: { trigger: col, start: 'top 92%' },
-        opacity: 0, y: 28, duration: 0.7, ease: 'power3.out', delay: i * 0.08
-      });
-    });
-  }
-
   /* ── Nav shrink & active link highlight ── */
   function initNav() {
     const nav = document.querySelector('.p-nav');
@@ -1385,7 +1375,6 @@
     initGlobeScrub();
     initMagnetic();
     initCTASection();
-    initFooter();
     initNav();
     initCursorMorph();
     initParticles();
