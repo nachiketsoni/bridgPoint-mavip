@@ -579,7 +579,7 @@
       mx = e.clientX; my = e.clientY;
       if (!visible) {
         visible = true;
-        gsap.to([ring, dot], { opacity: 1, duration: 0.3 });
+        gsap.to([ring, dot], {  opacity: 1, duration: 0.3 });
       }
     });
 
@@ -593,7 +593,7 @@
     const hoverEls = 'a, button, .p-practice-card, .p-tile, .p-pill, input, select, textarea';
     document.addEventListener('mouseover', e => {
       if (e.target.closest(hoverEls)) {
-        gsap.to(ring, { scale: 1.8, borderColor: 'var(--p-accent)', duration: 0.3 });
+        gsap.to(ring, { scale: 1.8, borderColor: 'var(--accent)', duration: 0.3 });
         gsap.to(dot, { scale: 0, duration: 0.2 });
       }
     });

@@ -89,7 +89,7 @@
   opacity: 0;
   will-change: transform;
   transition: border-color 0.3s, transform 0.3s;
-  mix-blend-mode: difference;
+
 }
 
 #bp-cursor-dot {
