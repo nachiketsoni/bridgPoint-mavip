@@ -154,8 +154,8 @@ function initCursor() {
   window.addEventListener('mouseenter', () => dot.classList.add('visible'));
 
   function raf() {
-    curX += (mouseX - curX) * 0.18;
-    curY += (mouseY - curY) * 0.18;
+    curX += (mouseX - curX) * 0.5;
+    curY += (mouseY - curY) * 0.5;
     dot.style.left = curX + 'px';
     dot.style.top = curY + 'px';
     requestAnimationFrame(raf);

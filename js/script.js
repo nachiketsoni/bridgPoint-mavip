@@ -118,10 +118,10 @@
     var ring = document.getElementById('cursorRing');
     var label = document.getElementById('cursorLabel');
 
-    var dotX = gsap.quickTo(dot, 'x', { duration: 0.05, ease: 'power3' });
-    var dotY = gsap.quickTo(dot, 'y', { duration: 0.05, ease: 'power3' });
-    var ringX = gsap.quickTo(ring, 'x', { duration: 0.2, ease: 'power3' });
-    var ringY = gsap.quickTo(ring, 'y', { duration: 0.2, ease: 'power3' });
+    var dotX = gsap.quickTo(dot, 'x', { duration: 0.02, ease: 'power3' });
+    var dotY = gsap.quickTo(dot, 'y', { duration: 0.02, ease: 'power3' });
+    var ringX = gsap.quickTo(ring, 'x', { duration: 0.08, ease: 'power3' });
+    var ringY = gsap.quickTo(ring, 'y', { duration: 0.08, ease: 'power3' });
 
     window.addEventListener('mousemove', function (e) {
       dotX(e.clientX); dotY(e.clientY);
