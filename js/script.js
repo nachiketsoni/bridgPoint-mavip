@@ -496,7 +496,18 @@
     });
     ScrollTrigger.batch('.r-card', {
       start: 'top 92%',
-      onEnter: function (els) { gsap.from(els, { opacity: 0, y: 24, duration: 0.6, stagger: 0.05, ease: 'power3.out' }); }
+      once: true,
+      onEnter: function (els) {
+        gsap.fromTo(els,
+          { opacity: 0, y: 46, scale: 0.9, filter: 'blur(8px)' },
+          {
+            opacity: 1, y: 0, scale: 1, filter: 'blur(0px)',
+            duration: 0.9, ease: 'expo.out',
+            stagger: { each: 0.07, grid: 'auto', from: 'start' },
+            clearProps: 'transform,filter'
+          }
+        );
+      }
     });
 
     // ---- storytelling cards: fade/slide in as each scrolls into view ----
