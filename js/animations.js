@@ -77,7 +77,7 @@
   function initLenis() {
     if (NO_MOTION) return;
     if (typeof Lenis === 'undefined') return;
-    const lenis = new Lenis({ lerp: 0.08, smoothWheel: true });
+    const lenis = new Lenis({ lerp: 0.18, smoothWheel: true, wheelMultiplier: 1.4, touchMultiplier: 2.2 });
     lenis.on('scroll', () => {
       if (typeof ScrollTrigger !== 'undefined') {
         ScrollTrigger.update();
@@ -584,8 +584,8 @@
     });
 
     gsap.ticker.add(() => {
-      rx += (mx - rx) * 0.12;
-      ry += (my - ry) * 0.12;
+      rx += (mx - rx) * 0.35;
+      ry += (my - ry) * 0.35;
       gsap.set(ring, { x: rx - 20, y: ry - 20 });
       gsap.set(dot, { x: mx - 4, y: my - 4 });
     });

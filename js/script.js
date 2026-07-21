@@ -14,10 +14,10 @@
      LENIS SMOOTH SCROLL
      ================================================================= */
   var lenis = new Lenis({
-    duration: 1.15,
-    easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
+    lerp: 0.18,
     smoothWheel: true,
-    wheelMultiplier: 1
+    wheelMultiplier: 1.4,
+    touchMultiplier: 2.2
   });
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
@@ -118,10 +118,10 @@
     var ring = document.getElementById('cursorRing');
     var label = document.getElementById('cursorLabel');
 
-    var dotX = gsap.quickTo(dot, 'x', { duration: 0.1, ease: 'power3' });
-    var dotY = gsap.quickTo(dot, 'y', { duration: 0.1, ease: 'power3' });
-    var ringX = gsap.quickTo(ring, 'x', { duration: 0.5, ease: 'power3' });
-    var ringY = gsap.quickTo(ring, 'y', { duration: 0.5, ease: 'power3' });
+    var dotX = gsap.quickTo(dot, 'x', { duration: 0.05, ease: 'power3' });
+    var dotY = gsap.quickTo(dot, 'y', { duration: 0.05, ease: 'power3' });
+    var ringX = gsap.quickTo(ring, 'x', { duration: 0.2, ease: 'power3' });
+    var ringY = gsap.quickTo(ring, 'y', { duration: 0.2, ease: 'power3' });
 
     window.addEventListener('mousemove', function (e) {
       dotX(e.clientX); dotY(e.clientY);
