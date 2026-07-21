@@ -50,7 +50,7 @@
     });
 
     tl.to(obj, {
-      v: 100, duration: reducedMotion ? 0.4 : 1.8, ease: 'power2.inOut',
+      v: 100, duration: reducedMotion ? 0.15 : 0.5, ease: 'power2.inOut',
       onUpdate: function () {
         var v = Math.floor(obj.v);
         fill.style.width = v + '%';
