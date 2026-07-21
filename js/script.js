@@ -580,6 +580,167 @@
   })();
 
   /* =================================================================
+     CONTACT MODAL
+     ================================================================= */
+  (function contactModal() {
+    var modal = document.getElementById('contactModal');
+    var trigger = document.getElementById('contactModalTrigger');
+    var close = document.getElementById('contactClose');
+    var overlay = document.getElementById('contactOverlay');
+    var form = document.getElementById('contactForm');
+
+    if (!modal || !trigger || !close || !overlay || !form) {
+      console.warn('Contact modal: one or more required elements not found');
+      return;
+    }
+
+    var submitBtn = form.querySelector('button[type="submit"]');
+    var isSubmitting = false;
+
+    // Wait for EmailJS to load
+    var emailjsReady = false;
+    var emailjsTimeout = null;
+
+    function waitForEmailJS(callback) {
+      console.log('waitForEmailJS called, emailjs status:', typeof emailjs);
+      if (typeof emailjs !== 'undefined') {
+        console.log('EmailJS is available, calling callback');
+        emailjsReady = true;
+        if (emailjsTimeout) clearTimeout(emailjsTimeout);
+        callback();
+      } else {
+        emailjsTimeout = setTimeout(function() { waitForEmailJS(callback); }, 100);
+      }
+    }
+
+    // Fallback: if EmailJS doesn't load in 5 seconds, still attach handler
+    setTimeout(function() {
+      if (!emailjsReady) {
+        console.warn('EmailJS timeout - attaching form handler anyway');
+        attachFormHandler();
+      }
+    }, 5000);
+
+    function open(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      console.log('Opening contact modal');
+      modal.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+    function close_modal() {
+      modal.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+
+    trigger.addEventListener('click', open);
+    close.addEventListener('click', close_modal);
+    overlay.addEventListener('click', close_modal);
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) close_modal();
+    });
+
+    // Disable form submission action
+    form.setAttribute('onsubmit', 'return false;');
+    form.noValidate = true;
+
+    // Function to attach form handler
+    function attachFormHandler() {
+      console.log('attachFormHandler called');
+      var handleFormSubmit = function (e) {
+        console.log('Form submit event triggered');
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+
+        if (isSubmitting) {
+          console.warn('Already submitting, ignoring duplicate submit');
+          return false;
+        }
+
+        if (typeof emailjs === 'undefined') {
+          console.error('EmailJS is still not available');
+          submitBtn.textContent = 'EmailJS unavailable';
+          setTimeout(function () {
+            submitBtn.textContent = 'Send Message';
+          }, 2000);
+          return false;
+        }
+
+        isSubmitting = true;
+        var name = document.getElementById('contactName').value.trim();
+        var email = document.getElementById('contactEmail').value.trim();
+        var subject = document.getElementById('contactSubject').value.trim();
+        var message = document.getElementById('contactMessage').value.trim();
+
+        console.log('Form data:', { name: name, email: email, subject: subject, message: message ? 'has value' : 'empty' });
+
+        if (!name || !email || !subject || !message) {
+          console.error('Form fields are empty');
+          submitBtn.textContent = 'Please fill all fields';
+          isSubmitting = false;
+          setTimeout(function () {
+            submitBtn.textContent = 'Send Message';
+          }, 2000);
+          return false;
+        }
+
+        var originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Sending...';
+        submitBtn.disabled = true;
+
+        console.log('Sending email via EmailJS');
+        emailjs.send('service_auugpye', 'template_lro2czl', {
+          from_name: name,
+          from_email: email,
+          to_email: 'hello@bridgpoint.com',
+          subject: subject,
+          message: message,
+          reply_to: email
+        }).then(function(response) {
+          console.log('Email sent successfully:', response);
+          submitBtn.textContent = 'Message sent!';
+          setTimeout(function () {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+            isSubmitting = false;
+            close_modal();
+            form.reset();
+          }, 2000);
+        }).catch(function(error) {
+          console.error('EmailJS error:', error);
+          submitBtn.textContent = 'Error: ' + (error.text || 'Failed to send');
+          setTimeout(function () {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+            isSubmitting = false;
+          }, 3000);
+        });
+
+        return false;
+      };
+
+      form.addEventListener('submit', handleFormSubmit, true);
+      console.log('Form handler attached');
+    }
+
+    // Initialize EmailJS and attach form handler when ready
+    waitForEmailJS(function() {
+      console.log('waitForEmailJS callback executing');
+      if (typeof emailjs !== 'undefined') {
+        emailjs.init('DHv_rOf79O2FSwQhb');
+        console.log('EmailJS initialized');
+      }
+      emailjsReady = true;
+      if (emailjsTimeout) clearTimeout(emailjsTimeout);
+      attachFormHandler();
+    });
+  })();
+
+  /* =================================================================
      UTILS
      ================================================================= */
   function debounce(fn, wait) {

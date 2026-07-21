@@ -1,0 +1,34 @@
+
+  <!-- ============ CONTACT MODAL ============ -->
+  <div class="r-contact-modal" id="contactModal">
+    <div class="r-contact-overlay" id="contactOverlay"></div>
+    <div class="r-contact-box">
+      <button class="r-contact-close" id="contactClose" aria-label="Close contact form">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12" />
+        </svg>
+      </button>
+      <h2>Get in touch</h2>
+      <p>Tell us about your project and we'll be in touch shortly.</p>
+      <form class="r-contact-form" id="contactForm">
+        <div class="r-form-group">
+          <label for="contactName">Your Name</label>
+          <input type="text" id="contactName" name="name" required>
+        </div>
+        <div class="r-form-group">
+          <label for="contactEmail">Email Address</label>
+          <input type="email" id="contactEmail" name="email" required>
+        </div>
+        <div class="r-form-group">
+          <label for="contactSubject">Subject</label>
+          <input type="text" id="contactSubject" name="subject" required>
+        </div>
+        <div class="r-form-group">
+          <label for="contactMessage">Message</label>
+          <textarea id="contactMessage" name="message" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="r-btn r-btn-primary">Send Message</button>
+      </form>
+    </div>
+  </div>
+

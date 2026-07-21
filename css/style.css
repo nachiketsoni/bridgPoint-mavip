@@ -483,6 +483,9 @@ body.r-loading {
   border-radius: 999px;
   color: var(--accent);
   display: inline-flex;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .r-nav-burger {
@@ -2209,6 +2212,143 @@ body.r-loading {
   color: rgba(255, 255, 255, 0.9);
   flex-wrap: wrap;
   gap: 10px;
+}
+
+/* ===================================================================
+   CONTACT MODAL
+   =================================================================== */
+.r-contact-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 8000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s var(--ease-out);
+}
+
+.r-contact-modal.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.r-contact-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 18, 31, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.r-contact-box {
+  position: relative;
+  z-index: 1;
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 380px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(20, 18, 31, 0.15);
+  animation: slideUp 0.4s var(--ease-out);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.r-contact-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s;
+  z-index: 2;
+}
+
+.r-contact-close:hover {
+  border-color: var(--line-2);
+  background: var(--bg);
+  transform: rotate(90deg);
+}
+
+.r-contact-close svg {
+  width: 14px;
+  height: 14px;
+  stroke: var(--ink);
+}
+
+.r-contact-box h2 {
+  font-size: 1.4rem;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.r-contact-box > p {
+  color: var(--ink-70);
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+.r-contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.r-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.r-form-group label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.r-form-group input,
+.r-form-group textarea {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 0.9rem;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--ink);
+  transition: all 0.3s;
+}
+
+.r-form-group input:focus,
+.r-form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(108, 76, 255, 0.1);
+}
+
+.r-form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.r-contact-form .r-btn {
+  margin-top: 4px;
+  width: 100%;
+  font-size: 0.9rem;
 }
 
 /* ===================================================================

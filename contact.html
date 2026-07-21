@@ -102,7 +102,8 @@
         <a href="about.html">About</a>
         <a href="contact.html">Contact</a>
       </nav>
-      <a href="contact.html" class="r-nav-cta" data-magnetic data-transition-text="Contact"><span>Start a conversation</span></a>
+      <button class="r-nav-cta" id="contactModalTrigger" data-magnetic data-transition-text="Contact"><span>Start a
+          conversation</span></button>
       <button class="r-nav-burger" id="navBurger" aria-label="Toggle menu">
         <span></span><span></span>
       </button>
@@ -137,7 +138,7 @@
     </div>
 
     <a href="about.html">About</a>
-    
+
   </div>
   <section class="p-page-hero">
     <div class="p-orb p-orb-1" style="opacity:0.3; top:-160px; right:-160px;"></div>
@@ -245,7 +246,7 @@
               <p>+971 54 737 0555</p>
             </div>
           </div>
-        
+
         </div>
       </div>
     </div>
@@ -276,13 +277,13 @@
         <div class="p-footer-col">
           <h4>Company</h4>
           <a href="about.html">About</a>
-          
+
           <a href="privacy-policy.html">Privacy Policy</a>
           <a href="terms-of-use.html">Terms of Use</a>
         </div>
         <div class="p-footer-col">
           <h4>Connect</h4>
-          
+
           <a href="mailto:hello@bridgpoint.com">hello@bridgpoint.com</a>
           <a href="tel:+971547370555">+971 54 737 0555</a>
         </div>
@@ -301,11 +302,53 @@
   <!-- GSAP + plugins -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- EmailJS -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+  </script>
+  <script>
+    window.addEventListener("load", function () {
+      console.log("Page loaded. EmailJS available:", typeof emailjs !== "undefined" ? "YES" : "NO");
+    });
+  </script>
   <!-- Lenis smooth scroll -->
   <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
   <!-- SplitType -->
   <script src="https://cdn.jsdelivr.net/npm/split-type@0.3.4/umd/index.min.js"></script>
   <script src="js/animations.js"></script>
+
+  <!-- ============ CONTACT MODAL ============ -->
+  <div class="r-contact-modal" id="contactModal">
+    <div class="r-contact-overlay" id="contactOverlay"></div>
+    <div class="r-contact-box">
+      <button class="r-contact-close" id="contactClose" aria-label="Close contact form">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12" />
+        </svg>
+      </button>
+      <h2>Get in touch</h2>
+      <p>Tell us about your project and we'll be in touch shortly.</p>
+      <form class="r-contact-form" id="contactForm">
+        <div class="r-form-group">
+          <label for="contactName">Your Name</label>
+          <input type="text" id="contactName" name="name" required>
+        </div>
+        <div class="r-form-group">
+          <label for="contactEmail">Email Address</label>
+          <input type="email" id="contactEmail" name="email" required>
+        </div>
+        <div class="r-form-group">
+          <label for="contactSubject">Subject</label>
+          <input type="text" id="contactSubject" name="subject" required>
+        </div>
+        <div class="r-form-group">
+          <label for="contactMessage">Message</label>
+          <textarea id="contactMessage" name="message" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="r-btn r-btn-primary">Send Message</button>
+      </form>
+    </div>
+  </div>
+
 </body>
 
 </html>

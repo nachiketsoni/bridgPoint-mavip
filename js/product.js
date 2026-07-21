@@ -79,6 +79,9 @@ document.addEventListener('DOMContentLoaded', () => {
   /* Interactive diagnostic quiz */
   initQuiz();
 
+  /* Contact modal — must run regardless of whether the page has a quiz */
+  initContactModal();
+
   /* Practice cards: make entire card clickable, redirect to link inside */
   document.querySelectorAll('.p-practice-card').forEach(card => {
     card.style.cursor = 'pointer';
@@ -265,4 +268,100 @@ function initQuiz() {
       showStep(current);
     });
   });
+}
+
+function initContactModal() {
+  const modal = document.getElementById('contactModal');
+  const trigger = document.getElementById('contactModalTrigger');
+  const close = document.getElementById('contactClose');
+  const overlay = document.getElementById('contactOverlay');
+  const form = document.getElementById('contactForm');
+
+  if (!modal || !trigger || !close || !overlay || !form) return;
+
+  const submitBtn = form.querySelector('button[type="submit"]');
+  let isSubmitting = false;
+
+  function waitForEmailJS(callback) {
+    if (typeof emailjs !== 'undefined') {
+      callback();
+    } else {
+      setTimeout(() => { waitForEmailJS(callback); }, 100);
+    }
+  }
+
+  function openModal(e) {
+    if (e) { e.preventDefault(); e.stopPropagation(); }
+    modal.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+
+  trigger.addEventListener('click', openModal);
+  close.addEventListener('click', closeModal);
+  overlay.addEventListener('click', closeModal);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+  });
+
+  function attachFormHandler() {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+
+      if (isSubmitting || typeof emailjs === 'undefined') return false;
+
+      isSubmitting = true;
+      const name = document.getElementById('contactName').value.trim();
+      const email = document.getElementById('contactEmail').value.trim();
+      const subject = document.getElementById('contactSubject').value.trim();
+      const message = document.getElementById('contactMessage').value.trim();
+
+      if (!name || !email || !subject || !message) {
+        submitBtn.textContent = 'Please fill all fields';
+        isSubmitting = false;
+        setTimeout(() => { submitBtn.textContent = 'Send Message'; }, 2000);
+        return false;
+      }
+
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = 'Sending...';
+      submitBtn.disabled = true;
+
+      emailjs.send('service_auugpye', 'template_lro2czl', {
+        from_name: name, from_email: email, to_email: 'hello@bridgpoint.com',
+        subject: subject, message: message, reply_to: email
+      }).then(() => {
+        submitBtn.textContent = 'Message sent!';
+        setTimeout(() => {
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+          isSubmitting = false;
+          closeModal();
+          form.reset();
+        }, 2000);
+      }).catch(() => {
+        submitBtn.textContent = 'Error sending message';
+        setTimeout(() => {
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+          isSubmitting = false;
+        }, 3000);
+      });
+      return false;
+    }, true);
+  }
+
+  waitForEmailJS(() => {
+    if (typeof emailjs !== 'undefined') emailjs.init('DHv_rOf79O2FSwQhb');
+    attachFormHandler();
+  });
+
+  setTimeout(() => { if (!form.onsubmit) attachFormHandler(); }, 5000);
 }
