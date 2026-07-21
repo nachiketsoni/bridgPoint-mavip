@@ -106,8 +106,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.querySelector('#contact-form');
   if (form) {
     const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbz7PLkjFjuMJ2BDHLHW87uXps34Q3XIsKWVH3u0wou0G7GPUOOzoFfEbXcxY0X0RJkfIA/exec';
+    const EMAIL_SERVICE_ID = 'service_auugpye';
+    const EMAIL_TEMPLATE_ID = 'template_s4lfbei';
+    const EMAIL_PUBLIC_KEY = 'DHv_rOf79O2FSwQhb';
     const submitBtn = form.querySelector('button[type="submit"]');
-    const submitBtnLabel = submitBtn ? submitBtn.innerHTML : '';
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -132,18 +134,34 @@ document.addEventListener('DOMContentLoaded', () => {
         timeline: form.querySelector('#timeline')?.value || ''
       };
 
-      fetch(SHEET_ENDPOINT, {
+      const sheetRequest = fetch(SHEET_ENDPOINT, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(data)
-      }).then(() => {
+      }).catch(() => {});
+
+      const emailRequest = (typeof emailjs !== 'undefined')
+        ? emailjs.send(EMAIL_SERVICE_ID, EMAIL_TEMPLATE_ID, {
+          first_name: data.fname,
+          last_name: data.lname,
+          full_name: `${data.fname} ${data.lname}`.trim(),
+          company: data.company,
+          designation: data.designation || 'Not provided',
+          email: data.email,
+          phone: data.phone || 'Not provided',
+          country: data.country || 'Not provided',
+          industry: data.industry || 'Not provided',
+          company_size: data.size,
+          interest: data.interest,
+          message: data.message,
+          timeline: data.timeline,
+          to_email: 'hello@bridgpoint.com'
+        }, EMAIL_PUBLIC_KEY).catch(() => {})
+        : Promise.resolve();
+
+      Promise.allSettled([sheetRequest, emailRequest]).then(() => {
         window.location.href = 'thank-you.html';
-      }).catch(() => {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = submitBtnLabel;
-        }
       });
     });
   }
