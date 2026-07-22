@@ -1575,42 +1575,22 @@ section {
   margin-top: 16px;
 }
 
-.r-gallery-track-wrap::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 80px;
-  background: linear-gradient(to right, transparent, var(--bg));
-  pointer-events: none;
-}
-
 .r-gallery-track {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   margin-top: 20px;
   gap: 28px;
   align-items: stretch;
   padding: 4px var(--gutter) 20px;
-  overflow-x: auto;
-  scroll-snap-type: x proximity;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-
-.r-gallery-track::-webkit-scrollbar {
-  display: none;
 }
 
 .r-gallery-card {
-  width: min(56vw, 440px);
+  width: auto;
   height: 440px;
-  flex: none;
   border-radius: 24px;
   border: 1px solid var(--line);
   background: var(--surface);
   /* box-shadow: var(--shadow-md); */
-  scroll-snap-align: start;
   /* auto (not a fraction) on the copy row so it always sizes to its own
      content — a fixed fraction of a capped card height could squeeze the
      heading/paragraph/tags/link shorter than they need and get clipped
@@ -1728,6 +1708,12 @@ section {
 
 .r-gallery-card-cta .r-btn {
   margin-top: 8px;
+}
+
+@media (max-width: 860px) {
+  .r-gallery-track {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 /* ===================================================================
@@ -2367,8 +2353,12 @@ section {
     flex: 1;
   }
 
+  .r-gallery-track {
+    grid-template-columns: 1fr;
+  }
+
   .r-gallery-card {
-    width: 82vw;
+    width: auto;
     height: auto;
     grid-template-rows: 180px auto;
   }
