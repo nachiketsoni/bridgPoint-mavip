@@ -75,13 +75,16 @@ document.addEventListener('DOMContentLoaded', () => {
   /* Contact modal — must run regardless of whether the page has a quiz */
   initContactModal();
 
-  /* Practice cards: make entire card clickable, redirect to link inside */
+  /* Practice cards: make entire card clickable, redirect to link inside.
+     Delegate to the link's own click so the animated page-transition
+     listener in animations.js (bound to the <a>) still gets to run —
+     clicking the icon inside the link previously bypassed it entirely. */
   document.querySelectorAll('.p-practice-card').forEach(card => {
     card.style.cursor = 'pointer';
     card.addEventListener('click', (e) => {
-      if (e.target.tagName === 'A') return;
+      if (e.target.closest('a')) return;
       const link = card.querySelector('.p-card-link');
-      if (link && link.href) window.location.href = link.href;
+      if (link) link.click();
     });
   });
 
