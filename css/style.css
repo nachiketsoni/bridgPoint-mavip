@@ -367,7 +367,7 @@ section {
 }
 
 .r-nav-logo img {
-  height: 30px;
+  height: 34px;
   width: auto;
   aspect-ratio: 1839 / 539;
 }
@@ -419,15 +419,21 @@ section {
 }
 
 .r-nav-cta {
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  padding: 11px 20px;
+  padding: 8px 16px;
   border-radius: 999px;
-  color: var(--accent);
+  color: var(--accent-dark);
   display: inline-flex;
-  background: none;
+  background: var(--accent-soft);
   border: none;
   cursor: pointer;
+  transition: background .2s, color .2s;
+}
+
+.r-nav-cta:hover {
+  background: var(--accent);
+  color: #fff;
 }
 
 .r-nav-burger {
