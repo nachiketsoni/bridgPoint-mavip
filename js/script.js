@@ -515,37 +515,78 @@
     });
 
     // ---- marquee auto-scroll + drag ----
-    // Track content is duplicated exactly once, so wrapping xPercent within
-    // [-50, 0] (or [0, 50] going the other way) loops seamlessly forever —
-    // no snap-back jump, and it stays draggable at any point in the cycle.
+    // The track holds .r-marquee-set copies back to back. The seamless loop
+    // distance ("period") is the pixel gap between one set's start and the
+    // next's — NOT 50% of the track's total width (that only works out if
+    // the gap count on each side of the halfway point matches, which it
+    // doesn't). Measuring the real DOM offset between two sets sidesteps
+    // that, and stays correct after reflow because it's recomputed rather
+    // than assumed.
+    //
+    // Two copies is only *enough* copies if the row is narrower than one
+    // set — on a wide/ultrawide viewport the visible strip can outrun two
+    // copies and run out of content right before the wrap (a blank gap,
+    // which reads as a glitch/restart). So clone the first set on the fly
+    // until the track comfortably covers at least 2 viewports, in any
+    // screen size.
     gsap.utils.toArray('.r-marquee-row').forEach(function (row, i) {
       var track = row.querySelector('.r-marquee-track');
-      if (!track) return;
+      var firstSet = track && track.querySelector('.r-marquee-set');
+      if (!track || !firstSet) return;
+
+      function ensureCoverage() {
+        var guard = 0;
+        while (track.scrollWidth < row.clientWidth * 2 + 400 && guard < 30) {
+          var clone = firstSet.cloneNode(true);
+          clone.setAttribute('aria-hidden', 'true');
+          track.appendChild(clone);
+          guard++;
+        }
+      }
 
       var dir = row.getAttribute('data-dir') === 'right' ? 1 : -1;
-      var duration = 30 + i * 8; // seconds for one full 50%-width pass
-      var ratePerSec = (50 / duration) * dir; // %/sec, signed
-      var lo = dir < 0 ? -50 : 0;
-      var hi = dir < 0 ? 0 : 50;
-      var wrapX = gsap.utils.wrap(lo, hi);
+      var pxPerSec = (i === 0 ? 40 : 55) * dir; // signed speed, varied per row
+      var period = 1; // px distance from one set's start to the next's; measured below
+      var wrapX = gsap.utils.wrap(0, 1);
 
-      var xPercent = 0;
+      function measure() {
+        ensureCoverage();
+        var sets = track.querySelectorAll('.r-marquee-set');
+        period = Math.max(1, sets[1].offsetLeft - sets[0].offsetLeft);
+        var lo = dir < 0 ? -period : 0;
+        var hi = dir < 0 ? 0 : period;
+        wrapX = gsap.utils.wrap(lo, hi);
+        x = wrapX(x);
+      }
+
+      Array.prototype.forEach.call(track.querySelectorAll('.r-marquee-set'), function (set, idx) {
+        if (idx > 0) set.setAttribute('aria-hidden', 'true');
+      });
+
+      var x = 0;
       var dragging = false;
       var pointerId = null;
       var startClientX = 0;
-      var startXPercent = 0;
+      var startX = 0;
 
-      gsap.set(track, { xPercent: xPercent });
+      measure();
+      gsap.set(track, { x: x });
 
       function apply() {
-        gsap.set(track, { xPercent: xPercent });
+        gsap.set(track, { x: x });
       }
 
       gsap.ticker.add(function (time, deltaTime) {
         if (dragging || reducedMotion) return;
-        xPercent = wrapX(xPercent + ratePerSec * (deltaTime / 1000));
+        x = wrapX(x + pxPerSec * (deltaTime / 1000));
         apply();
       });
+
+      window.addEventListener('resize', measure);
+      window.addEventListener('load', measure);
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(measure);
+      }
 
       row.addEventListener('pointerdown', function (e) {
         dragging = true;
@@ -553,14 +594,12 @@
         row.setPointerCapture(pointerId);
         row.classList.add('is-dragging');
         startClientX = e.clientX;
-        startXPercent = xPercent;
+        startX = x;
       });
 
       row.addEventListener('pointermove', function (e) {
         if (!dragging || e.pointerId !== pointerId) return;
-        var trackWidth = track.getBoundingClientRect().width;
-        var deltaPercent = ((e.clientX - startClientX) / trackWidth) * 100;
-        xPercent = wrapX(startXPercent + deltaPercent);
+        x = wrapX(startX + (e.clientX - startClientX));
         apply();
       });
 

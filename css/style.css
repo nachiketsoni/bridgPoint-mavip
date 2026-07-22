@@ -853,6 +853,17 @@ section {
   user-select: none;
 }
 
+/* one "set" is a full copy of the logos/labels; the track is exactly two
+   sets back to back so the loop period can be measured in real pixels
+   (JS reads the gap between set 1 and set 2) instead of assumed at 50% —
+   the two never had to add up to a round number for this to stay seamless */
+.r-marquee-set {
+  display: flex;
+  gap: 80px;
+  align-items: center;
+  flex: none;
+}
+
 .r-marquee-track img {
   -webkit-user-drag: none;
   pointer-events: none;
@@ -873,7 +884,6 @@ section {
    regardless of its own aspect ratio (a wide wordmark like Microsoft
    and a compact mark like Apple end up reading the same visual size) */
 .r-marquee-logo {
-
   object-fit: contain;
   flex: none;
   opacity: 0.9;
