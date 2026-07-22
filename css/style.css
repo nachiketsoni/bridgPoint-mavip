@@ -835,6 +835,12 @@ section {
   padding: 10px 0;
   position: relative;
   width: 100%;
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.r-marquee-row.is-dragging {
+  cursor: grabbing;
 }
 
 .r-marquee-track {
@@ -844,6 +850,12 @@ section {
   white-space: nowrap;
   align-items: center;
   will-change: transform;
+  user-select: none;
+}
+
+.r-marquee-track img {
+  -webkit-user-drag: none;
+  pointer-events: none;
 }
 
 .r-marquee-track span {

@@ -514,12 +514,68 @@
       onUpdate: function (self) { Scene3D.convergeProgress = self.progress; }
     });
 
-    // ---- marquee auto-scroll (CSS-independent, GSAP-driven for consistent speed) ----
-    gsap.utils.toArray('.r-marquee-track').forEach(function (track, i) {
-      var dir = track.parentElement.getAttribute('data-dir') === 'right' ? 1 : -1;
-      gsap.to(track, {
-        xPercent: 50 * dir, duration: 30 + i * 4, ease: 'none', repeat: -1
+    // ---- marquee auto-scroll + drag ----
+    // Track content is duplicated exactly once, so wrapping xPercent within
+    // [-50, 0] (or [0, 50] going the other way) loops seamlessly forever —
+    // no snap-back jump, and it stays draggable at any point in the cycle.
+    gsap.utils.toArray('.r-marquee-row').forEach(function (row, i) {
+      var track = row.querySelector('.r-marquee-track');
+      if (!track) return;
+
+      var dir = row.getAttribute('data-dir') === 'right' ? 1 : -1;
+      var duration = 30 + i * 8; // seconds for one full 50%-width pass
+      var ratePerSec = (50 / duration) * dir; // %/sec, signed
+      var lo = dir < 0 ? -50 : 0;
+      var hi = dir < 0 ? 0 : 50;
+      var wrapX = gsap.utils.wrap(lo, hi);
+
+      var xPercent = 0;
+      var dragging = false;
+      var pointerId = null;
+      var startClientX = 0;
+      var startXPercent = 0;
+
+      gsap.set(track, { xPercent: xPercent });
+
+      function apply() {
+        gsap.set(track, { xPercent: xPercent });
+      }
+
+      gsap.ticker.add(function (time, deltaTime) {
+        if (dragging || reducedMotion) return;
+        xPercent = wrapX(xPercent + ratePerSec * (deltaTime / 1000));
+        apply();
       });
+
+      row.addEventListener('pointerdown', function (e) {
+        dragging = true;
+        pointerId = e.pointerId;
+        row.setPointerCapture(pointerId);
+        row.classList.add('is-dragging');
+        startClientX = e.clientX;
+        startXPercent = xPercent;
+      });
+
+      row.addEventListener('pointermove', function (e) {
+        if (!dragging || e.pointerId !== pointerId) return;
+        var trackWidth = track.getBoundingClientRect().width;
+        var deltaPercent = ((e.clientX - startClientX) / trackWidth) * 100;
+        xPercent = wrapX(startXPercent + deltaPercent);
+        apply();
+      });
+
+      function endDrag(e) {
+        if (!dragging || (e && e.pointerId !== pointerId)) return;
+        dragging = false;
+        row.classList.remove('is-dragging');
+        if (pointerId !== null && row.hasPointerCapture(pointerId)) {
+          row.releasePointerCapture(pointerId);
+        }
+        pointerId = null;
+      }
+
+      row.addEventListener('pointerup', endDrag);
+      row.addEventListener('pointercancel', endDrag);
     });
 
     // ---- highlight whichever stepper row is passing through viewport centre ----
