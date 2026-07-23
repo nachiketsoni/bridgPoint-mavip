@@ -450,11 +450,16 @@ html.is-transitioning #bp-page-overlay {
   }
 }
 
-/* Glassmorphism float cards */
+/* Glassmorphism float cards
+   PERF: these cards run an infinite GSAP y-bob (repeat:-1) *plus* a
+   scroll-scrubbed parallax transform, forever, on top of a heavy blur —
+   every frame that moves them, the browser has to re-sample/re-blur the
+   backdrop at the new position. Cut the radius (was 20px) to shrink that
+   per-frame sampling kernel while keeping the glass look. */
 .p-float-card {
   background: rgba(255, 255, 255, 0.75) !important;
-  backdrop-filter: blur(20px) saturate(1.8);
-  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  backdrop-filter: blur(10px) saturate(1.8);
+  -webkit-backdrop-filter: blur(10px) saturate(1.8);
   border: 1px solid rgba(255, 255, 255, 0.9) !important;
   box-shadow: 0 8px 32px rgba(108, 76, 255, 0.12), 0 1px 0 rgba(255, 255, 255, 0.8) inset !important;
   transform-style: preserve-3d;
@@ -569,8 +574,11 @@ html.is-transitioning #bp-page-overlay {
 ══════════════════════════════════════════ */
 .p-practice-card {
   background: rgba(255, 255, 255, 0.8) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  /* PERF: tilts on mousemove (initCardTilt) and has a scroll-scrub entry —
+     smaller blur radius keeps the glass look while cutting per-frame
+     backdrop re-sampling cost during both. */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   transform-style: preserve-3d;
   will-change: transform;
   transition: box-shadow 0.4s var(--ease-premium) !important;
@@ -752,8 +760,10 @@ html.is-transitioning #bp-page-overlay {
 ══════════════════════════════════════════ */
 .p-quiz {
   background: rgba(255, 255, 255, 0.88) !important;
-  backdrop-filter: blur(20px) saturate(1.5);
-  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  /* PERF: also tilts on mousemove (initCardTilt) — reduced blur radius
+     for the same reason as .p-practice-card above. */
+  backdrop-filter: blur(10px) saturate(1.5);
+  -webkit-backdrop-filter: blur(10px) saturate(1.5);
   border: 1px solid rgba(255, 255, 255, 0.95) !important;
   transform-style: preserve-3d;
 }
@@ -1067,12 +1077,15 @@ body.product::after {
   opacity: 0;
 }
 
-/* DOM Nodes */
+/* DOM Nodes
+   PERF: these scrub-animate via transform through the scatter -> diamond
+   morph (see initMorphingNetwork) — smaller blur radius cuts the per-frame
+   backdrop re-sampling cost while they're in motion. */
 .bp-node-item {
   position: absolute;
   background: rgba(252, 252, 254, 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--p-line);
   border-radius: var(--p-radius-sm);
   padding: 10px 16px;
@@ -1269,15 +1282,25 @@ body.product::after {
   }
 }
 
-/* ── NEW VISUAL MICRO-ANIMATIONS ── */
+/* ── NEW VISUAL MICRO-ANIMATIONS ──
+   PERF: these decorative elements are injected into *every* section on
+   *every* page (see injectSectionMicroDecorations in animations.js). Each
+   one used to carry a permanent `will-change: transform` and run its
+   `infinite` CSS keyframe animation at all times, even while its section
+   was scrolled far out of view — that's a standing compositor layer plus
+   continuous animation work for background eye-candy nobody can see.
+   animations.js now toggles a `.bp-decor-active` class on the parent
+   section (via the same ScrollTrigger that drives their scroll parallax)
+   whenever the section is within one viewport of the visible area, so both
+   will-change and the keyframe animation are only "live" when relevant. */
 .bp-deco-spark {
   position: absolute;
   width: 20px;
   height: 20px;
   color: var(--p-accent);
   opacity: 0.35;
-  will-change: transform, opacity;
   animation: bp-sparkle 4s ease-in-out infinite;
+  animation-play-state: paused;
   pointer-events: none;
   z-index: 0;
 }
@@ -1291,8 +1314,8 @@ body.product::after {
 .bp-dot-matrix {
   position: absolute;
   opacity: 0.22;
-  will-change: transform;
   animation: bp-float-drift 12s ease-in-out infinite alternate;
+  animation-play-state: paused;
   pointer-events: none;
   z-index: 0;
 }
@@ -1302,8 +1325,8 @@ body.product::after {
   opacity: 0.35;
   pointer-events: none;
   z-index: 0;
-  will-change: transform;
   animation: bp-float-drift 9s ease-in-out infinite alternate-reverse;
+  animation-play-state: paused;
 }
 
 .bp-mini-orb,
@@ -1314,7 +1337,18 @@ body.product::after {
   pointer-events: none;
   z-index: 0;
   opacity: 0.28;
-  will-change: transform, opacity;
+  animation-play-state: paused;
+}
+
+.bp-decor-active .bp-deco-spark,
+.bp-decor-active .bp-dot-matrix,
+.bp-decor-active .bp-orbit-ring,
+.bp-decor-active .bp-mini-orb,
+.bp-decor-active .bp-motion-dash,
+.bp-decor-active .bp-corner-bracket,
+.bp-decor-active .bp-scan-line {
+  will-change: transform;
+  animation-play-state: running;
 }
 
 .bp-mini-orb {

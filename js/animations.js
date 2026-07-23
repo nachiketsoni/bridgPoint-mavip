@@ -282,19 +282,35 @@
   function initCardTilt() {
     const selector = '.p-practice-card, .p-metric-card, .p-compare-card, .p-quiz';
     gsap.utils.toArray(selector).forEach(card => {
+      // PERF: mousemove can fire well over 60 times/sec on macOS trackpads
+      // and high-poll-rate mice — every event used to spawn its own gsap.to()
+      // tween (allocation + overwrite-management), and the tween itself
+      // interpolates box-shadow, a paint-heavy property, so most of those
+      // calls were doing full-cost work between actual rendered frames.
+      // Coalescing to one rAF-scheduled tween per frame caps the work to
+      // the display's real refresh rate without changing the visuals.
+      let raf = null;
+      let latest = null;
       card.addEventListener('mousemove', e => {
         const r = card.getBoundingClientRect();
-        const xp = (e.clientX - r.left) / r.width - 0.5;
-        const yp = (e.clientY - r.top) / r.height - 0.5;
-        gsap.to(card, {
-          rotateX: -yp * 10, rotateY: xp * 10,
-          transformPerspective: 800,
-          translateZ: 16,
-          boxShadow: `${-xp * 20}px ${-yp * 20}px 50px rgba(108,76,255,0.15)`,
-          duration: 0.4, ease: 'power2.out', overwrite: 'auto'
+        latest = {
+          xp: (e.clientX - r.left) / r.width - 0.5,
+          yp: (e.clientY - r.top) / r.height - 0.5
+        };
+        if (raf) return;
+        raf = requestAnimationFrame(() => {
+          raf = null;
+          gsap.to(card, {
+            rotateX: -latest.yp * 10, rotateY: latest.xp * 10,
+            transformPerspective: 800,
+            translateZ: 16,
+            boxShadow: `${-latest.xp * 20}px ${-latest.yp * 20}px 50px rgba(108,76,255,0.15)`,
+            duration: 0.4, ease: 'power2.out', overwrite: 'auto'
+          });
         });
       });
       card.addEventListener('mouseleave', () => {
+        if (raf) { cancelAnimationFrame(raf); raf = null; }
         gsap.to(card, {
           rotateX: 0, rotateY: 0, translateZ: 0,
           boxShadow: 'var(--p-shadow-sm)',
@@ -388,64 +404,48 @@
       });
     }
 
-    /* Global background micro-elements parallax */
+    /* Global background micro-elements parallax
+       PERF: this used to create a *separate* ScrollTrigger + tween per
+       decorative element (spark/matrix/ring/orb/dash/bracket/scan-line),
+       all sharing the exact same trigger/start/end — often 6-9 extra
+       ScrollTrigger instances per section, purely for background eye-candy.
+       On pages with a dozen+ sections that's 100+ scrub-driven triggers
+       ScrollTrigger has to recompute on every scroll tick and re-measure
+       on every resize/refresh. They're consolidated into ONE ScrollTrigger
+       per section driving every decoration in that section through a
+       single tween (GSAP supports per-target function values), which keeps
+       the same layered motion per element with a fraction of the overhead. */
     gsap.utils.toArray('.p-section, .p-page-hero, .p-hero').forEach(sec => {
-      const sparks = sec.querySelectorAll('.bp-deco-spark');
-      const matrix = sec.querySelectorAll('.bp-dot-matrix');
-      const rings = sec.querySelectorAll('.bp-orbit-ring');
-      const subtle = sec.querySelectorAll('.bp-mini-orb, .bp-motion-dash, .bp-corner-bracket, .bp-scan-line');
-
-      sparks.forEach((spark, idx) => {
-        gsap.to(spark, {
-          scrollTrigger: {
-            trigger: sec,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1.2
-          },
-          y: idx % 2 === 0 ? -40 : 40,
-          ease: 'none'
-        });
+      const descriptors = [];
+      sec.querySelectorAll('.bp-deco-spark').forEach((el, idx) => {
+        descriptors.push({ el, x: 0, y: idx % 2 === 0 ? -40 : 40 });
       });
-
-      matrix.forEach(mat => {
-        gsap.to(mat, {
-          scrollTrigger: {
-            trigger: sec,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1.5
-          },
-          y: -35,
-          ease: 'none'
-        });
+      sec.querySelectorAll('.bp-dot-matrix').forEach(el => {
+        descriptors.push({ el, x: 0, y: -35 });
       });
-
-      rings.forEach(ring => {
-        gsap.to(ring, {
-          scrollTrigger: {
-            trigger: sec,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1.8
-          },
-          y: -50,
-          ease: 'none'
-        });
+      sec.querySelectorAll('.bp-orbit-ring').forEach(el => {
+        descriptors.push({ el, x: 0, y: -50 });
       });
+      sec.querySelectorAll('.bp-mini-orb, .bp-motion-dash, .bp-corner-bracket, .bp-scan-line').forEach((el, idx) => {
+        descriptors.push({ el, x: idx % 2 === 0 ? 18 : -18, y: idx % 3 === 0 ? -28 : 22 });
+      });
+      if (!descriptors.length) return;
 
-      subtle.forEach((el, idx) => {
-        gsap.to(el, {
-          scrollTrigger: {
-            trigger: sec,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1.6
-          },
-          x: idx % 2 === 0 ? 18 : -18,
-          y: idx % 3 === 0 ? -28 : 22,
-          ease: 'none'
-        });
+      // will-change is applied only while the section is near the viewport
+      // (this trigger's active range) via a CSS descendant rule, instead of
+      // being permanently set in CSS — that avoids leaving dozens of extra
+      // compositor layers resident for the whole page lifetime.
+      gsap.to(descriptors.map(d => d.el), {
+        x: (i) => descriptors[i].x,
+        y: (i) => descriptors[i].y,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: sec,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1.5,
+          onToggle: (self) => sec.classList.toggle('bp-decor-active', self.isActive)
+        }
       });
     });
   }
@@ -482,9 +482,12 @@
           { opacity: 1, y: 0, duration: 0.5 },
           i * 1.5
         );
+        // PERF: animates scale (transform) + --p-step-glow (opacity, via the
+        // ::after in CSS) instead of box-shadow directly — see the PERF note
+        // on .p-step-icon::after in product.css.
         tl.fromTo(icon,
-          { scale: 0.8, boxShadow: '0 0 0 rgba(108,76,255,0)' },
-          { scale: 1.15, boxShadow: '0 0 24px rgba(108,76,255,0.4)', duration: 0.3 },
+          { scale: 0.8, '--p-step-glow': 0 },
+          { scale: 1.15, '--p-step-glow': 1, duration: 0.3 },
           i * 1.5
         );
         tl.to(icon, { scale: 1, duration: 0.2 }, (i * 1.5) + 0.3);
@@ -522,11 +525,16 @@
   function initMagnetic() {
     if (NO_MOTION) return;
     document.querySelectorAll('.p-btn').forEach(btn => {
+      // PERF: gsap.quickTo compiles one reusable setter per property instead
+      // of creating + overwrite-managing a brand new tween on every mousemove
+      // event — the standard GSAP pattern for high-frequency pointer-follow
+      // effects like magnetic buttons.
+      const setX = gsap.quickTo(btn, 'x', { duration: 0.3, ease: 'power2.out' });
+      const setY = gsap.quickTo(btn, 'y', { duration: 0.3, ease: 'power2.out' });
       btn.addEventListener('mousemove', e => {
         const r = btn.getBoundingClientRect();
-        const x = ((e.clientX - r.left) / r.width - 0.5) * 20;
-        const y = ((e.clientY - r.top) / r.height - 0.5) * 10;
-        gsap.to(btn, { x, y, duration: 0.3, ease: 'power2.out', overwrite: 'auto' });
+        setX(((e.clientX - r.left) / r.width - 0.5) * 20);
+        setY(((e.clientY - r.top) / r.height - 0.5) * 10);
       });
       btn.addEventListener('mouseleave', () => {
         gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1,0.5)', overwrite: 'auto' });
@@ -605,7 +613,15 @@
     });
   }
 
-  /* ── Particles canvas ── */
+  /* ── Particles canvas ──
+     PERF: this rAF loop used to run forever, unconditionally, from first
+     paint — including while the hero (and its canvas) had long since
+     scrolled out of view, or the tab was backgrounded. That's a permanent
+     55-particle physics + canvas clear/fill pass competing with Lenis and
+     ScrollTrigger for main-thread time on every frame, whether or not
+     anyone could see it. Gated the same way the two Canvas2D scenes in
+     script.js already are: paused via IntersectionObserver when offscreen
+     and via the Page Visibility API when the tab is hidden. */
   function initParticles() {
     const canvas = document.getElementById('bp-particles');
     if (!canvas || NO_MOTION) return;
@@ -626,7 +642,11 @@
     let mouseX = W / 2, mouseY = H / 2;
     window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
 
+    let running = false;
+    let raf = null;
+
     function draw() {
+      if (!running) return;
       ctx.clearRect(0, 0, W, H);
       particles.forEach(p => {
         const dx = mouseX - p.x;
@@ -645,9 +665,28 @@
         ctx.fillStyle = `rgba(108,76,255,${p.a})`;
         ctx.fill();
       });
-      requestAnimationFrame(draw);
+      raf = requestAnimationFrame(draw);
     }
-    draw();
+
+    let visible = false;
+    function start() {
+      if (running || !visible || document.hidden) return;
+      running = true;
+      draw();
+    }
+    function stop() {
+      running = false;
+      if (raf) cancelAnimationFrame(raf);
+    }
+
+    new IntersectionObserver(entries => {
+      visible = entries[0].isIntersecting;
+      visible ? start() : stop();
+    }, { threshold: 0.01 }).observe(canvas);
+
+    document.addEventListener('visibilitychange', () => {
+      document.hidden ? stop() : start();
+    });
   }
 
   /* ── Blob morphing SVG ── */
@@ -725,8 +764,31 @@
     const splitEl = container.querySelector('.bp-morph-split');
     const leftCol = container.querySelector('.bp-morph-left');
     const rightCol = container.querySelector('.bp-morph-right');
+    const visual = container.querySelector('.bp-morph-visual');
 
     if (!strategy || !research || !creative || !marketing) return;
+
+    // PERF: the "scatter -> diamond" morph used to scrub `left`/`top`
+    // (percentage) directly on 4 absolutely-positioned nodes. left/top are
+    // layout properties, so every single scrub tick forced a synchronous
+    // layout recalculation — the textbook "animating top/left" anti-pattern,
+    // and on a *scrubbed* ScrollTrigger that means once per scroll frame.
+    // left/top still set each node's static base position (one-time layout
+    // cost), but the actual scroll-driven motion now happens via `x`/`y`
+    // transforms (GPU-composited, no reflow) — computed once here as the
+    // pixel delta between the scattered and diamond percentage positions.
+    const visualRect = visual ? visual.getBoundingClientRect() : null;
+    function pctDelta(fromLeftPct, fromTopPct, toLeftPct, toTopPct) {
+      if (!visualRect) return { x: 0, y: 0 };
+      return {
+        x: (toLeftPct - fromLeftPct) / 100 * visualRect.width,
+        y: (toTopPct - fromTopPct) / 100 * visualRect.height
+      };
+    }
+    const dStrategy = pctDelta(22, 22, 50, 20);
+    const dResearch = pctDelta(78, 22, 80, 50);
+    const dCreative = pctDelta(22, 78, 20, 50);
+    const dMarketing = pctDelta(78, 78, 50, 80);
 
     // Calculate centering translation for right visual column on desktop
     let translateX = 0;
@@ -760,6 +822,17 @@
     // Core centering + hidden scale
     gsap.set(core, { xPercent: -50, yPercent: -50, scale: 0 });
 
+    // PERF: sublabels used to be looked up (querySelector) and have
+    // textContent reassigned on *every* scrub onUpdate tick — i.e. every
+    // scroll frame the section was in range, even when the connected/
+    // disconnected state hadn't changed. textContent writes force a style
+    // recalc on that node, so this was a forced style recalculation on
+    // every scroll frame. Cache the nodes once and only write when the
+    // 0.45 threshold is actually crossed (edge-triggered, not level-triggered).
+    const subLabelEls = [strategy, research, creative, marketing]
+      .map(n => n.querySelector('.node-sub'));
+    let subLabelsConnected = null;
+
     // GSAP ScrollTrigger timeline - Scrubbed scroll
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -768,18 +841,13 @@
         end: 'bottom bottom',
         scrub: 1,
         onUpdate: self => {
-          // Dynamically swap sublabels
-          if (self.progress > 0.45) {
-            strategy.querySelector('.node-sub').textContent = 'Connected';
-            research.querySelector('.node-sub').textContent = 'Connected';
-            creative.querySelector('.node-sub').textContent = 'Connected';
-            marketing.querySelector('.node-sub').textContent = 'Connected';
-          } else {
-            strategy.querySelector('.node-sub').textContent = 'Consultants';
-            research.querySelector('.node-sub').textContent = 'Researchers';
-            creative.querySelector('.node-sub').textContent = 'Agencies';
-            marketing.querySelector('.node-sub').textContent = 'Digital';
-          }
+          const connected = self.progress > 0.45;
+          if (connected === subLabelsConnected) return;
+          subLabelsConnected = connected;
+          const labels = connected
+            ? ['Connected', 'Connected', 'Connected', 'Connected']
+            : ['Consultants', 'Researchers', 'Agencies', 'Digital'];
+          subLabelEls.forEach((el, i) => { if (el) el.textContent = labels[i]; });
         }
       }
     });
@@ -801,11 +869,12 @@
       );
     }
 
-    // Morph DOM Positions to unified diamond shape with explicit fromTo values
-    tl.fromTo(strategy, { left: '22%', top: '22%' }, { left: '50%', top: '20%', duration: 1.2, ease: 'power2.inOut' }, 0)
-      .fromTo(research, { left: '78%', top: '22%' }, { left: '80%', top: '50%', duration: 1.2, ease: 'power2.inOut' }, 0)
-      .fromTo(creative, { left: '22%', top: '78%' }, { left: '20%', top: '50%', duration: 1.2, ease: 'power2.inOut' }, 0)
-      .fromTo(marketing, { left: '78%', top: '78%' }, { left: '50%', top: '80%', duration: 1.2, ease: 'power2.inOut' }, 0);
+    // Morph DOM positions to the unified diamond shape via transform deltas
+    // (see PERF note above) instead of animating left/top directly.
+    tl.fromTo(strategy, { x: 0, y: 0 }, { x: dStrategy.x, y: dStrategy.y, duration: 1.2, ease: 'power2.inOut' }, 0)
+      .fromTo(research, { x: 0, y: 0 }, { x: dResearch.x, y: dResearch.y, duration: 1.2, ease: 'power2.inOut' }, 0)
+      .fromTo(creative, { x: 0, y: 0 }, { x: dCreative.x, y: dCreative.y, duration: 1.2, ease: 'power2.inOut' }, 0)
+      .fromTo(marketing, { x: 0, y: 0 }, { x: dMarketing.x, y: dMarketing.y, duration: 1.2, ease: 'power2.inOut' }, 0);
 
     // Fade out scattered silos, scale in central core + diamond networks
     tl.fromTo(siloRings, { opacity: 1, scale: 1 }, { opacity: 0, scale: 0.5, duration: 0.8, ease: 'power2.inOut' }, 0)
@@ -820,7 +889,6 @@
     }
 
     // Mouse-interactive 3D tilt effect on hover
-    const visual = container.querySelector('.bp-morph-visual');
     if (rightCol && visual) {
       rightCol.addEventListener('mousemove', e => {
         const rect = rightCol.getBoundingClientRect();
@@ -1073,18 +1141,19 @@
     });
 
     // ── Phase 3: subtle float while section is in view ──
-    ScrollTrigger.create({
-      trigger: section,
-      start: 'top 30%',
-      end: 'bottom 70%',
-      onUpdate: (self) => {
-        // Gentle Y drift tied to scroll progress
-        gsap.to(card, {
-          y: self.progress * -22,
-          duration: 0.4,
-          ease: 'none',
-          overwrite: 'auto'
-        });
+    // PERF: previously called gsap.to() from inside onUpdate, spawning a brand
+    // new tween (with overwrite-management + allocation overhead) on every
+    // single scroll frame the trigger was active for. A native scrub tween
+    // does the same visual drift with one persistent tween GSAP just renders
+    // against the scrub position — no per-frame allocation.
+    gsap.to(card, {
+      y: -22,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 30%',
+        end: 'bottom 70%',
+        scrub: 0.4
       }
     });
   }

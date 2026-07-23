@@ -281,8 +281,14 @@ body.product p {
   top: 0;
   z-index: 100;
   background: rgba(250, 250, 252, 0.78);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  /* PERF: sticky nav, present on every product-style page — backdrop-filter
+     here is active unconditionally (not just once "scrolled"), so the
+     browser re-blurs the content passing underneath it on every scroll
+     frame for the entire session. Smaller blur radius = smaller sampling
+     kernel = real per-frame compositing savings, at a background opacity
+     that keeps the same frosted-glass look. */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-bottom: 1px solid transparent;
   transition: border-color .3s, box-shadow .3s;
 }
@@ -876,6 +882,23 @@ body.product p {
   margin-bottom: 22px;
   font-family: var(--font-display);
   font-weight: 700;
+  position: relative;
+}
+
+/* PERF: the glow used to be a scrub-animated `box-shadow` on .p-step-icon
+   itself — box-shadow is a paint property, so GSAP was forcing a repaint of
+   the icon on every scroll tick of the (scrubbed) stepper timeline. The
+   shadow is now a static box-shadow on a separate ::after layer whose
+   *opacity* (a compositor-only property) is what actually gets scrubbed —
+   see initStepperScrub, which tweens --p-step-glow instead of box-shadow. */
+.p-step-icon::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 24px rgba(108, 76, 255, 0.4);
+  opacity: var(--p-step-glow, 0);
+  pointer-events: none;
 }
 
 .p-step:nth-child(4n+2) .p-step-icon {
@@ -2125,8 +2148,11 @@ a.p-card:hover {
   transform: translateX(130%) translateY(-50%);
   width: 240px;
   background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(20px) saturate(1.8);
-  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  /* PERF: this card is scroll-scrub animated on `x`/`y` for its entire
+     entrance + float (see initInsightCard) — smaller blur radius cuts the
+     per-frame backdrop re-sampling cost while it's moving. */
+  backdrop-filter: blur(10px) saturate(1.8);
+  -webkit-backdrop-filter: blur(10px) saturate(1.8);
   border: 1px solid rgba(108, 76, 255, 0.14);
   border-radius: 20px;
   padding: 22px 22px 18px;

@@ -185,6 +185,13 @@
     function start() { if (running || reducedMotion) return; running = true; tick(); }
     function stop() { running = false; if (raf) cancelAnimationFrame(raf); }
 
+    // PERF: only run this rAF loop while the hero is both scrolled into
+    // view AND the tab is actually visible — otherwise it's continuous
+    // main-thread work (particle physics + canvas paint) nobody can see,
+    // competing with Lenis/ScrollTrigger for the same frame budget.
+    var heroIntersecting = false;
+    function syncRunState() { (heroIntersecting && !document.hidden) ? start() : stop(); }
+
     window.addEventListener('mousemove', function (e) {
       var r = section.getBoundingClientRect();
       mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
@@ -192,8 +199,10 @@
     window.addEventListener('resize', debounce(resize, 200));
 
     new IntersectionObserver(function (entries) {
-      entries[0].isIntersecting ? start() : stop();
+      heroIntersecting = entries[0].isIntersecting;
+      syncRunState();
     }, { threshold: 0.01 }).observe(section);
+    document.addEventListener('visibilitychange', syncRunState);
 
     resize();
   })();
@@ -240,10 +249,17 @@
     function start() { if (running || reducedMotion) return; running = true; tick(); }
     function stop() { running = false; if (raf) cancelAnimationFrame(raf); }
 
+    // PERF: same offscreen/tab-hidden gating as the hero particle field —
+    // see comment there.
+    var sectionIntersecting = false;
+    function syncRunState() { (sectionIntersecting && !document.hidden) ? start() : stop(); }
+
     window.addEventListener('resize', debounce(resize, 200));
     new IntersectionObserver(function (entries) {
-      entries[0].isIntersecting ? start() : stop();
+      sectionIntersecting = entries[0].isIntersecting;
+      syncRunState();
     }, { threshold: 0.01 }).observe(section);
+    document.addEventListener('visibilitychange', syncRunState);
 
     resize();
   })();
